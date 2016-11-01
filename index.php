@@ -53,7 +53,6 @@
 					<input type="password" name="password" id="password" class="form-control input-lg" placeholder="Contraseña">
 					<span class="fa fa-lock signin-form-icon"></span>
 				</div>
-				<p>holiiii</p>
 				<div class="form-actions">
 					<button type="submit" class="btn btn-block btn-primary" style="padding: 10px 0 10px 0;">
 						INGRESAR <span><i class="fa fa-sign-in" style="margin-left: 10px;"></i></span>
