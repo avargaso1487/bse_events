@@ -43,7 +43,7 @@
 		<div class="signin-form">			
 			<form action="POST" id="form-login">
 				<div class="signin-text">
-					<span>Iniciar Sesionn</span>
+					<span>Iniciar Sesión</span>
 				</div> 
 				<div class="form-group w-icon">
 					<input type="text" name="usuario" id="usuario" class="form-control input-lg" placeholder="Usuario" autocomplete="off">
