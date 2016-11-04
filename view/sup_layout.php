@@ -23,7 +23,7 @@
 				<div class="navbar-buttons navbar-header pull-right" role="navigation">
 					<ul class="nav ace-nav">
 						<?php 		
-							require('../alerta.php');
+							//require('../alerta.php');
 							?>
 						<li class="purple" id="alertaalmacen">							
 						</li>

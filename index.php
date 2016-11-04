@@ -11,7 +11,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<title>BSE VET 1.0</title>
+	<title>BSE EVENTS 1.0</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 
 	<!-- Open Sans font from Google CDN -->
@@ -35,7 +35,7 @@
 	
 	<div id="page-signin-bg">		
 		<div class="overlay"></div>		
-		<img src="assets/demo/signin-bg-1.jpg" alt="">
+		<img src="assets/demo/background.jpg" alt="">
 	</div>
 
 	<div class="signin-container">	
@@ -67,7 +67,7 @@
 	</div>
 
 	<div class="not-a-member">
-		<b>BSE Vet</b> 2016 &copy; All Rights Reserved
+		<b>BSE EVENTS</b> 2016 &copy; All Rights Reserved
 	</div>
 
 <!-- Pixel Admin's javascripts -->

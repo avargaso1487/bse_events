@@ -13,7 +13,7 @@
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<meta charset=utf-8 />
-	<title>BSE Vet</title>
+	<title>BSE Events</title>
 	<link rel="stylesheet" href="../default/assets/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="../default/assets/font-awesome/4.2.0/css/font-awesome.min.css" />
 	
@@ -254,7 +254,7 @@
 
 						<div class="page-header">
 							<h1>
-								BIENVENIDO(A) A LA PLATAFORMA DE <b>BSE Vet</b>
+								BIENVENIDO(A) A LA PLATAFORMA DE <b>BSE EVENTS</b>
 							</h1>
 						</div><!-- /.page-header -->
 												
@@ -558,7 +558,8 @@
 	</body>
 </html>
 <?php } ?>
+<!--
 <script src="../js/alerta.js"></script>
 		<script type="text/javascript">
-			mostrarAlertaReco();
-		</script>
+			//mostrarAlertaReco();
+		</script>-->

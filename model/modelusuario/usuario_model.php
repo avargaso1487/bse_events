@@ -32,10 +32,10 @@ class Usuario_model
 				echo $this->mostrarMenu();
 				break;
 			case 'alerta_almacen':
-				echo $this->alerta_almacen();
+				//echo $this->alerta_almacen();
 				break;
 			case 'alerta_spa':
-				echo $this->alerta_spa();
+				//echo $this->alerta_spa();
 				break;
 		}
 	}
@@ -95,12 +95,12 @@ class Usuario_model
 			$this->prepararConsultaUsuario('opc_login_listar');
 			while($fila = mysqli_fetch_array($this->result))
 			{
-				$_SESSION['personaID'] = $fila['personaID'];
-				$_SESSION['usuario'] = $fila['usuarioLogin'];
-				$_SESSION['veterinarioID'] = $fila['personalCodigo'];
-				$_SESSION['usuarioDNI'] = $fila['personaDNI'];
-				$_SESSION['usuarioSucursalID'] = $fila['sucursalID'];
-				$_SESSION['usuarioSucursal'] = $fila['sucursalNombre'];
+				$_SESSION['personaID'] = $fila['Per_idPersona'];
+				$_SESSION['usuario'] = $fila['Usu_login'];
+				$_SESSION['veterinarioID'] = $fila['Pers_codigo'];
+				$_SESSION['usuarioDNI'] = $fila['Per_dni'];
+				$_SESSION['usuarioSucursalID'] = $fila['Suc_idSucursal'];
+				$_SESSION['usuarioSucursal'] = $fila['Suc_nombre'];
 			}
 			echo '1';
 		} 
@@ -114,8 +114,8 @@ class Usuario_model
         $datos = array();
         while ($fila = mysqli_fetch_array($this->result2)) {
             array_push($datos, array(
-                "grupo" => $fila["grupoNombre"],
-                "grupoID" => $fila["grupoID"]                
+                "grupo" => $fila["Gru_nombre"],
+                "grupoID" => $fila["Gru_idGrupo"]                
                 ));
         }
         return $datos;
@@ -125,8 +125,8 @@ class Usuario_model
         $datos = array();
         while ($fila = mysqli_fetch_array($this->result2)) {
             array_push($datos, array(
-                "tarea" => $fila["tareaNombre"],
-                "tareaRuta" => $fila["tareaURL"]                
+                "tarea" => $fila["Tar_nombre"],
+                "tareaRuta" => $fila["Tar_URL"]                
                 ));
         }
         return $datos;
