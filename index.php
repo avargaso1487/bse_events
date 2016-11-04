@@ -25,11 +25,7 @@
 	
 	<link href="assets/stylesheets/themes.min.css" rel="stylesheet" type="text/css">
 
-	<!--[if lt IE 9]>
-	<script src="assets/javascripts/ie.min.js"></script>
-	<![endif]-->
 </head>
-
 
 <body class="theme-default page-signin">
 	
