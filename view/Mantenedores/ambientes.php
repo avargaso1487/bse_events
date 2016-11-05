@@ -1,20 +1,20 @@
 
 <?php 
-	/*session_start();
+	session_start();
 	if(!isset($_SESSION['usuario']))
 	{
 		header("Location:../../index.php");
 	}
 	else
 	{
-		date_default_timezone_set('America/Lima');*/
+		date_default_timezone_set('America/Lima');
  ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title>Mantenedores - Ponentes</title>
+		<title>Mantenedores - Ambientes</title>
 
 		<meta name="description" content="" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -120,39 +120,179 @@
 					<div class="page-content">					
 						<div class="page-header">
 							<h1>
-								Ponentes Registradas	
+								Ambientes Registrados	
 							</h1>
 						</div><!-- /.page-header -->
 						<div class="row">
 							<div class="col-md-12">								
 								<div class="table-header">
-									PONENTES REGISTRADAS &nbsp;&nbsp;
-									<a  href="#" id="new_ponente" class="white">
-			                            <i class='ace-icon fa fa-plus-circle bigger-150'></i>
-			                        </a>
+									AMBIENTES REGISTRADOS &nbsp;&nbsp;
+									<a href='#modal-form' data-toggle='modal' class='white' onclick="limpiar();">
+					                    <i class='ace-icon fa fa-plus-circle bigger-150'></i>
+					                </a>
 								</div>
 								<div>
-									<table id="tablaPonentes" class="table table-striped table-bordered">
+									<table id="dataTables-example" class="table table-striped table-bordered">
 										<thead>											
 								            <tr>
 								                <th style="text-align: center; font-size: 11px; height: 10px; width: 5%;">N°</th>
-								                <th style="text-align: center; font-size: 11px; height: 10px; width: 15%;">APELLIDOS Y NOMBRES</th>
-								                <th style="text-align: center; font-size: 11px; height: 10px; width: 9%;">TIPO DOC.</th>
-								                <th style="text-align: center; font-size: 11px; height: 10px; width: 9%;">N° DOC</th>	
-								                <th style="text-align: center; font-size: 11px; height: 10px; width: 10%;">C. PROFESIONAL</th>
-								                <th style="text-align: center; font-size: 11px; height: 10px; width: 9%;">F. NACIMIENTO</th>
-								                <th style="text-align: center; font-size: 11px; height: 10px; width: 10%;">NACIONALIDAD</th>
-								                <th style="text-align: center; font-size: 11px; height: 10px; width: 5%;">ESTADO</th>	
+								                <th style="text-align: center; font-size: 11px; height: 10px; width: 15%;">DESCRIPCIÓN</th>
+								                <th style="text-align: center; font-size: 11px; height: 10px; width: 9%;">CAPACIDAD</th>
+								                <th style="text-align: center; font-size: 11px; height: 10px; width: 9%;">TIPO AMBIENTE</th>	
+								                <th style="text-align: center; font-size: 11px; height: 10px; width: 10%;">LOCAL</th>
+								                <th style="text-align: center; font-size: 11px; height: 10px; width: 9%;">ESTADO</th>	
                 								<th style="text-align: center; font-size: 11px; height: 10px; width: 8%;">OPERACIONES</th>
 								            </tr>							         
 										</thead>
-										<tbody id="cuerpoPonentes">																	
+										<tbody id="cuerpoTabla">																	
 										</tbody>
 									</table>
 								</div>
+
+
+								
+							<div id="modal-form" class="modal fade" tabindex="-1">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal">&times;</button>
+											<h4 class="blue bigger">Registro de Ambientes</h4>
+										</div>
+
+										<div class="modal-body">
+											<div class="row">
+											<form class="form-horizontal form-bordered" method="post" action="../../controller/controlambiente/ambiente_controller.php" onsubmit="return validarCampos()">
+                            
+                            
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Descripción</label>
+                                <div class="col-sm-7">
+                                    <input class="form-control" id="descripcion" name="param_ambiente_descripcion" type="text" placeholder="Ingrese descripción " >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Capacidad</label>
+                                <div class="col-sm-7">
+                                    <input class="form-control" id="capacidad" name="param_ambiente_capacidad"  type="text" placeholder="Ingrese capacidad "  >
+                                </div>
+                            </div>
+                            
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Tipo Ambiente</label>
+                                <div class="col-sm-6" id="combo1">
+                                    
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Local</label>
+                                <div class="col-sm-6" id="combo2">
+                                    
+                                </div>
+                            </div>
+
+                            
+                            <div class="form-group">
+                                
+                                <div class="col-sm-1"></div>
+                                <input type="hidden" value="registrar" name="param_opcion">
+                                
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <center><input type="submit" value="Registrar" class="btn btn-primary mr-xs mb-sm buttonform" ></center>
+                                </div>
+                            </div>
+                            </form>
+
+												</div>
+											</div>
+
+											
+										</div>
+									</div>
+								</div><!-- PAGE CONTENT ENDS -->
+
+
+
+
+
+
+
+								<div id="modalEditarAmb" class="modal" tabindex="-1">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal">&times;</button>
+												<h4 class="blue bigger">Datos de Ambiente</h4>
+											</div>
+
+											<div class="modal-body">
+												<div class="row">
+													<form class="form-horizontal form-bordered" method="post" action="../../controller/controlambiente/ambiente_controller.php">
+                            
+                            
+                                    <input  id="codigo_e" name="param_ambiente_id" type="text" style="visibility:hidden;" >
+                            
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Descripción</label>
+                                <div class="col-sm-7">
+                                    <input class="form-control" id="descripcion_e" name="param_ambiente_descripcion" type="text" placeholder="Ingrese nueva descripción" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Capacidad</label>
+                                <div class="col-sm-7">
+                                    <input class="form-control" id="capacidad_e" name="param_ambiente_capacidad"  type="text" placeholder="Ingrese nueva capacidad "  >
+                                </div>
+                            </div>
+                            
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Tipo Ambiente</label>
+                                <div class="col-sm-6" id="combo1_e">
+                                    
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Local</label>
+                                <div class="col-sm-6" id="combo2_e">
+                                    
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                
+                                <div class="col-sm-1"></div>
+                                <input type="hidden" value="actualizar" name="param_opcion">
+                               <!--  <input type="hidden" dissabled="true" value="Mantenedores" id="NombreGrupo">
+                                <input type="hidden" dissabled="true" value="ambientes" id="NombreTarea"> -->
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <center><input type="submit" id="actualizar" value="Actualizar" class="btn btn-primary mr-xs mb-sm buttonform" ></center>
+                                </div>
+                            </div>
+                            </form>
+
+							</div>
+							</div>
+
+											
+							</div>
+							</div>
+							</div><!-- PAGE CONTENT ENDS -->
+								
+
+
 							</div>				
 							<input type="hidden" dissabled="true" value="Mantenedores" id="NombreGrupo">
-                            <input type="hidden" dissabled="true" value="Ponentes" id="NombreTarea">			
+                            <input type="hidden" dissabled="true" value="Ambientes" id="NombreTarea">			
 							<!-- FIN DE CONTENIDO DE PAGINA -->										               
 						</div><!-- /.col -->
 					</div>
@@ -169,125 +309,7 @@
 						</div>
 					</div>					
 				</div>
-				<div class="modal fade" id="modalPonentes" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" style="width: 78% !important;">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                          <h4 class="modal-title text-center" id="cabeceraRegistro"><b></b></h4>
-                        </div>
-                        <div class="modal-body">
-                       <form action="" method="POST" class="form-horizontal" id="form_eventoPago"> 
-                            <form role="form" id="frmRegistroEgresados" class="form-horizontal" method="POST">
-		                        <div class="row">
-		                            <div class="form-group">		                               
-		                               <label for="socio" class="col-md-2 control-label" >Nombres:</label>
-		                               <div class="col-md-4">
-		                                   <input class="form-control" placeholder="Ingrese los Nombres" id="param_nombres" name="param_nombres" type="text" autofocus="">
-		                               </div>
-		                               <label for="socio" class="col-md-1 control-label">Apellidos:</label>
-		                               <div class="col-md-4">
-		                                   <input class="form-control" placeholder="Ingrese los Apellidos" id="param_apellidos" name="param_apellidos" type="text" autofocus="">
-		                               </div>		                               
-		                            </div>		                          
-		                            <div class="form-group">
-		                               <label for="socio" class="col-md-2 control-label">T. Doc:</label>
-		                               <div class="col-md-4">
-		                                   <select class="form-control" name="param_tipoDocumento" id="param_tipoDocumento">
-		                               			<option value="" disabled selected style="display: none;">Seleccione Tipo Documento</option>
-		                               			<option value="J">Juridico</option>
-		                               			<option value="N">Natural</option>
-		                               		</select>	
-		                               </div>	
-		                               <label for="socio" class="col-md-1 control-label">N° Doc: </label>
-		                               <div class="col-md-4">
-		                                   <input class="form-control" placeholder="N° DOCUMENTO" id="param_nroDocumento" name="param_nroDocumento" type="text" autofocus="" onkeypress="return solonumeros(event)">
-		                               </div>			                               	                               
-		                            </div> 
-                                    <div class="form-group">                                       
-                                       <label for="socio" class="col-md-2 control-label" >Domicilio:</label>
-                                       <div class="col-md-5">
-                                           <input class="form-control" placeholder="Ingrese los Dirección" id="param_direccion" name="param_direccion" type="text" autofocus="">
-                                       </div>
-                                       <label for="socio" class="col-md-1 control-label">Teléfono:</label>
-                                       <div class="col-md-3">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">
-                                                    <i class="ace-icon fa fa-phone"></i>
-                                                </span>
-                                                <input class="form-control" type="text" id="param_telefonoFijo" name="param_telefonoFijo" onkeypress="return telefonovalidation(event)" placeholder="Ejm: 044-123456" />
-                                            </div>
-                                        </div>                               
-                                    </div>
-                                    <div class="form-group">                                       
-                                       <label for="socio" class="col-md-2 control-label">Email:</label>
-                                       <div class="col-md-4">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">
-                                                    <i class="ace-icon fa fa-envelope"></i>
-                                                </span>
-                                                <input class="form-control" type="text" id="param_email" name="param_email" placeholder="example@correo.com" />
-                                            </div>
-                                        </div>                                     
-                                        <label for="socio" class="col-md-2 control-label">Celular:</label>
-                                       <div class="col-md-3">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">
-                                                    <i class="ace-icon fa fa-phone"></i>
-                                                </span>
-                                                <input class="form-control" type="text" id="param_celular" name="param_celular" onkeypress="return solonumeros(event)" maxlength="9" placeholder="Ejm: 912345678" />
-                                            </div>
-                                        </div>                                                                
-                                    </div>
-                                    
-		                            <div class="form-group">		                               
-		                               <label for="socio" class="col-md-2 control-label">C. Profesional:</label>
-		                               <div class="col-md-5">
-		                                   <input class="form-control" placeholder="Carrera Profesional" id="param_nombres" name="param_nombres" type="text" autofocus="">
-		                               </div>		                               
-		                               <label for="socio" class="col-md-2 control-label">Fecha Nac:</label>
-                                       <div class="col-md-2">
-                                           <input class="form-control" id="param_fechaNacimiento" name="param_fechaNacimiento" type="date" autofocus="">
-                                       </div>                               
-		                            </div>
-                                    <div class="form-group">                                       
-                                       <label for="socio" class="col-md-2 control-label">Nacionalidad:</label>
-                                       <div class="col-md-4">
-                                           <input class="form-control" placeholder="Ingrese Nacionalidad" id="param_nacionalidad" name="param_nacionalidad" type="text" autofocus="">
-                                       </div>
-                                       <label for="socio" class="col-md-2 control-label">E. Laboral:</label>
-                                       <div class="col-md-3">
-                                           <input class="form-control" placeholder="Ingrese Estado Laboral" id="param_estadoLaboral" name="param_estadoLaboral" type="text" autofocus="">
-                                       </div>                                      
-                                    </div>
-                                    <div class="form-group">                                       
-                                       <label for="socio" class="col-md-2 control-label">Centro de Trabajo:</label>
-                                       <div class="col-md-4">
-                                           <input class="form-control" placeholder="Ingrese Centro de Trabajo Actual" id="param_centroTrabajo" name="param_centroTrabajo" type="text" autofocus="">
-                                       </div>
-                                       <label for="socio" class="col-md-2 control-label">Adjuntar CV:</label>
-                                       <div class="col-md-3">
-                                            <input type="file" id="id-input-file-2" id="param_cv" name="param_cv"/>
-                                       </div>                                      
-                                    </div>
-                                    <div class="form-group">                                       
-                                       <label for="socio" class="col-md-2 control-label">R. Hoja de Vida:</label>
-                                       <div class="col-md-9">
-                                           <textarea class="form-control" rows="5" id="param_resumenHojaVida" name="param_resumenHojaVida" placeholder="Ingrese resumen de hoja de vida (Opcional)" ></textarea>   
-                                       </div>                                    
-                                    </div>                                                                                           		                        
-		                            <input  type="hidden" id="param_funcion" name="param_funcion" value="N"/>
-		                            <input  type="hidden" id="param_codigo" name="param_codigo"/>		                           
-			                        <div class="modal-footer">
-			                            <button type="button" class="btn btn-primary" id="cancel_proveedor">Cancelar</button> 
-			                            <button type="button" class="btn btn-primary" id="register_proveedor">Registrar</button>            
-			                        </div>
-		                    </form>
-                        </form>
-                        </div>
-                      </div>
-                    </div>
-                </div>
+				
 			</div>
 
 			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
@@ -339,7 +361,7 @@
 		<script src="../default/assets/js/ace.min.js"></script>
 		
 
-		<script src="../default/js/ponentes.js"></script>
+		<script src="../default/js/ambiente.js"></script>
 		<script type="text/javascript">		        
 	        function solonumeros(e) {
 	            key = e.keyCode || e.which;
@@ -399,6 +421,9 @@
                     //
                 });
     	</script>
+    	<script src="../default/assets/js/jquery.dataTables.min.js"></script>
+		<script src="../default/assets/js/jquery.dataTables.bootstrap.min.js"></script>
 		<!-- inline scripts related to this page -->
 	</body>
 </html>
+<?php } ?>
