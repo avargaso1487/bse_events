@@ -1,21 +1,26 @@
 
 window.onload = function(){    
-    $('#tablaPonentes').DataTable();    
+    $('#tablaSucursal').DataTable();    
     //$('#tablaDetalleLineas').DataTable();  
     mostrarMenu();  
 }
 
 $(function() {
-   $('#new_ponente').on('click', function(){
+   $('#new_sucursal').on('click', function(){
        //alert('Agregar Proveeor');
-       //document.getElementById('param_nombres').value= '';
-       
-        
-       $('#cabeceraRegistro').html(".:: Nuevo Ponente ::.");
-       $('#modalPonentes').modal({
+       document.getElementById('param_nombres').value= '';
+       document.getElementById('param_direccion').value= '';
+       document.getElementById('param_empresa').value= '';
+               
+       $('#cabeceraRegistro').html(".:: Nueva Sucursal ::.");
+       $('#modalSucursal').modal({
             show:true,
             backdrop:'static',
         });          
+    }); 
+
+   $('#register_sucursal').on('click', function(){
+       alert('Agregar Sucursal');       
     }); 
 });
 

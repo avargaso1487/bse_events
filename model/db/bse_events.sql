@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-11-2016 a las 09:45:51
+-- Tiempo de generación: 06-11-2016 a las 05:00:49
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
 
@@ -24,28 +24,84 @@ DELIMITER $$
 --
 -- Procedimientos
 --
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_control_ambiente`(IN `opcion` VARCHAR(200), IN `codigo` INT, IN `descripcion` varchar(50), 
+IN `capacidad` int, in `tipoAmbiente` int,in `locala` int )
+BEGIN
+if opcion = 'opc_listar' then            
+select A.Amb_idAmbiente,A.Amb_descripcion,A.Amb_capacidad,TA.TipAm_descripcion,TA.TipAm_idTipoAmbiente,
+L.Loc_idLocal,L.Loc_descripcion,
+case when A.Amb_estado=1 then 'Activo' 
+when A.Amb_estado=0 then 'Inactivo'  end as Amb_estado  from ambiente A inner join
+tipoambiente TA on A.TipAm_idTipoAmbiente=TA.TipAm_idTipoAmbiente inner join
+locala L on A.Loc_idLocal=L.Loc_idLocal;
+end if;  
+
+if opcion = 'opc_grabar' then    
+       
+insert into ambiente(Amb_descripcion,Amb_capacidad,Amb_estado,TipAm_idTipoAmbiente,Loc_idLocal)
+values (descripcion,capacidad,1,tipoAmbiente,locala);
+end if; 
+
+if opcion = 'opc_comboLocal' then            
+select Loc_idLocal,Loc_descripcion  from locala;
+end if; 
+
+if opcion = 'opc_comboTipo' then            
+select TipAm_idTipoAmbiente,TipAm_descripcion  from tipoambiente ;
+end if; 
+
+if opcion = 'opc_buscar' then            
+select A.Amb_idAmbiente,A.Amb_descripcion,A.Amb_capacidad,TA.TipAm_descripcion,TA.TipAm_idTipoAmbiente,
+L.Loc_idLocal,L.Loc_descripcion, A.Amb_estado 
+from ambiente A inner join
+tipoambiente TA on A.TipAm_idTipoAmbiente=TA.TipAm_idTipoAmbiente inner join
+locala L on A.Loc_idLocal=L.Loc_idLocal
+where A.Amb_idAmbiente=codigo;
+end if; 
+
+if opcion = 'opc_actualizar' then            
+update ambiente set Amb_descripcion=descripcion,Amb_capacidad=capacidad,TipAm_idTipoAmbiente=tipoAmbiente,
+Loc_idLocal=locala
+where Amb_idAmbiente=codigo;
+
+end if; 
+
+if opcion = 'opc_eliminar' then
+set @estado=(select Amb_estado from ambiente where Amb_idAmbiente=codigo); 
+if @estado='1' then          
+update ambiente set Amb_estado='0'
+where Amb_idAmbiente=codigo;
+
+else 
+update ambiente set Amb_estado='1'
+where Amb_idAmbiente=codigo;
+end if;
+end if; 
+
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_control_menu`(IN `ve_opcion` VARCHAR(50), IN `ve_personaID` INT, IN `ve_grupoID` INT)
     NO SQL
 BEGIN 
 
 IF ve_opcion = 'opc_mostrargrupos' THEN
-	select distinct(g.Gru_nombre), g.Gru_idGrupo
-	from rol_usuario ru 
+  select distinct(g.Gru_nombre), g.Gru_idGrupo
+  from rol_usuario ru 
     inner join permiso pe on pe.Rol_idRol = ru.Rol_idRol
     inner join tarea t on t.Tar_idTarea = pe.Tar_idTarea
     inner join grupo g on g.Gru_idGrupo = t.Gru_idGrupo
     where ru.Per_idPersona = ve_personaID 
-    		and t.Tar_estado=1 and g.Gru_estado = 1;
+        and t.Tar_estado=1 and g.Gru_estado = 1;
 END IF;
 
 IF ve_opcion = 'opc_mostrartareas' THEN
-	select t.Tar_nombre, t.Tar_URL
-		from rol_usuario ru 
-	    inner join permiso pe on pe.Rol_idRol = ru.Rol_idRol
-	    inner join tarea t on t.Tar_idTarea = pe.Tar_idTarea
-	    inner join grupo g on g.Gru_idGrupo = t.Gru_idGrupo
+  select t.Tar_nombre, t.Tar_URL
+    from rol_usuario ru 
+      inner join permiso pe on pe.Rol_idRol = ru.Rol_idRol
+      inner join tarea t on t.Tar_idTarea = pe.Tar_idTarea
+      inner join grupo g on g.Gru_idGrupo = t.Gru_idGrupo
     where ru.Per_idPersona = ve_personaID and g.Gru_idGrupo = ve_grupoID
-    		and t.Tar_estado=1 and g.Gru_estado = 1;            
+        and t.Tar_estado=1 and g.Gru_estado = 1;            
 END IF;
 
 END$$
@@ -54,21 +110,21 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_control_usuario`(IN `ve_opcion` 
     NO SQL
 BEGIN
 IF ve_opcion='opc_login_respuesta' THEN
-	SET @CORRECTO = (SELECT COUNT(*) 
-			FROM  usuario usu 
-			WHERE 
-				usu.Usu_login = ve_usuario AND
-				usu.Usu_pass = ve_password);
-			IF @CORRECTO>0 THEN
-				SELECT '1' AS 'respuesta';
-			ELSE
-				SELECT 'Usuario o clave incorrectos' AS 'respuesta';
-			END IF;
+  SET @CORRECTO = (SELECT COUNT(*) 
+      FROM  usuario usu 
+      WHERE 
+        usu.Usu_login = ve_usuario AND
+        usu.Usu_pass = ve_password);
+      IF @CORRECTO>0 THEN
+        SELECT '1' AS 'respuesta';
+      ELSE
+        SELECT 'Usuario o clave incorrectos' AS 'respuesta';
+      END IF;
 END IF;
 
 IF ve_opcion='opc_login_listar' THEN
-	select u.Per_idPersona, u.Usu_login, pe.Pers_codigo, p.Per_dni, pe.Suc_idSucursal, s.Suc_nombre
-    	from usuario u 
+  select u.Per_idPersona, u.Usu_login, pe.Pers_codigo, p.Per_dni, pe.Suc_idSucursal, s.Suc_nombre
+      from usuario u 
         join persona p on p.Per_idPersona = u.Per_idPersona
         join personal pe on pe.Per_idPersona = p.Per_idPersona
         join sucursal s on s.Suc_idSucursal = pe.Suc_idSucursal
@@ -76,7 +132,48 @@ IF ve_opcion='opc_login_listar' THEN
 END IF;
 end$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_gestion_empresa`(IN `ve_opcion` VARCHAR(100), IN `ve_razonSocial` VARCHAR(200), IN `ve_direccion` VARCHAR(200), IN `ve_ruc` VARCHAR(11), IN `ve_codigo` INT)
+    NO SQL
+BEGIN
+IF ve_opcion='opc_new_empresa' THEN
+  INSERT INTO empresa (Emp_razonSocial, Emp_direccion, Emp_RUC, Emp_estado) VALUES (ve_razonSocial, ve_direccion, ve_ruc, 1);
+END IF;
+IF ve_opcion='opc_mostrar_empresas' THEN
+  SELECT Emp_idEmpresa, Emp_razonSocial, Emp_direccion, Emp_RUC, Emp_estado FROM empresa;
+END IF;
+IF ve_opcion='opc_datos_empresa' THEN 
+  SELECT Emp_idEmpresa, Emp_razonSocial, Emp_RUC, Emp_direccion FROM empresa where Emp_idEmpresa = ve_codigo;
+END IF;
+IF ve_opcion='opc_update_empresa' THEN 
+  UPDATE empresa SET Emp_razonSocial = ve_razonSocial, Emp_RUC = ve_ruc, Emp_direccion=ve_direccion where Emp_idEmpresa = ve_codigo;
+END IF;
+IF ve_opcion='opc_eliminar_empresa' THEN 
+  UPDATE empresa SET Emp_estado = 0 where Emp_idEmpresa = ve_codigo;
+END IF;
+IF ve_opcion='opc_active_empresa' THEN 
+  UPDATE empresa SET Emp_estado = 1 where Emp_idEmpresa = ve_codigo;
+END IF;
+end$$
+
 DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ambiente`
+--
+
+CREATE TABLE IF NOT EXISTS `ambiente` (
+  `Amb_idAmbiente` int(11) NOT NULL AUTO_INCREMENT,
+  `Amb_descripcion` varchar(50) DEFAULT NULL,
+  `Amb_capacidad` int(11) DEFAULT NULL,
+  `Amb_estado` int(11) DEFAULT NULL,
+  `TipAm_idTipoAmbiente` int(11) DEFAULT NULL,
+  `Loc_idLocal` int(11) DEFAULT NULL,
+  PRIMARY KEY (`Amb_idAmbiente`),
+  KEY `TipAm_idTipoAmbiente` (`TipAm_idTipoAmbiente`),
+  KEY `Loc_idLocal` (`Loc_idLocal`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -105,7 +202,7 @@ CREATE TABLE IF NOT EXISTS `empresa` (
   `Emp_idEmpresa` int(11) NOT NULL AUTO_INCREMENT,
   `Emp_RUC` char(11) NOT NULL,
   `Emp_razonSocial` varchar(100) NOT NULL,
-  `Emp_direccionPrincipal` varchar(150) NOT NULL,
+  `Emp_direccion` varchar(100) NOT NULL,
   `Emp_estado` tinyint(1) NOT NULL,
   PRIMARY KEY (`Emp_idEmpresa`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
@@ -114,8 +211,8 @@ CREATE TABLE IF NOT EXISTS `empresa` (
 -- Volcado de datos para la tabla `empresa`
 --
 
-INSERT INTO `empresa` (`Emp_idEmpresa`, `Emp_RUC`, `Emp_razonSocial`, `Emp_direccionPrincipal`, `Emp_estado`) VALUES
-(1, '12345678901', 'Business Solution Enterprise S.A.C.', 'Dirección de BSE', 1);
+INSERT INTO `empresa` (`Emp_idEmpresa`, `Emp_RUC`, `Emp_razonSocial`, `Emp_direccion`, `Emp_estado`) VALUES
+(1, '12345678901', 'Business Solution Enterprise S.A.C.', 'DirecciÃ³n de BSE 1234', 1)
 
 -- --------------------------------------------------------
 
@@ -173,13 +270,26 @@ CREATE TABLE IF NOT EXISTS `grupo` (
 --
 
 INSERT INTO `grupo` (`Gru_idGrupo`, `Gru_nombre`, `Gru_descripcion`, `Gru_orden`, `Gru_estado`) VALUES
-(1, 'Parametros Generales', 'Modulo de parametros generales del sistema', 1, 1),
+(1, 'Parametros', 'Modulo de parametros generales del sistema', 1, 1),
 (2, 'Acceso y Seguridad', 'Modulo para el control de accesos y seguridad del sistema', 2, 1),
 (3, 'Auditoria', 'Modulo para la realizacion de la auditoria del sistema', 3, 1),
 (4, 'Mantenedores', 'Modulo para las tablas maestras del sistema', 4, 1),
 (5, 'Gestion de Eventos', 'Modulo para la gestion de eventos realizados por BSE', 5, 1),
 (6, 'Facturacion', 'Modulo para la realizacion de las facturaciones de cada evento', 6, 1),
 (7, 'Reportes', 'Modulo para la generacion de los reportes necesarios para la toma de decisiones.', 7, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `locala`
+--
+
+CREATE TABLE IF NOT EXISTS `locala` (
+  `Loc_idLocal` int(11) NOT NULL AUTO_INCREMENT,
+  `Loc_descripcion` varchar(50) DEFAULT NULL,
+  `Loc_direccion` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`Loc_idLocal`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -235,7 +345,7 @@ CREATE TABLE IF NOT EXISTS `permiso` (
   PRIMARY KEY (`Pso_idPermiso`),
   KEY `Rol_idRol` (`Rol_idRol`),
   KEY `Tar_idTarea` (`Tar_idTarea`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Volcado de datos para la tabla `permiso`
@@ -245,7 +355,10 @@ INSERT INTO `permiso` (`Pso_idPermiso`, `Rol_idRol`, `Tar_idTarea`, `Pso_estado`
 (1, 1, 1, 1),
 (2, 1, 2, 1),
 (3, 1, 3, 1),
-(4, 1, 4, 1);
+(4, 1, 4, 1),
+(5, 1, 5, 1),
+(6, 1, 6, 1),
+(7, 1, 7, 1);
 
 -- --------------------------------------------------------
 
@@ -405,7 +518,7 @@ CREATE TABLE IF NOT EXISTS `tarea` (
   PRIMARY KEY (`Tar_idTarea`),
   KEY `Mod_idModulo` (`Mod_idModulo`),
   KEY `Gru_idGrupo` (`Gru_idGrupo`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Volcado de datos para la tabla `tarea`
@@ -415,7 +528,22 @@ INSERT INTO `tarea` (`Tar_idTarea`, `Mod_idModulo`, `Gru_idGrupo`, `Tar_nombre`,
 (1, 1, 1, 'Grupos', 'Grupos', 1, '../param_generales/grupos.php', 1),
 (2, 1, 1, 'Opciones', 'Opciones', 2, '../param_generales/opciones.php', 1),
 (3, 1, 1, 'Roles', 'Roles', 3, '../param_generales/roles.php', 1),
-(4, 1, 1, 'Multitabla', 'Multitabla', 4, '../param_generales/multitabla.php', 1);
+(4, 1, 1, 'Multitabla', 'Multitabla', 4, '../param_generales/multitabla.php', 1),
+(5, 2, 4, 'Ponentes', 'Gestion de Ponentes', 1, '../Mantenedores/ponentes.php', 1),
+(6, 2, 4, 'Empresas', 'Gestion de Empresas', 2, '../Mantenedores/empresas.php', 1),
+(7, 2, 4, 'Sucursales', 'Gestión de Sucursales', 3, '../Mantenedores/sucursales.php', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipoambiente`
+--
+
+CREATE TABLE IF NOT EXISTS `tipoambiente` (
+  `TipAm_idTipoAmbiente` int(11) NOT NULL AUTO_INCREMENT,
+  `TipAm_descripcion` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`TipAm_idTipoAmbiente`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -455,6 +583,13 @@ INSERT INTO `usuario` (`Per_idPersona`, `Usu_login`, `Usu_pass`, `Usu_estado`, `
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `ambiente`
+--
+ALTER TABLE `ambiente`
+  ADD CONSTRAINT `ambiente_ibfk_1` FOREIGN KEY (`TipAm_idTipoAmbiente`) REFERENCES `tipoambiente` (`TipAm_idTipoAmbiente`),
+  ADD CONSTRAINT `ambiente_ibfk_2` FOREIGN KEY (`Loc_idLocal`) REFERENCES `locala` (`Loc_idLocal`);
 
 --
 -- Filtros para la tabla `certificacion`

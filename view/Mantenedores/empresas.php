@@ -14,7 +14,7 @@
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title>Mantenedores - Ponentes</title>
+		<title>Mantenedores - Empresas</title>
 
 		<meta name="description" content="" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -108,7 +108,7 @@
                                 <i class="ace-icon fa fa-home home-icon"></i>
                                 <a href="#">Mantenedores</a>
                             </li>
-                            <li><a href="empresa.php">Ponentes</a></li>
+                            <li><a href="empresa.php">Empresas</a></li>
                             <li>
                                 <span class="invoice-info-label">Fecha:</span>
                                 <span class="blue"><?php echo date('d-m-Y'); ?></span>
@@ -120,39 +120,37 @@
 					<div class="page-content">					
 						<div class="page-header">
 							<h1>
-								Ponentes Registradas	
+								Empresas Registradas	
 							</h1>
 						</div><!-- /.page-header -->
 						<div class="row">
-							<div class="col-md-12">								
+							<div class="col-md-10 col-md-offset-1">	
+								<div id="mensaje2"></div>
 								<div class="table-header">
-									PONENTES REGISTRADAS &nbsp;&nbsp;
-									<a  href="#" id="new_ponente" class="white">
+									EMPRESAS REGISTRADAS &nbsp;&nbsp;
+									<a  href="#" id="new_empresa" class="white">
 			                            <i class='ace-icon fa fa-plus-circle bigger-150'></i>
 			                        </a>
 								</div>
 								<div>
-									<table id="tablaPonentes" class="table table-striped table-bordered">
+									<table id="tablaEmpresas" class="table table-striped table-bordered">
 										<thead>											
 								            <tr>
 								                <th style="text-align: center; font-size: 11px; height: 10px; width: 5%;">N°</th>
-								                <th style="text-align: center; font-size: 11px; height: 10px; width: 15%;">APELLIDOS Y NOMBRES</th>
-								                <th style="text-align: center; font-size: 11px; height: 10px; width: 9%;">TIPO DOC.</th>
-								                <th style="text-align: center; font-size: 11px; height: 10px; width: 9%;">N° DOC</th>	
-								                <th style="text-align: center; font-size: 11px; height: 10px; width: 10%;">C. PROFESIONAL</th>
-								                <th style="text-align: center; font-size: 11px; height: 10px; width: 9%;">F. NACIMIENTO</th>
-								                <th style="text-align: center; font-size: 11px; height: 10px; width: 10%;">NACIONALIDAD</th>
+								                <th style="text-align: center; font-size: 11px; height: 10px; width: 15%;">Razón Social</th>
+								                <th style="text-align: center; font-size: 11px; height: 10px; width: 15%;">Dirección Completa</th>
+								                <th style="text-align: center; font-size: 11px; height: 10px; width: 8%;">RUC</th>
 								                <th style="text-align: center; font-size: 11px; height: 10px; width: 5%;">ESTADO</th>	
                 								<th style="text-align: center; font-size: 11px; height: 10px; width: 8%;">OPERACIONES</th>
 								            </tr>							         
 										</thead>
-										<tbody id="cuerpoPonentes">																	
+										<tbody id="cuerpoEmpresas">																	
 										</tbody>
 									</table>
 								</div>
 							</div>				
 							<input type="hidden" dissabled="true" value="Mantenedores" id="NombreGrupo">
-                            <input type="hidden" dissabled="true" value="Ponentes" id="NombreTarea">			
+                            <input type="hidden" dissabled="true" value="Empresas" id="NombreTarea">			
 							<!-- FIN DE CONTENIDO DE PAGINA -->										               
 						</div><!-- /.col -->
 					</div>
@@ -169,8 +167,8 @@
 						</div>
 					</div>					
 				</div>
-				<div class="modal fade" id="modalPonentes" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" style="width: 78% !important;">
+				<div class="modal fade" id="modalEmpresas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" style="width: 60% !important;">
                       <div class="modal-content">
                         <div class="modal-header">
                           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -178,109 +176,32 @@
                         </div>
                         <div class="modal-body">
                        <form action="" method="POST" class="form-horizontal" id="form_eventoPago"> 
+                       		<div id="mensaje"></div>
                             <form role="form" id="frmRegistroEgresados" class="form-horizontal" method="POST">
 		                        <div class="row">
 		                            <div class="form-group">		                               
-		                               <label for="socio" class="col-md-2 control-label" >Nombres:</label>
-		                               <div class="col-md-4">
-		                                   <input class="form-control" placeholder="Ingrese los Nombres" id="param_nombres" name="param_nombres" type="text" autofocus="">
-		                               </div>
-		                               <label for="socio" class="col-md-1 control-label">Apellidos:</label>
-		                               <div class="col-md-4">
-		                                   <input class="form-control" placeholder="Ingrese los Apellidos" id="param_apellidos" name="param_apellidos" type="text" autofocus="">
+		                               <label for="socio" class="col-md-2 control-label" >Razón Social:</label>
+		                               <div class="col-md-9">
+		                                   <input class="form-control" placeholder="Ingrese Razón Social" id="param_razonSocial" name="param_razonSocial" type="text" autofocus="">
+		                               </div>		                                                  
+		                            </div>	
+		                            <div class="form-group">		                               		                               
+		                               <label for="socio" class="col-md-2 control-label">Dirección:</label>
+		                               <div class="col-md-9">
+		                                   <input class="form-control" placeholder="Ingrese Dirección Completa" id="param_direccion" name="param_direccion" type="text" autofocus="">
 		                               </div>		                               
 		                            </div>		                          
 		                            <div class="form-group">
-		                               <label for="socio" class="col-md-2 control-label">T. Doc:</label>
-		                               <div class="col-md-4">
-		                                   <select class="form-control" name="param_tipoDocumento" id="param_tipoDocumento">
-		                               			<option value="" disabled selected style="display: none;">Seleccione Tipo Documento</option>
-		                               			<option value="J">Juridico</option>
-		                               			<option value="N">Natural</option>
-		                               		</select>	
+		                               <label for="socio" class="col-md-2 control-label">RUC</label>
+		                               <div class="col-md-3">
+		                                   <input class="form-control" placeholder="RUC" id="param_ruc" name="param_ruc" type="text" autofocus="" onkeypress="return solonumeros(event)" maxlength="11">
 		                               </div>	
-		                               <label for="socio" class="col-md-1 control-label">N° Doc: </label>
-		                               <div class="col-md-4">
-		                                   <input class="form-control" placeholder="N° DOCUMENTO" id="param_nroDocumento" name="param_nroDocumento" type="text" autofocus="" onkeypress="return solonumeros(event)">
-		                               </div>			                               	                               
-		                            </div> 
-                                    <div class="form-group">                                       
-                                       <label for="socio" class="col-md-2 control-label" >Domicilio:</label>
-                                       <div class="col-md-5">
-                                           <input class="form-control" placeholder="Ingrese los Dirección" id="param_direccion" name="param_direccion" type="text" autofocus="">
-                                       </div>
-                                       <label for="socio" class="col-md-1 control-label">Teléfono:</label>
-                                       <div class="col-md-3">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">
-                                                    <i class="ace-icon fa fa-phone"></i>
-                                                </span>
-                                                <input class="form-control" type="text" id="param_telefonoFijo" name="param_telefonoFijo" onkeypress="return telefonovalidation(event)" placeholder="Ejm: 044-123456" />
-                                            </div>
-                                        </div>                               
-                                    </div>
-                                    <div class="form-group">                                       
-                                       <label for="socio" class="col-md-2 control-label">Email:</label>
-                                       <div class="col-md-4">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">
-                                                    <i class="ace-icon fa fa-envelope"></i>
-                                                </span>
-                                                <input class="form-control" type="text" id="param_email" name="param_email" placeholder="example@correo.com" />
-                                            </div>
-                                        </div>                                     
-                                        <label for="socio" class="col-md-2 control-label">Celular:</label>
-                                       <div class="col-md-3">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">
-                                                    <i class="ace-icon fa fa-phone"></i>
-                                                </span>
-                                                <input class="form-control" type="text" id="param_celular" name="param_celular" onkeypress="return solonumeros(event)" maxlength="9" placeholder="Ejm: 912345678" />
-                                            </div>
-                                        </div>                                                                
-                                    </div>
-                                    
-		                            <div class="form-group">		                               
-		                               <label for="socio" class="col-md-2 control-label">C. Profesional:</label>
-		                               <div class="col-md-5">
-		                                   <input class="form-control" placeholder="Carrera Profesional" id="param_nombres" name="param_nombres" type="text" autofocus="">
-		                               </div>		                               
-		                               <label for="socio" class="col-md-2 control-label">Fecha Nac:</label>
-                                       <div class="col-md-2">
-                                           <input class="form-control" id="param_fechaNacimiento" name="param_fechaNacimiento" type="date" autofocus="">
-                                       </div>                               
-		                            </div>
-                                    <div class="form-group">                                       
-                                       <label for="socio" class="col-md-2 control-label">Nacionalidad:</label>
-                                       <div class="col-md-4">
-                                           <input class="form-control" placeholder="Ingrese Nacionalidad" id="param_nacionalidad" name="param_nacionalidad" type="text" autofocus="">
-                                       </div>
-                                       <label for="socio" class="col-md-2 control-label">E. Laboral:</label>
-                                       <div class="col-md-3">
-                                           <input class="form-control" placeholder="Ingrese Estado Laboral" id="param_estadoLaboral" name="param_estadoLaboral" type="text" autofocus="">
-                                       </div>                                      
-                                    </div>
-                                    <div class="form-group">                                       
-                                       <label for="socio" class="col-md-2 control-label">Centro de Trabajo:</label>
-                                       <div class="col-md-4">
-                                           <input class="form-control" placeholder="Ingrese Centro de Trabajo Actual" id="param_centroTrabajo" name="param_centroTrabajo" type="text" autofocus="">
-                                       </div>
-                                       <label for="socio" class="col-md-2 control-label">Adjuntar CV:</label>
-                                       <div class="col-md-3">
-                                            <input type="file" id="id-input-file-2" id="param_cv" name="param_cv"/>
-                                       </div>                                      
-                                    </div>
-                                    <div class="form-group">                                       
-                                       <label for="socio" class="col-md-2 control-label">R. Hoja de Vida:</label>
-                                       <div class="col-md-9">
-                                           <textarea class="form-control" rows="5" id="param_resumenHojaVida" name="param_resumenHojaVida" placeholder="Ingrese resumen de hoja de vida (Opcional)" ></textarea>   
-                                       </div>                                    
-                                    </div>                                                                                           		                        
+		                            </div>                                                                                     	                
 		                            <input  type="hidden" id="param_funcion" name="param_funcion" value="N"/>
 		                            <input  type="hidden" id="param_codigo" name="param_codigo"/>		                           
 			                        <div class="modal-footer">
-			                            <button type="button" class="btn btn-primary" id="cancel_ponentes">Cancelar</button> 
-			                            <button type="button" class="btn btn-primary" id="register_ponentes">Registrar</button>            
+			                            <button type="button" class="btn btn-primary" id="cancel_empresa">Cancelar</button> 
+			                            <button type="button" class="btn btn-primary" id="register_empresa">Registrar</button>            
 			                        </div>
 		                    </form>
                         </form>
@@ -339,7 +260,7 @@
 		<script src="../default/assets/js/ace.min.js"></script>
 		
 
-		<script src="../default/js/ponentes.js"></script>
+		<script src="../default/js/empresas.js"></script>
 		<script type="text/javascript">		        
 	        function solonumeros(e) {
 	            key = e.keyCode || e.which;
