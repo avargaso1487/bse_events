@@ -107,7 +107,7 @@ require('../sup_layout.php');
                         <i class="ace-icon fa fa-home home-icon"></i>
                         <a href="#">Mantenedores</a>
                     </li>
-                    <li><a href="participantes.php">Participantes</a></li>
+                    <li><a href="participante_view.php">Participantes</a></li>
                     <li>
                         <span class="invoice-info-label">Fecha:</span>
                         <span class="blue"><?php echo date('d-m-Y'); ?></span>
