@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-11-2016 a las 05:00:49
+-- Tiempo de generación: 06-11-2016 a las 06:19:03
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
 
@@ -155,6 +155,32 @@ IF ve_opcion='opc_active_empresa' THEN
 END IF;
 end$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_gestion_sucursal`(IN `ve_opcion` VARCHAR(100), IN `ve_nombre` VARCHAR(200), IN `ve_direccion` VARCHAR(200), IN `ve_empresa` INT, IN `ve_codigo` INT)
+    NO SQL
+BEGIN
+IF ve_opcion='opc_new_sucursal' THEN
+  INSERT INTO sucursal (Suc_nombre, Suc_direccion, Suc_estado, Emp_idEmpresa) VALUES (ve_nombre, ve_direccion, 1, ve_empresa);
+END IF;
+IF ve_opcion='opc_mostrar_sucursal' THEN
+  SELECT S.Suc_idSucursal, S.Suc_nombre, S.Suc_direccion, E.Emp_razonSocial, S.Suc_estado FROM sucursal S INNER JOIN empresa E ON E.Emp_idEmpresa = S.Emp_idEmpresa;
+END IF;
+IF ve_opcion='opc_datos_sucursal' THEN 
+  SELECT S.Suc_idSucursal, S.Suc_nombre, S.Suc_direccion, S.Emp_idEmpresa, S.Suc_estado FROM sucursal S WHERE S.Suc_idSucursal = ve_codigo;
+END IF;
+IF ve_opcion='opc_update_sucursal' THEN 
+  UPDATE sucursal SET Suc_nombre = ve_nombre, Suc_direccion = ve_direccion, Emp_idEmpresa=ve_empresa where Suc_idSucursal = ve_codigo;
+END IF;
+IF ve_opcion='opc_eliminar_sucursal' THEN 
+  UPDATE sucursal SET Suc_estado = 0 where Suc_idSucursal = ve_codigo;
+END IF;
+IF ve_opcion='opc_active_sucursal' THEN 
+  UPDATE sucursal SET Suc_estado = 1 where Suc_idSucursal = ve_codigo;
+END IF;
+IF ve_opcion='opc_combo_empresa' THEN 
+  SELECT Emp_idEmpresa, Emp_razonSocial FROM empresa where Emp_estado = 1;
+END IF;
+end$$
+
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -205,14 +231,19 @@ CREATE TABLE IF NOT EXISTS `empresa` (
   `Emp_direccion` varchar(100) NOT NULL,
   `Emp_estado` tinyint(1) NOT NULL,
   PRIMARY KEY (`Emp_idEmpresa`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
 -- Volcado de datos para la tabla `empresa`
 --
 
 INSERT INTO `empresa` (`Emp_idEmpresa`, `Emp_RUC`, `Emp_razonSocial`, `Emp_direccion`, `Emp_estado`) VALUES
-(1, '12345678901', 'Business Solution Enterprise S.A.C.', 'DirecciÃ³n de BSE 1234', 1)
+(1, '12345678901', 'Business Solution Enterprise S.A.C.', 'DirecciÃ³n de BSE 123', 1),
+(2, '31246434236', 'Empresa Prueba 3', 'Av Peru 560', 1),
+(3, '12345456767', 'Empresa Prueba 1', 'DirecciÃ³n 1', 1),
+(4, '12346789876', 'Empresa prueba 2', 'DirecciÃ³n Prueba 2', 0),
+(5, '31243423145', 'PREMIUN.NET', 'CALIFORNIA 123', 1),
+(6, '43625654643', 'gfdgfg', 'gfdgfdg', 1);
 
 -- --------------------------------------------------------
 
@@ -345,7 +376,7 @@ CREATE TABLE IF NOT EXISTS `permiso` (
   PRIMARY KEY (`Pso_idPermiso`),
   KEY `Rol_idRol` (`Rol_idRol`),
   KEY `Tar_idTarea` (`Tar_idTarea`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Volcado de datos para la tabla `permiso`
@@ -358,7 +389,8 @@ INSERT INTO `permiso` (`Pso_idPermiso`, `Rol_idRol`, `Tar_idTarea`, `Pso_estado`
 (4, 1, 4, 1),
 (5, 1, 5, 1),
 (6, 1, 6, 1),
-(7, 1, 7, 1);
+(7, 1, 7, 1),
+(8, 1, 8, 1);
 
 -- --------------------------------------------------------
 
@@ -498,7 +530,8 @@ CREATE TABLE IF NOT EXISTS `sucursal` (
 --
 
 INSERT INTO `sucursal` (`Suc_idSucursal`, `Suc_nombre`, `Suc_direccion`, `Suc_estado`, `Emp_idEmpresa`) VALUES
-(1, 'BSE Events', 'Dirección de BSE', 1, 1);
+(1, 'BSE Events', 'Direccion de BSE', 1, 3),
+
 
 -- --------------------------------------------------------
 
@@ -518,7 +551,7 @@ CREATE TABLE IF NOT EXISTS `tarea` (
   PRIMARY KEY (`Tar_idTarea`),
   KEY `Mod_idModulo` (`Mod_idModulo`),
   KEY `Gru_idGrupo` (`Gru_idGrupo`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Volcado de datos para la tabla `tarea`
@@ -529,9 +562,10 @@ INSERT INTO `tarea` (`Tar_idTarea`, `Mod_idModulo`, `Gru_idGrupo`, `Tar_nombre`,
 (2, 1, 1, 'Opciones', 'Opciones', 2, '../param_generales/opciones.php', 1),
 (3, 1, 1, 'Roles', 'Roles', 3, '../param_generales/roles.php', 1),
 (4, 1, 1, 'Multitabla', 'Multitabla', 4, '../param_generales/multitabla.php', 1),
-(5, 2, 4, 'Ponentes', 'Gestion de Ponentes', 1, '../Mantenedores/ponentes.php', 1),
-(6, 2, 4, 'Empresas', 'Gestion de Empresas', 2, '../Mantenedores/empresas.php', 1),
-(7, 2, 4, 'Sucursales', 'Gestión de Sucursales', 3, '../Mantenedores/sucursales.php', 1);
+(5, 2, 4, 'Ponentes', 'Gestion de Ponentes', 1, '../Mantenedores/ponente_view.php', 1),
+(6, 2, 4, 'Empresas', 'Gestion de Empresas', 2, '../Mantenedores/empresa_view.php', 1),
+(7, 2, 4, 'Sucursales', 'Gestión de Sucursales', 3, '../Mantenedores/sucursal_view.php', 1),
+(8, 2, 4, 'Ambientes', 'Mantenedor de Ambientes', 3, '../Mantenedores/ambiente_view.php', 1);
 
 -- --------------------------------------------------------
 

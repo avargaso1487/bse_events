@@ -30,9 +30,9 @@ $(function() {
             type: 'POST',        
             data:'param_opcion='+param_opcion+'&param_razonSocial='+param_razonSocial+'&param_direccion=' +param_direccion+
             '&param_ruc=' +param_ruc,
-            url: '../../controller/controlMantenedores/empresas_controller.php',
+            url: '../../controller/controlMantenedores/empresa_controller.php',
             success: function(data){
-                alert('Registro Correcto');
+                //alert('Registro Correcto');
                 document.getElementById('param_razonSocial').value= '';
                 document.getElementById('param_direccion').value= '';                
                 document.getElementById('param_ruc').value= '';                
@@ -60,7 +60,7 @@ $(function() {
             type: 'POST',        
             data:'param_opcion='+param_opcion+'&param_razonSocial='+param_razonSocial+'&param_direccion=' +param_direccion+
             '&param_ruc=' +param_ruc+'&param_codigo=' +param_codigo,
-            url: '../../controller/controlMantenedores/empresas_controller.php',
+            url: '../../controller/controlMantenedores/empresa_controller.php',
             success: function(data){
                 //alert('Registro Correcto');
                 document.getElementById('param_razonSocial').value= '';
@@ -97,7 +97,7 @@ function mostrarEmpresas(){
   $.ajax({
       type: 'POST',        
       data:'param_opcion='+param_opcion,
-      url: '../../controller/controlMantenedores/empresas_controller.php',
+      url: '../../controller/controlMantenedores/empresa_controller.php',
       success: function(data){
           $('#tablaEmpresas').DataTable().destroy();
           $('#cuerpoEmpresas').html(data);
@@ -123,7 +123,7 @@ function editar(codigo){
   $.ajax({
       type: 'POST',
       data:'param_opcion='+param_opcion+'&param_codigo='+codigo,
-      url: '../../controller/controlMantenedores/empresas_controller.php',
+      url: '../../controller/controlMantenedores/empresa_controller.php',
       success: function(data){
         objeto=JSON.parse(data);
         $("#param_razonSocial").val(objeto[1]);
@@ -144,7 +144,7 @@ function eliminar(empresa){
         $.ajax({
             type: 'POST',
             data:'param_opcion='+param_opcion+'&param_codigo='+empresa,
-            url: '../../controller/controlMantenedores/empresas_controller.php',
+            url: '../../controller/controlMantenedores/empresa_controller.php',
             success: function(data){
                 //alert('La empresa ha sido descativada correctamente');
                 $('#mensaje2').html('<p class="alert alert-success">La empresa ha sido descativada correctamente</p>').show(200).delay(1200).hide(200);
@@ -169,7 +169,7 @@ function activar(empresa){
         $.ajax({
             type: 'POST',
             data:'param_opcion='+param_opcion+'&param_codigo='+empresa,
-            url: '../../controller/controlMantenedores/empresas_controller.php',
+            url: '../../controller/controlMantenedores/empresa_controller.php',
             success: function(data){
                 //alert('La empresa ha sido activada correctamente');
                 $('#mensaje2').html('<p class="alert alert-success">La empresa ha sido activada correctamente</p>').show(200).delay(1200).hide(200);

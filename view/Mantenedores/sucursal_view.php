@@ -124,7 +124,8 @@
 							</h1>
 						</div><!-- /.page-header -->
 						<div class="row">
-							<div class="col-md-10 col-md-offset-1">								
+							<div class="col-md-10 col-md-offset-1">	
+								<div id="mensaje2"></div>							
 								<div class="table-header">
 									SUCURSALES REGISTRADAS &nbsp;&nbsp;
 									<a  href="#" id="new_sucursal" class="white">
@@ -136,9 +137,9 @@
 										<thead>											
 								            <tr>
 								                <th style="text-align: center; font-size: 11px; height: 10px; width: 5%;">N°</th>
-								                <th style="text-align: center; font-size: 11px; height: 10px; width: 12%;">Nombre</th>
+								                <th style="text-align: center; font-size: 11px; height: 10px; width: 10%;">Nombre</th>
 								                <th style="text-align: center; font-size: 11px; height: 10px; width: 15%;">Dirección Completa</th>
-								                <th style="text-align: center; font-size: 11px; height: 10px; width: 10%;">Empresa</th>
+								                <th style="text-align: center; font-size: 11px; height: 10px; width: 15%;">Empresa</th>
 								                <th style="text-align: center; font-size: 11px; height: 10px; width: 5%;">ESTADO</th>	
                 								<th style="text-align: center; font-size: 11px; height: 10px; width: 8%;">OPERACIONES</th>
 								            </tr>							         
@@ -175,6 +176,7 @@
                         </div>
                         <div class="modal-body">
                        <form action="" method="POST" class="form-horizontal" id="form_eventoPago"> 
+                       		<div id="mensaje"></div>
                             <form role="form" id="frmRegistroEgresados" class="form-horizontal" method="POST">
 		                        <div class="row">
 		                            <div class="form-group">		                               
@@ -191,12 +193,7 @@
 		                            </div>		                          
 		                            <div class="form-group">
 		                               <label for="socio" class="col-md-2 control-label">Empresa</label>
-		                               <div class="col-md-9">
-		                                   <select class="form-control" name="param_empresa" id="param_empresa">
-		                               			<option value="" disabled selected style="display: none;">Seleccione Empresa</option>
-		                               			<option value="J">Juridico</option>
-		                               			<option value="N">Natural</option>
-		                               		</select>	
+		                               <div class="col-md-9" id="empresa">		                                   
 		                               </div>	
 		                            </div>                                                                                     	                
 		                            <input  type="hidden" id="param_funcion" name="param_funcion" value="N"/>
