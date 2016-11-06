@@ -8,21 +8,98 @@ window.onload = function () {
             show:true,
             backdrop:'static',
         });
-        document.getElementById('#nombre_participante').value = '';
-        document.getElementById('#apellido_participante').value = '';
-        document.getElementById('#dni_participante').value = '';
-        document.getElementById('#direccion_participante').value = '';
-        document.getElementById('#fechaNacimiento_participante').value = '';
-        document.getElementById('#telefonoFijo_participante').value = '';
-        document.getElementById('#telefonoFijo_participante').value = '';
-        document.getElementById('#email_participante').value = '';
-        document.getElementById('#nivel_participante').value = '';
-        document.getElementById('#profesion_participante').value = '';
-        document.getElementById('#centroTrabajo_participante').value = '';
+        document.getElementById('nombre_participante').value = '';
+        document.getElementById('apellido_participante').value = '';
+        document.getElementById('dni_participante').value = '';
+        document.getElementById('direccion_participante').value = '';
+        document.getElementById('fechaNacimiento_participante').value = '';
+        document.getElementById('telefonoFijo_participante').value = '';
+        document.getElementById('telefonoFijo_participante').value = '';
+        document.getElementById('email_participante').value = '';
+        document.getElementById('nivel_participante').selectedIndex=0;
+        document.getElementById('profesion_participante').value = '';
+        document.getElementById('centroTrabajo_participante').value = '';
+    });
+    
+    $('#btn_cancelar_participante').on('click', function () {
+        $('#modalParticipante').modal('hide');
     })
+    
 };
 
 $(function () {
+
+    $('#btn_registrar_participante').on('click', function () {
+        var operacion = document.getElementById('operacion').value;
+        if (operacion == 'Registrar') {
+            var opcion          = 'registrar_participante';
+            var nombre          = document.getElementById('nombre_participante').value;
+            var apellido        = document.getElementById('apellido_participante').value;
+            var dni             = document.getElementById('dni_participante').value;
+            var direccion       = document.getElementById('direccion_participante').value;
+            var fechaNacimiento = document.getElementById('fechaNacimiento_participante').value;
+            var telefonoFijo    = document.getElementById('telefonoFijo_participante').value;
+            var telefonoMovil   = document.getElementById('telefonoMovil_participante').value;
+            var email           = document.getElementById('email_participante').value;
+            var nivel           = document.getElementById('nivel_participante').value;
+            var profesion       = document.getElementById('profesion_participante').value;
+            var centroTrabajo   = document.getElementById('centroTrabajo_participante').value;
+
+            if (nombre.length == 0 || apellido.length == 0 || dni.length == 0 || fechaNacimiento.length == 0 || email.length == 0 || nivel.selectedIndex == 0 || profesion.length == 0) {
+                alert('Completa los campos obligatorios (*)');
+            } else {
+                if (dni.length != 8) {
+                    alert('El D.N.I. debe tener 8 dígitos!');
+                } else {
+                    $.ajax({
+                        type     : 'POST',
+                        data     : 'opcion='+opcion+'&nombre='+nombre+'&apellido='+apellido+'&dni='+dni+'&direccion='+direccion+
+                                    '&fechaNacimiento='+fechaNacimiento+'&telefonoFijo='+telefonoFijo+'&telefonoMovil='+telefonoMovil+
+                                    '&email='+email+'&nivel='+nivel+'&profesion='+profesion+'&centroTrabajo='+centroTrabajo,
+                        dataType : 'JSON',
+                        url      : '../../controller/controlMantenedores/participante_controller.php',
+                        success  : function (data) {
+                            if (data.length > 0) {
+                                alert('Participante registrado correctamente!');
+                                document.getElementById('nombre_participante').value = '';
+                                document.getElementById('apellido_participante').value = '';
+                                document.getElementById('dni_participante').value = '';
+                                document.getElementById('direccion_participante').value = '';
+                                document.getElementById('fechaNacimiento_participante').value = '';
+                                document.getElementById('telefonoFijo_participante').value = '';
+                                document.getElementById('telefonoFijo_participante').value = '';
+                                document.getElementById('email_participante').value = '';
+                                document.getElementById('nivel_participante').selectedIndex=0;
+                                document.getElementById('profesion_participante').value = '';
+                                document.getElementById('centroTrabajo_participante').value = '';
+                                document.getElementById('operacion').value= 'Registrar';
+                                $('#modalParticipante').modal('hide');
+                                //mostrarParticipantes();
+                            }                        },
+                        error    : function (data) {
+                            alert('Ocurrió algo inesperado!');
+                        }    
+                    });
+                }
+            }
+
+        } else {
+            if (operacion == 'Editar') {
+                var opcion          = 'editar_participante';
+                var nombre          = document.getElementById('nombre_participante').value;
+                var apellido        = document.getElementById('apellido_participante').value;
+                var dni             = document.getElementById('dni_participante').value;
+                var direccion       = document.getElementById('direccion_participante').value;
+                var fechaNacimiento = document.getElementById('fechaNacimiento_participante').value;
+                var telefonoFijo    = document.getElementById('telefonoFijo_participante').value;
+                var telefonoMovil   = document.getElementById('telefonoMovil_participante').value;
+                var email           = document.getElementById('email_participante').value;
+                var nivel           = document.getElementById('nivel_participante').value;
+                var profesion       = document.getElementById('profesion_participante').value;
+                var centroTrabajo   = document.getElementById('centroTrabajo_participante').value;
+            }
+        }
+    })
 
 });
 
@@ -47,14 +124,6 @@ function solonumeros(e) {
     }
 }
 
-function telefonovalidation(e) {
-    var unicode = e.charCode ? e.charCode : e.keyCode
-    if (unicode != 45 && unicode != 32) {
-        if (unicode < 48 || unicode > 57) //if not a number
-        { return false } //disable key press
-    }
-}
-
 function soloLetras(e){
     key = e.keyCode || e.which;
     tecla = String.fromCharCode(key).toLowerCase();
@@ -73,16 +142,3 @@ function soloLetras(e){
         return false;
     }
 }
-
-$('#id-input-file-1 , #id-input-file-2').ace_file_input({
-    no_file:'Ajuntar Cv...',
-    btn_choose:'Choose',
-    btn_change:'Change',
-    droppable:false,
-    onchange:null,
-    thumbnail:false //| true | large
-    //whitelist:'gif|png|jpg|jpeg'
-    //blacklist:'exe|php'
-    //onchange:''
-    //
-});
