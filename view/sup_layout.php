@@ -21,15 +21,7 @@
 				</div>
 
 				<div class="navbar-buttons navbar-header pull-right" role="navigation">
-					<ul class="nav ace-nav">
-						<?php 		
-							//require('../alerta.php');
-							?>
-						<li class="purple" id="alertaalmacen">							
-						</li>
-
-						<li class="green" id="alertaspa">							
-						</li>			
+					<ul class="nav ace-nav">						
 
 						<li class="light-blue">
 							<a data-toggle="dropdown" href="#" class="dropdown-toggle">								
