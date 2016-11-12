@@ -175,6 +175,7 @@ require('../sup_layout.php');
                         <h4 class="modal-title text-center" id="cabeceraRegistro"><b></b></h4>
                     </div>
                     <div class="modal-body">
+                        <div id="mensaje"></div>
                         <form role="form" class="form-horizontal">
                             <div class="form-body">
                                 <div class="row">
@@ -229,7 +230,8 @@ require('../sup_layout.php');
                                                 <span class="input-group-addon">
                                                     <i class="ace-icon fa fa-envelope"></i>
                                                 </span>
-                                                <input type="text" class="form-control" id="email_participante" name="email_participante" placeholder="Ingrese su correo electrónico">
+                                                <input type="text" class="form-control" id="email_participante" name="email_participante" placeholder="Ingrese su correo electrónico" onKeyUp="javascript:validateMail('email_participante')">
+
                                             </div>
                                         </div>
                                     </div>

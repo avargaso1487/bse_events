@@ -3,6 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="8bfc8b24-fa0e-4ae0-a804-c533018e9d6d" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/Mantenedores/participante_view.php" afterPath="$PROJECT_DIR$/view/Mantenedores/participante_view.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/default/js/participante.js" afterPath="$PROJECT_DIR$/view/default/js/participante.js" />
     </list>
     <ignored path="bse_events.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -27,20 +29,20 @@
       <file leaf-file-name="participante_view.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/view/Mantenedores/participante_view.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3315">
-              <caret line="195" column="87" selection-start-line="195" selection-start-column="87" selection-end-line="195" selection-end-column="87" />
+            <state relative-caret-position="476">
+              <caret line="232" column="234" selection-start-line="232" selection-start-column="234" selection-end-line="232" selection-end-column="234" />
               <folding>
-                <marker date="1478413444762" expanded="true" signature="15515:15623" placeholder="..." />
+                <marker date="1478961337558" expanded="true" signature="15621:15729" placeholder="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="participante.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="participante.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/view/default/js/participante.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="765">
-              <caret line="45" column="29" selection-start-line="45" selection-start-column="16" selection-end-line="45" selection-end-column="29" />
+            <state relative-caret-position="434">
+              <caret line="139" column="31" selection-start-line="139" selection-start-column="31" selection-end-line="139" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -49,18 +51,8 @@
       <file leaf-file-name="participante_controller.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controller/controlMantenedores/participante_controller.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="524">
-              <caret line="81" column="39" selection-start-line="81" selection-start-column="39" selection-end-line="81" selection-end-column="39" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/index.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="542">
-              <caret line="36" column="36" selection-start-line="36" selection-start-column="36" selection-end-line="36" selection-end-column="36" />
+            <state relative-caret-position="456">
+              <caret line="88" column="16" selection-start-line="88" selection-start-column="16" selection-end-line="88" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -91,10 +83,11 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/view/default/js/participante.js" />
         <option value="$PROJECT_DIR$/controller/controlMantenedores/participante_controller.php" />
         <option value="$PROJECT_DIR$/view/Mantenedores/participantes.php" />
         <option value="$PROJECT_DIR$/model/modelMantenedores/participante_model.php" />
+        <option value="$PROJECT_DIR$/view/Mantenedores/participante_view.php" />
+        <option value="$PROJECT_DIR$/view/default/js/participante.js" />
       </list>
     </option>
   </component>
@@ -138,8 +131,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -168,78 +159,6 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="view" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bse_events" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bse_events" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="view" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Mantenedores" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bse_events" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bse_events" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="view" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="default" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bse_events" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bse_events" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="view" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="default" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bse_events" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bse_events" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="model" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
@@ -258,7 +177,7 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="modelMantenedores" />
+              <option name="myItemId" value="modelusuario" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -296,6 +215,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -350,18 +271,19 @@
       <workItem from="1478268893528" duration="13080000" />
       <workItem from="1478413409102" duration="270000" />
       <workItem from="1478713106482" duration="696000" />
-      <workItem from="1478878731294" duration="1840000" />
+      <workItem from="1478878731294" duration="1858000" />
+      <workItem from="1478956491910" duration="2728000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="15886000" />
+    <option name="totallyTimeSpent" value="18632000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
-    <editor active="false" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22239032" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22541603" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -401,7 +323,49 @@
         <state relative-caret-position="3315">
           <caret line="195" column="87" selection-start-line="195" selection-start-column="87" selection-end-line="195" selection-end-column="87" />
           <folding>
-            <marker date="1478413444762" expanded="true" signature="15515:15623" placeholder="..." />
+            <marker date="1478961337558" expanded="true" signature="15621:15729" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/default/js/participante.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="765">
+          <caret line="45" column="29" selection-start-line="45" selection-start-column="16" selection-end-line="45" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controller/controlMantenedores/participante_controller.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1377">
+          <caret line="81" column="39" selection-start-line="81" selection-start-column="39" selection-end-line="81" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/modelMantenedores/participante_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/Mantenedores/participante_view.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3315">
+          <caret line="195" column="87" selection-start-line="195" selection-start-column="87" selection-end-line="195" selection-end-column="87" />
+          <folding>
+            <marker date="1478961337558" expanded="true" signature="15621:15729" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -435,7 +399,7 @@
         <state relative-caret-position="3315">
           <caret line="195" column="87" selection-start-line="195" selection-start-column="87" selection-end-line="195" selection-end-column="87" />
           <folding>
-            <marker date="1478413444762" expanded="true" signature="15515:15623" placeholder="..." />
+            <marker date="1478961337558" expanded="true" signature="15621:15729" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -469,7 +433,7 @@
         <state relative-caret-position="3315">
           <caret line="195" column="87" selection-start-line="195" selection-start-column="87" selection-end-line="195" selection-end-column="87" />
           <folding>
-            <marker date="1478413444762" expanded="true" signature="15515:15623" placeholder="..." />
+            <marker date="1478961337558" expanded="true" signature="15621:15729" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -499,21 +463,7 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/view/Mantenedores/ambientes.php" />
-    <entry file="file://$PROJECT_DIR$/model/modelusuario/usuario_model.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="184" column="38" selection-start-line="184" selection-start-column="38" selection-end-line="184" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/view/Mantenedores/empresas.php" />
-    <entry file="file://$PROJECT_DIR$/model/db/bse_events.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4087">
-          <caret line="320" column="50" selection-start-line="320" selection-start-column="38" selection-end-line="320" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/view/default/js/ambiente.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4709">
@@ -522,35 +472,107 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/view/Mantenedores/ponentes.php" />
-    <entry file="file://$PROJECT_DIR$/view/default/js/ponentes.js">
+    <entry file="file://$USER_HOME$/Desktop/cambios sql/Script nuevas tablas.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="13" column="60" selection-start-line="13" selection-start-column="7" selection-end-line="13" selection-end-column="60" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="354">
+          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/controller/controlMantenedores/empresa_controller.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="4" selection-start-line="1" selection-start-column="4" selection-end-line="40" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/default/js/participante.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="765">
-          <caret line="45" column="29" selection-start-line="45" selection-start-column="16" selection-end-line="45" selection-end-column="29" />
+        <state relative-caret-position="218">
+          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/view/Mantenedores/participante_view.php">
+    <entry file="file://$PROJECT_DIR$/controller/controlMantenedores/sucursal_controller.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3315">
-          <caret line="195" column="87" selection-start-line="195" selection-start-column="87" selection-end-line="195" selection-end-column="87" />
+        <state relative-caret-position="-241">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/db/bse_events.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="730" column="0" selection-start-line="730" selection-start-column="0" selection-end-line="730" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/default/js/empresas.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controller/controlMantenedores/ponente_controller.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/Mantenedores/ponente_view.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="305" column="24" selection-start-line="305" selection-start-column="24" selection-end-line="305" selection-end-column="48" />
           <folding>
-            <marker date="1478413444762" expanded="true" signature="15515:15623" placeholder="..." />
+            <marker date="1478953500615" expanded="true" signature="24278:24383" placeholder="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/modelusuario/usuario_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="578">
+          <caret line="184" column="38" selection-start-line="184" selection-start-column="38" selection-end-line="184" selection-end-column="38" />
+          <folding>
+            <marker date="1478268439201" expanded="true" signature="3753:3944" placeholder="..." />
+            <marker date="1478268439201" expanded="true" signature="3833:3886" placeholder="..." />
+            <marker date="1478268439201" expanded="true" signature="5276:5412" placeholder="..." />
+            <marker date="1478268439201" expanded="true" signature="5533:5783" placeholder="..." />
+            <marker date="1478268439201" expanded="true" signature="5567:5681" placeholder="..." />
+            <marker date="1478268439201" expanded="true" signature="5717:5783" placeholder="..." />
+            <marker date="1478268439201" expanded="true" signature="5778:5783" placeholder="..." />
+            <marker date="1478268439201" expanded="true" signature="5973:6314" placeholder="..." />
+            <marker date="1478268439201" expanded="true" signature="6012:6293" placeholder="..." />
+            <marker date="1478268439201" expanded="true" signature="6046:6184" placeholder="..." />
+            <marker date="1478268439201" expanded="true" signature="6396:6533" placeholder="..." />
+            <marker date="1478268439201" expanded="true" signature="6439:6522" placeholder="..." />
+            <marker date="1478268439201" expanded="true" signature="6787:6922" placeholder="..." />
+            <marker date="1478268439201" expanded="true" signature="7043:7294" placeholder="..." />
+            <marker date="1478268439201" expanded="true" signature="7077:7192" placeholder="..." />
+            <marker date="1478268439201" expanded="true" signature="7228:7294" placeholder="..." />
+            <marker date="1478268439201" expanded="true" signature="7289:7294" placeholder="..." />
+            <marker date="1478268439201" expanded="true" signature="7470:7798" placeholder="..." />
+            <marker date="1478268439201" expanded="true" signature="7509:7777" placeholder="..." />
+            <marker date="1478268439201" expanded="true" signature="7543:7671" placeholder="..." />
+            <marker date="1478268439201" expanded="true" signature="7880:8017" placeholder="..." />
+            <marker date="1478268439201" expanded="true" signature="7921:8006" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/default/js/ponentes.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="30" column="129" selection-start-line="30" selection-start-column="10" selection-end-line="30" selection-end-column="129" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -562,25 +584,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Desktop/cambios sql/Script nuevas tablas.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/controller/controlMantenedores/participante_controller.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="524">
-          <caret line="81" column="39" selection-start-line="81" selection-start-column="39" selection-end-line="81" selection-end-column="39" />
+        <state relative-caret-position="456">
+          <caret line="88" column="16" selection-start-line="88" selection-start-column="16" selection-end-line="88" selection-end-column="16" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.php">
+    <entry file="file://$PROJECT_DIR$/view/Mantenedores/participante_view.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="542">
-          <caret line="36" column="36" selection-start-line="36" selection-start-column="36" selection-end-line="36" selection-end-column="36" />
+        <state relative-caret-position="476">
+          <caret line="232" column="234" selection-start-line="232" selection-start-column="234" selection-end-line="232" selection-end-column="234" />
+          <folding>
+            <marker date="1478961337558" expanded="true" signature="15621:15729" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/default/js/participante.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="434">
+          <caret line="139" column="31" selection-start-line="139" selection-start-column="31" selection-end-line="139" selection-end-column="31" />
           <folding />
         </state>
       </provider>

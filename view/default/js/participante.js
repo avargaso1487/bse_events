@@ -1,6 +1,7 @@
 window.onload = function () {
 
     $('#tablaParticipantes').DataTable();
+    mostrarMenu();
 
     $('#btn_nuevo_participante').on('click', function () {
         $('#cabeceraRegistro').html(".:: Nuevo Participante ::.");
@@ -24,6 +25,7 @@ window.onload = function () {
     $('#btn_cancelar_participante').on('click', function () {
         $('#modalParticipante').modal('hide');
     })
+
     
 };
 
@@ -46,10 +48,10 @@ $(function () {
             var centroTrabajo   = document.getElementById('centroTrabajo_participante').value;
 
             if (nombre.length == 0 || apellido.length == 0 || dni.length == 0 || fechaNacimiento.length == 0 || email.length == 0 || nivel.selectedIndex == 0 || profesion.length == 0) {
-                alert('Completa los campos obligatorios (*)');
+                $('#mensaje').html('<p class="alert alert-danger">Ingrese los campos obligatorios (*)</p>').show(200).delay(1500).hide(200);
             } else {
                 if (dni.length != 8) {
-                    alert('El D.N.I. debe tener 8 dígitos!');
+                    $('#mensaje').html('<p class="alert alert-warning">El DNI debe tener 8 digitos!</p>').show(200).delay(1500).hide(200);
                 } else {
                     $.ajax({
                         type     : 'POST',
@@ -104,7 +106,39 @@ $(function () {
 });
 
 
+function mostrarMenu()
+{
+    var grupo = document.getElementById('NombreGrupo').value;
+    var tarea = document.getElementById('NombreTarea').value;
+    //alert(grupo);
 
+    $.ajax({
+        type:'POST',
+        data: 'opcion=mostrarMenu&grupo='+grupo+'&tarea='+tarea,
+        url: "../../controller/controlusuario/usuario.php",
+        success:function(data){
+            $('#permisos').html(data);
+        }
+    });
+}
+
+function validateMail(idMail)
+{
+    //Creamos un objeto
+    object=document.getElementById(idMail);
+    valueForm=object.value;
+
+    // Patron para el correo
+    var patron=/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
+    if(valueForm.search(patron)==0)
+    {
+        //Mail correcto
+        object.style.color="#006400";
+        return;
+    }
+    //Mail incorrecto
+    object.style.color="#8B0000";
+}
 
 function solonumeros(e) {
     key = e.keyCode || e.which;
