@@ -2,6 +2,7 @@ window.onload = function () {
 
     $('#tablaParticipantes').DataTable();
     mostrarMenu();
+    mostrarParticipantes();
 
     $('#btn_nuevo_participante').on('click', function () {
         $('#cabeceraRegistro').html(".:: Nuevo Participante ::.");
@@ -58,11 +59,11 @@ $(function () {
                         data     : 'opcion='+opcion+'&nombre='+nombre+'&apellido='+apellido+'&dni='+dni+'&direccion='+direccion+
                                     '&fechaNacimiento='+fechaNacimiento+'&telefonoFijo='+telefonoFijo+'&telefonoMovil='+telefonoMovil+
                                     '&email='+email+'&nivel='+nivel+'&profesion='+profesion+'&centroTrabajo='+centroTrabajo,
-                        dataType : 'JSON',
+                        dataType : 'json',
+                        encode   : true,
                         url      : '../../controller/controlMantenedores/participante_controller.php',
                         success  : function (data) {
-                            if (data.length > 0) {
-                                alert('Participante registrado correctamente!');
+                            if (data == 1) {
                                 document.getElementById('nombre_participante').value = '';
                                 document.getElementById('apellido_participante').value = '';
                                 document.getElementById('dni_participante').value = '';
@@ -76,7 +77,8 @@ $(function () {
                                 document.getElementById('centroTrabajo_participante').value = '';
                                 document.getElementById('operacion').value= 'Registrar';
                                 $('#modalParticipante').modal('hide');
-                                //mostrarParticipantes();
+                                $('#mensaje2').html('<p class="alert alert-success">Participante registrado correctamente.</p>').show(200).delay(1500).hide(200);
+                                mostrarParticipantes();
                             }                        },
                         error    : function (data) {
                             alert('Ocurrió algo inesperado!');
@@ -105,6 +107,21 @@ $(function () {
 
 });
 
+function mostrarParticipantes(){
+    var opcion = 'mostrar_participante';
+    $.ajax({
+        type: 'POST',
+        data:'opcion='+opcion,
+        url: '../../controller/controlMantenedores/participante_controller.php',
+        success: function(data){
+            $('#tablaParticipantes').DataTable().destroy();
+            $('#cuerpoParticipantes').html(data);
+            $('#tablaParticipantes').DataTable();
+        },
+        error: function(data){
+        }
+    });
+}
 
 function mostrarMenu()
 {

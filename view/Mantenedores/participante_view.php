@@ -124,6 +124,7 @@ require('../sup_layout.php');
                 </div><!-- /.page-header -->
                 <div class="row">
                     <div class="col-md-12">
+                        <div id="mensaje2"></div>
                         <div class="table-header">
                             PARTICIPANTES REGISTRADOS &nbsp;&nbsp;
                             <a  href="#" id="btn_nuevo_participante" class="white">
@@ -135,10 +136,11 @@ require('../sup_layout.php');
                                 <thead>
                                 <tr>
                                     <th style="text-align: center; font-size: 11px; height: 10px; width: 5%;">N°</th>
-                                    <th style="text-align: center; font-size: 11px; height: 10px; width: 25%;">APELLIDOS Y NOMBRES</th>
-                                    <th style="text-align: center; font-size: 11px; height: 10px; width: 12%;">DOCUMENTO</th>
-                                    <th style="text-align: center; font-size: 11px; height: 10px; width: 12%;">NIVEL</th>
-                                    <th style="text-align: center; font-size: 11px; height: 10px; width: 20%;">EMAIL</th>
+                                    <th style="text-align: center; font-size: 11px; height: 10px; width: 20%;">APELLIDOS Y NOMBRES</th>
+                                    <th style="text-align: center; font-size: 11px; height: 10px; width: 10%;">DOCUMENTO</th>
+                                    <th style="text-align: center; font-size: 11px; height: 10px; width: 10%;">NIVEL</th>
+                                    <th style="text-align: center; font-size: 11px; height: 10px; width: 12%;">C. PROFESIONAL</th>
+                                    <th style="text-align: center; font-size: 11px; height: 10px; width: 17%;">EMAIL</th>
                                     <th style="text-align: center; font-size: 11px; height: 10px; width: 10%;">ESTADO</th>
                                     <th style="text-align: center; font-size: 11px; height: 10px; width: 8%;">OPERACIONES</th>
                                 </tr>
