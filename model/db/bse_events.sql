@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-11-2016 a las 06:19:03
+-- Tiempo de generación: 07-11-2016 a las 05:04:51
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
 
@@ -155,6 +155,35 @@ IF ve_opcion='opc_active_empresa' THEN
 END IF;
 end$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_gestion_ponente`(IN `ve_opcion` VARCHAR(200), IN `ve_nombres` VARCHAR(300), IN `ve_apellidos` VARCHAR(300), IN `ve_tipoDoc` INT, IN `ve_nroDoc` VARCHAR(20), IN `ve_direccion` VARCHAR(400), IN `ve_fijo` VARCHAR(400), IN `ve_email` VARCHAR(400), IN `ve_celular` VARCHAR(400), IN `ve_carreraProfesional` VARCHAR(400), IN `ve_fechaNac` DATE, IN `ve_nacionalidad` VARCHAR(200), IN `ve_estadoLaboral` VARCHAR(300), IN `ve_resumenVida` VARCHAR(600), IN `ve_centroTrabajo` VARCHAR(500), IN `ve_cv` VARCHAR(300), IN `ve_codigo` INT)
+    NO SQL
+BEGIN
+IF ve_opcion='opc_combo_tipoDocumento' THEN 
+  SELECT  TipoDocId_idTipoDocumentoIdentidad, TipoDocId_descripcion FROM tipodocumentoidentidad ORDER BY TipoDocId_descripcion ASC;
+END IF;
+IF ve_opcion='opc_mostrar_ponente' THEN 
+  SELECT  P.Pon_idPonente, P.Pon_nombre, P.Pon_apellidos, TD.TipoDocId_descripcion, P.Pon_numeroDocumentoIdentidad, P.Pon_carreraProfesional, P.Pon_fechaNacimiento, P.Pon_nacionalidad, P.Pon_estadoLaboral, P.Pon_hojaVida, P.Pon_centroTrabajoActual, P.Pon_estado, P.Pon_cv FROM ponente P INNER JOIN tipodocumentoidentidad TD ON TD.TipoDocId_idTipoDocumentoIdentidad = P.TipoDocId_idTipoDocumentoIdentidad;
+END IF;
+IF ve_opcion='opc_new_ponente' THEN 
+  INSERT INTO ponente (Pon_nombre, Pon_apellidos, TipoDocId_idTipoDocumentoIdentidad, Pon_numeroDocumentoIdentidad, Pon_direccion, Pon_fijo, Pon_email, Pon_celular, Pon_carreraProfesional, Pon_fechaNacimiento, Pon_nacionalidad, Pon_estadoLaboral, Pon_hojaVida, Pon_centroTrabajoActual, Pon_cv, Pon_estado) VALUES (ve_nombres, ve_apellidos, ve_tipoDoc, ve_nroDoc, ve_direccion, ve_fijo, ve_email, ve_celular, ve_carreraProfesional, ve_fechaNac, ve_nacionalidad, ve_estadoLaboral, ve_resumenVida, ve_centroTrabajo, ve_cv, 1);
+END IF;
+IF ve_opcion='opc_datos_ponente' THEN 
+  SELECT P.Pon_nombre, P.Pon_apellidos, P.TipoDocId_idTipoDocumentoIdentidad, P.Pon_numeroDocumentoIdentidad, P.Pon_direccion, P.Pon_fijo, P.Pon_email, P.Pon_celular, P.Pon_carreraProfesional, P.Pon_fechaNacimiento, P.Pon_nacionalidad, P.Pon_estadoLaboral, P.Pon_hojaVida, P.Pon_centroTrabajoActual, P.Pon_cv, P.Pon_estado, TD.TipoDocId_descripcion FROM ponente P INNER JOIN tipodocumentoidentidad TD ON TD.TipoDocId_idTipoDocumentoIdentidad = P.TipoDocId_idTipoDocumentoIdentidad WHERE Pon_idPonente = ve_codigo;
+END IF;
+IF ve_opcion='opc_update_ponente_nocv' THEN 
+  UPDATE ponente SET Pon_nombre = ve_nombres, Pon_apellidos = ve_apellidos, TipoDocId_idTipoDocumentoIdentidad = ve_tipoDoc, Pon_numeroDocumentoIdentidad = ve_nroDoc, Pon_direccion = ve_direccion, Pon_fijo = ve_fijo, Pon_email = ve_email, Pon_celular = ve_celular, Pon_carreraProfesional = ve_carreraProfesional, Pon_fechaNacimiento = ve_fechaNac, Pon_nacionalidad = ve_nacionalidad, Pon_estadoLaboral = ve_estadoLaboral, Pon_hojaVida = ve_resumenVida, Pon_centroTrabajoActual = ve_centroTrabajo WHERE Pon_idPonente = ve_codigo;
+END IF;
+IF ve_opcion='opc_update_ponente_sicv' THEN 
+  UPDATE ponente SET Pon_nombre = ve_nombres, Pon_apellidos = ve_apellidos, TipoDocId_idTipoDocumentoIdentidad = ve_tipoDoc, Pon_numeroDocumentoIdentidad = ve_nroDoc, Pon_direccion = ve_direccion, Pon_fijo = ve_fijo, Pon_email = ve_email, Pon_celular = ve_celular, Pon_carreraProfesional = ve_carreraProfesional, Pon_fechaNacimiento = ve_fechaNac, Pon_nacionalidad = ve_nacionalidad, Pon_estadoLaboral = ve_estadoLaboral, Pon_hojaVida = ve_resumenVida, Pon_centroTrabajoActual = ve_centroTrabajo, Pon_cv = ve_cv WHERE Pon_idPonente = ve_codigo;
+END IF;
+IF ve_opcion='opc_eliminar_ponente' THEN 
+  UPDATE ponente SET Pon_estado = 0 WHERE Pon_idPonente = ve_codigo;
+END IF;
+IF ve_opcion='opc_active_ponente' THEN 
+  UPDATE ponente SET Pon_estado = 1 WHERE Pon_idPonente = ve_codigo;
+END IF;
+end$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_gestion_sucursal`(IN `ve_opcion` VARCHAR(100), IN `ve_nombre` VARCHAR(200), IN `ve_direccion` VARCHAR(200), IN `ve_empresa` INT, IN `ve_codigo` INT)
     NO SQL
 BEGIN
@@ -177,7 +206,7 @@ IF ve_opcion='opc_active_sucursal' THEN
   UPDATE sucursal SET Suc_estado = 1 where Suc_idSucursal = ve_codigo;
 END IF;
 IF ve_opcion='opc_combo_empresa' THEN 
-  SELECT Emp_idEmpresa, Emp_razonSocial FROM empresa where Emp_estado = 1;
+  SELECT Emp_idEmpresa, Emp_razonSocial FROM empresa where Emp_estado = 1 ORDER BY Emp_razonSocial ASC;
 END IF;
 end$$
 
@@ -231,19 +260,15 @@ CREATE TABLE IF NOT EXISTS `empresa` (
   `Emp_direccion` varchar(100) NOT NULL,
   `Emp_estado` tinyint(1) NOT NULL,
   PRIMARY KEY (`Emp_idEmpresa`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Volcado de datos para la tabla `empresa`
 --
 
 INSERT INTO `empresa` (`Emp_idEmpresa`, `Emp_RUC`, `Emp_razonSocial`, `Emp_direccion`, `Emp_estado`) VALUES
-(1, '12345678901', 'Business Solution Enterprise S.A.C.', 'DirecciÃ³n de BSE 123', 1),
-(2, '31246434236', 'Empresa Prueba 3', 'Av Peru 560', 1),
-(3, '12345456767', 'Empresa Prueba 1', 'DirecciÃ³n 1', 1),
-(4, '12346789876', 'Empresa prueba 2', 'DirecciÃ³n Prueba 2', 0),
-(5, '31243423145', 'PREMIUN.NET', 'CALIFORNIA 123', 1),
-(6, '43625654643', 'gfdgfg', 'gfdgfdg', 1);
+(1, '12345678901', 'Business Solution Enterprise S.A.C.', 'DirecciÃ³n de BSE 123', 1);
+
 
 -- --------------------------------------------------------
 
@@ -455,15 +480,21 @@ CREATE TABLE IF NOT EXISTS `ponente` (
   `Pon_apellidos` varchar(100) NOT NULL,
   `TipoDocId_idTipoDocumentoIdentidad` int(11) NOT NULL,
   `Pon_numeroDocumentoIdentidad` varchar(20) DEFAULT NULL,
+  `Pon_direccion` varchar(500) NOT NULL,
+  `Pon_fijo` varchar(15) NOT NULL,
+  `Pon_email` varchar(100) NOT NULL,
+  `Pon_celular` varchar(15) NOT NULL,
   `Pon_carreraProfesional` varchar(50) DEFAULT NULL,
   `Pon_fechaNacimiento` date DEFAULT NULL,
   `Pon_nacionalidad` varchar(50) DEFAULT NULL,
   `Pon_estadoLaboral` varchar(50) DEFAULT NULL,
-  `Pon_hojaVida` varchar(500) DEFAULT NULL,
+  `Pon_hojaVida` mediumtext,
   `Pon_centroTrabajoActual` varchar(200) DEFAULT NULL,
+  `Pon_cv` varchar(200) NOT NULL,
+  `Pon_estado` int(11) NOT NULL,
   PRIMARY KEY (`Pon_idPonente`),
   KEY `TipoDocId_idTipoDocumentoIdentidad` (`TipoDocId_idTipoDocumentoIdentidad`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -530,7 +561,7 @@ CREATE TABLE IF NOT EXISTS `sucursal` (
 --
 
 INSERT INTO `sucursal` (`Suc_idSucursal`, `Suc_nombre`, `Suc_direccion`, `Suc_estado`, `Emp_idEmpresa`) VALUES
-(1, 'BSE Events', 'Direccion de BSE', 1, 3),
+(1, 'BSE Events', 'Direccion de BSE', 1, 1);
 
 
 -- --------------------------------------------------------
@@ -589,7 +620,16 @@ CREATE TABLE IF NOT EXISTS `tipodocumentoidentidad` (
   `TipoDocId_idTipoDocumentoIdentidad` int(11) NOT NULL AUTO_INCREMENT,
   `TipoDocId_descripcion` varchar(100) NOT NULL,
   PRIMARY KEY (`TipoDocId_idTipoDocumentoIdentidad`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Volcado de datos para la tabla `tipodocumentoidentidad`
+--
+
+INSERT INTO `tipodocumentoidentidad` (`TipoDocId_idTipoDocumentoIdentidad`, `TipoDocId_descripcion`) VALUES
+(1, 'DNI'),
+(2, 'LIBRETA MILITAR'),
+(3, 'CARNET DE EXTRANJERIA');
 
 -- --------------------------------------------------------
 
