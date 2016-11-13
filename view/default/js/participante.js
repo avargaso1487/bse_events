@@ -107,6 +107,22 @@ $(function () {
 
 });
 
+function mostrarMenu()
+{
+    var grupo = document.getElementById('NombreGrupo').value;
+    var tarea = document.getElementById('NombreTarea').value;
+    //alert(grupo);
+
+    $.ajax({
+        type:'POST',
+        data: 'opcion=mostrarMenu&grupo='+grupo+'&tarea='+tarea,
+        url: "../../controller/controlusuario/usuario.php",
+        success:function(data){
+            $('#permisos').html(data);
+        }
+    });
+}
+
 function mostrarParticipantes(){
     var opcion = 'mostrar_participante';
     $.ajax({
@@ -123,20 +139,13 @@ function mostrarParticipantes(){
     });
 }
 
-function mostrarMenu()
-{
-    var grupo = document.getElementById('NombreGrupo').value;
-    var tarea = document.getElementById('NombreTarea').value;
-    //alert(grupo);
-
-    $.ajax({
-        type:'POST',
-        data: 'opcion=mostrarMenu&grupo='+grupo+'&tarea='+tarea,
-        url: "../../controller/controlusuario/usuario.php",
-        success:function(data){
-            $('#permisos').html(data);
-        }
+function editar(codigo) {
+    $('#cabeceraRegistro').html(".:: Editar Participante ::.");
+    $('#modalParticipante').modal({
+        show:true,
+        backdrop:'static',
     });
+    
 }
 
 function validateMail(idMail)
