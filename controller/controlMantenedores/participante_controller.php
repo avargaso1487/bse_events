@@ -87,8 +87,14 @@ if(isset($_POST['codigoParticipante']))
 }
 
 if ($param['opcion']  == 'editar_participante') {
-    $validar = mysqli_query($conexion, "SELECT pe.Per_dni FROM persona pe JOIN participante pa ON pe.Per_idPersona=pa.Per_idPersona")
+    $validar = mysqli_query($conexion, "SELECT pe.Per_dni FROM persona pe JOIN participante pa ON pe.Per_idPersona=pa.Per_idPersona WHERE pe.Per_dni='".$param['dni']."' AND pa.Par_idParticipante <> '".$param['codigoParticipante']."' ");
+    if (mysqli_num_rows($validar) > 0) {
+        $data['error_dni'] = true;
+        echo json_encode($data);
+    } else {
+        $Participante = new ParticipanteModel();
+        echo $Participante->gestionar($param);
+    }
 }
 
-$Participante = new ParticipanteModel();
-echo $Participante->gestionar($param);
+
