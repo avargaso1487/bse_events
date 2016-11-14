@@ -179,7 +179,7 @@
                             
 
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">Tipo Ambiente</label>
+                                <label class="col-sm-3 control-label">Tipo de Ambiente</label>
                                 <div class="col-sm-6" id="combo1">
                                     
                                 </div>
