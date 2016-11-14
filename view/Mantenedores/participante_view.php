@@ -249,7 +249,7 @@ require('../sup_layout.php');
                                         </div>
                                         <label class="col-md-2 control-label">Carrera Profesional *</label>
                                         <div class="col-md-4">
-                                            <input type="text" class="form-control" id="profesion_participante" name="profesion_participante" placeholder="Ingrese la carrera profesional">
+                                            <input type="text" class="form-control" id="profesion_participante" name="profesion_participante" placeholder="Ingrese la carrera profesional" onkeypress="return soloLetras(event)">
                                         </div>
                                     </div>
                                     <div class="form-group">

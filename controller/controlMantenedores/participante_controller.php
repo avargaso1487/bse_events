@@ -3,7 +3,7 @@
 session_start();
 include_once '../../model/modelMantenedores/participante_model.php';
 include_once '../../model/conexion_model.php';
-$conexion = ConexionModel::getConexion();
+$conexion = Conexion_Model::getConexion();
 
 $param = array();
 $param['opcion'] = '';
@@ -87,8 +87,17 @@ if(isset($_POST['codigoParticipante']))
 }
 
 if ($param['opcion']  == 'editar_participante') {
-    $validar = mysqli_query($conexion, "SELECT pe.Per_dni FROM persona pe JOIN participante pa ON pe.Per_idPersona=pa.Per_idPersona WHERE pe.Per_dni='".$param['dni']."' AND pa.Par_idParticipante <> '".$param['codigoParticipante']."' ");
-    if (mysqli_num_rows($validar) > 0) {
+    $dni_repetido = mysqli_query($conexion, "SELECT pe.Per_dni FROM persona pe JOIN participante pa ON pe.Per_idPersona=pa.Per_idPersona WHERE pe.Per_dni='".$param['dni']."' AND pe.Per_idPersona <> '".$param['codigoParticipante']."' ");
+    if (mysqli_num_rows($dni_repetido) > 0) {
+        $data['error_dni'] = true;
+        echo json_encode($data);
+    } else {
+        $Participante = new ParticipanteModel();
+        echo $Participante->gestionar($param);
+    }
+} else {
+    $dni_repetido = mysqli_query($conexion, "SELECT pe.Per_dni FROM persona pe JOIN participante pa ON pe.Per_idPersona=pa.Per_idPersona WHERE pe.Per_dni='".$param['dni']."' ");
+    if (mysqli_num_rows($dni_repetido) > 0) {
         $data['error_dni'] = true;
         echo json_encode($data);
     } else {

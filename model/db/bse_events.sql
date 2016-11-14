@@ -1,13 +1,29 @@
+-- phpMyAdmin SQL Dump
+-- version 4.1.14
+-- http://www.phpmyadmin.net
+--
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 14-11-2016 a las 01:55:26
+-- Versión del servidor: 5.6.17
+-- Versión de PHP: 5.5.12
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
 
+--
+-- Base de datos: `bse_events`
+--
 
 DELIMITER $$
+--
+-- Procedimientos
+--
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_control_ambiente`(IN `opcion` VARCHAR(200), IN `codigo` INT, IN `descripcion` varchar(50), 
 IN `capacidad` int, in `tipoAmbiente` int,in `locala` int )
 BEGIN
@@ -154,6 +170,34 @@ BEGIN
         SET @ID = (SELECT MAX(Per_idPersona) FROM persona);
         INSERT INTO participante (Per_idPersona, Par_nivel, Par_carreraProfesional, Par_centroTrabajo) VALUES (@ID, nivel, profesion, centroTrabajo);
     END IF;
+    
+    IF opcion = 'opc_datos_participante' THEN
+    	SELECT pe.Per_idPersona, pe.Per_nombres,  pe.Per_apellidos,  pe.Per_dni, pe.Per_direccion, pe.Per_fechaNacimiento, pe.Per_telefonoFijo, pe.Per_telefonoMovil, pe.Per_email, pa.Par_nivel, pa.Par_carreraProfesional, pa.Par_centroTrabajo, pe.Per_estado 
+	FROM persona pe
+    JOIN participante pa ON pe.Per_idPersona = pa.Per_idPersona
+    WHERE pe.Per_idPersona = codigoParticipante;
+    END IF;
+    
+    IF opcion = 'opc_editar_participante' THEN
+    	UPDATE persona pe
+        JOIN participante pa ON pe.Per_idPersona=pa.Per_idPersona
+        SET pe.Per_nombres = nombre, pe.Per_apellidos = apellido, pe.Per_dni = dni, pe.Per_direccion = direccion, pe.Per_fechaNacimiento = fechaNacimiento, pe.Per_telefonoFijo = telefonoFijo, pe.Per_telefonoMovil = telefonoMovil, pe.Per_email = email, pa.Par_nivel = nivel, pa.Par_carreraProfesional = profesion, pa.Par_centroTrabajo = centroTrabajo
+        WHERE pe.Per_idPersona = codigoParticipante;
+    END IF;
+    
+    IF opcion = 'opc_eliminar_participante' THEN
+    	UPDATE persona pe
+        JOIN participante pa ON pe.Per_idPersona=pa.Per_idPersona
+        SET pe.Per_estado = 0
+        WHERE pe.Per_idPersona = codigoParticipante AND pe.Per_estado = 1;
+    END IF;
+    
+    IF opcion = 'opc_activar_participante' THEN
+    	UPDATE persona pe
+        JOIN participante pa ON pe.Per_idPersona=pa.Per_idPersona
+        SET pe.Per_estado = 1
+        WHERE pe.Per_idPersona = codigoParticipante AND pe.Per_estado = 0;
+    END IF;
 
 END$$
 
@@ -214,6 +258,12 @@ end$$
 
 DELIMITER ;
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ambiente`
+--
+
 CREATE TABLE IF NOT EXISTS `ambiente` (
   `Amb_idAmbiente` int(11) NOT NULL AUTO_INCREMENT,
   `Amb_descripcion` varchar(50) DEFAULT NULL,
@@ -226,6 +276,12 @@ CREATE TABLE IF NOT EXISTS `ambiente` (
   KEY `Loc_idLocal` (`Loc_idLocal`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `certificacion`
+--
+
 CREATE TABLE IF NOT EXISTS `certificacion` (
   `Cert_idCertificacion` int(11) NOT NULL AUTO_INCREMENT,
   `Cert_descripcion` varchar(200) NOT NULL,
@@ -237,6 +293,12 @@ CREATE TABLE IF NOT EXISTS `certificacion` (
   KEY `Pon_idPonente` (`Pon_idPonente`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `empresa`
+--
+
 CREATE TABLE IF NOT EXISTS `empresa` (
   `Emp_idEmpresa` int(11) NOT NULL AUTO_INCREMENT,
   `Emp_RUC` char(11) NOT NULL,
@@ -246,8 +308,18 @@ CREATE TABLE IF NOT EXISTS `empresa` (
   PRIMARY KEY (`Emp_idEmpresa`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
+--
+-- Volcado de datos para la tabla `empresa`
+--
+
 INSERT INTO `empresa` (`Emp_idEmpresa`, `Emp_RUC`, `Emp_razonSocial`, `Emp_direccion`, `Emp_estado`) VALUES
 (1, '12345678901', 'Business Solution Enterprise S.A.C.', 'DirecciÃ³n de BSE 123', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `especializacion`
+--
 
 CREATE TABLE IF NOT EXISTS `especializacion` (
   `Espec_idEspecializacion` int(11) NOT NULL AUTO_INCREMENT,
@@ -259,6 +331,12 @@ CREATE TABLE IF NOT EXISTS `especializacion` (
   PRIMARY KEY (`Espec_idEspecializacion`),
   KEY `Pon_idPonente` (`Pon_idPonente`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `evento`
+--
 
 CREATE TABLE IF NOT EXISTS `evento` (
   `Even_idEvento` int(11) NOT NULL AUTO_INCREMENT,
@@ -273,6 +351,12 @@ CREATE TABLE IF NOT EXISTS `evento` (
   PRIMARY KEY (`Even_idEvento`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `grupo`
+--
+
 CREATE TABLE IF NOT EXISTS `grupo` (
   `Gru_idGrupo` int(11) NOT NULL AUTO_INCREMENT,
   `Gru_nombre` varchar(50) NOT NULL,
@@ -281,6 +365,10 @@ CREATE TABLE IF NOT EXISTS `grupo` (
   `Gru_estado` tinyint(1) NOT NULL,
   PRIMARY KEY (`Gru_idGrupo`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+
+--
+-- Volcado de datos para la tabla `grupo`
+--
 
 INSERT INTO `grupo` (`Gru_idGrupo`, `Gru_nombre`, `Gru_descripcion`, `Gru_orden`, `Gru_estado`) VALUES
 (1, 'Parametros', 'Modulo de parametros generales del sistema', 1, 1),
@@ -291,12 +379,24 @@ INSERT INTO `grupo` (`Gru_idGrupo`, `Gru_nombre`, `Gru_descripcion`, `Gru_orden`
 (6, 'Facturacion', 'Modulo para la realizacion de las facturaciones de cada evento', 6, 1),
 (7, 'Reportes', 'Modulo para la generacion de los reportes necesarios para la toma de decisiones.', 7, 0);
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `locala`
+--
+
 CREATE TABLE IF NOT EXISTS `locala` (
   `Loc_idLocal` int(11) NOT NULL AUTO_INCREMENT,
   `Loc_descripcion` varchar(50) DEFAULT NULL,
   `Loc_direccion` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`Loc_idLocal`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `modulo`
+--
 
 CREATE TABLE IF NOT EXISTS `modulo` (
   `Mod_idModulo` int(11) NOT NULL AUTO_INCREMENT,
@@ -305,12 +405,22 @@ CREATE TABLE IF NOT EXISTS `modulo` (
   PRIMARY KEY (`Mod_idModulo`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
+--
+-- Volcado de datos para la tabla `modulo`
+--
+
 INSERT INTO `modulo` (`Mod_idModulo`, `Mod_descripcion`, `Mod_estado`) VALUES
 (1, 'Sistema', 1),
 (2, 'Mantenedores', 1),
 (3, 'Eventos', 1),
 (4, 'Facturacion', 1),
 (5, 'Reportes', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `participante`
+--
 
 CREATE TABLE IF NOT EXISTS `participante` (
   `Par_idParticipante` int(11) NOT NULL AUTO_INCREMENT,
@@ -320,11 +430,22 @@ CREATE TABLE IF NOT EXISTS `participante` (
   `Par_centroTrabajo` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`Par_idParticipante`),
   KEY `Per_idPersona` (`Per_idPersona`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Volcado de datos para la tabla `participante`
+--
 
 INSERT INTO `participante` (`Par_idParticipante`, `Per_idPersona`, `Par_nivel`, `Par_carreraProfesional`, `Par_centroTrabajo`) VALUES
-(1, 2, 'estudiante', 'Ing. sistemas', 'UNT'),
-(2, 3, 'profesional', 'ing. industrial', 'CAMPOSOL');
+(1, 2, 'estudiante', 'Ing. sistemas', 'UNTweqe'),
+(2, 3, 'profesional', 'ing. industrial', 'CAMPOSOL'),
+(4, 5, 'profesional', 'Ing. Informática', 'CAJA TRUJILLO');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `permiso`
+--
 
 CREATE TABLE IF NOT EXISTS `permiso` (
   `Pso_idPermiso` int(11) NOT NULL AUTO_INCREMENT,
@@ -335,6 +456,10 @@ CREATE TABLE IF NOT EXISTS `permiso` (
   KEY `Rol_idRol` (`Rol_idRol`),
   KEY `Tar_idTarea` (`Tar_idTarea`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+
+--
+-- Volcado de datos para la tabla `permiso`
+--
 
 INSERT INTO `permiso` (`Pso_idPermiso`, `Rol_idRol`, `Tar_idTarea`, `Pso_estado`) VALUES
 (1, 1, 1, 1),
@@ -349,6 +474,12 @@ INSERT INTO `permiso` (`Pso_idPermiso`, `Rol_idRol`, `Tar_idTarea`, `Pso_estado`
 (10, 1, 10, 1),
 (11, 1, 11, 1);
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `persona`
+--
+
 CREATE TABLE IF NOT EXISTS `persona` (
   `Per_idPersona` int(11) NOT NULL AUTO_INCREMENT,
   `Per_nombres` varchar(100) NOT NULL,
@@ -361,12 +492,23 @@ CREATE TABLE IF NOT EXISTS `persona` (
   `Per_email` varchar(50) DEFAULT NULL,
   `Per_estado` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`Per_idPersona`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+
+--
+-- Volcado de datos para la tabla `persona`
+--
 
 INSERT INTO `persona` (`Per_idPersona`, `Per_nombres`, `Per_apellidos`, `Per_dni`, `Per_direccion`, `Per_fechaNacimiento`, `Per_telefonoFijo`, `Per_telefonoMovil`, `Per_email`, `Per_estado`) VALUES
 (1, 'Alberto', 'Mendoza de los Santos', '12345678', 'Direccion del ing. Mendoza', '2016-11-03', '044192837', '949147839', 'amds@yahoo.es', 1),
-(2, 'Erick', 'Alfaro Gómez', '48353348', 'Av. Perú 1025', '1994-09-12', '', '965825416', 'egag@hotmail.com', 1),
-(3, 'Juan', 'Pérez Pérez', '17246598', 'Jr. San Manuel 154', '1989-01-01', '44-256253', '956854126', 'juan.perez@gmail.com', 1);
+(2, 'Erick ', 'Alfaro Gómez ', '12345678', 'Av. Perú 1025 ', '1994-09-12', '555555', '965825416', 'egag@hotmail.com', 1),
+(3, 'Juan', 'Pérez Pérez', '17246598', 'Jr. San Manuel 154', '1989-01-01', '44-256253', '956854126', 'juan.perez@gmail.com', 1),
+(5, 'José Carlos', 'Sánchez Fernández', '56497810', 'Av. América 2155', '1990-10-05', '01-1245871', '956481236', 'jsanchez@gmail.com', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `personal`
+--
 
 CREATE TABLE IF NOT EXISTS `personal` (
   `Per_idPersona` int(11) NOT NULL,
@@ -379,8 +521,18 @@ CREATE TABLE IF NOT EXISTS `personal` (
   KEY `Suc_idSucursal` (`Suc_idSucursal`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Volcado de datos para la tabla `personal`
+--
+
 INSERT INTO `personal` (`Per_idPersona`, `Pers_codigo`, `Pers_fechaIngreso`, `Pers_fechaSalida`, `Suc_idSucursal`, `Pers_estado`) VALUES
 (1, 'AMDS01', '2016-11-03', NULL, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ponente`
+--
 
 CREATE TABLE IF NOT EXISTS `ponente` (
   `Pon_idPonente` int(11) NOT NULL AUTO_INCREMENT,
@@ -404,6 +556,12 @@ CREATE TABLE IF NOT EXISTS `ponente` (
   KEY `TipoDocId_idTipoDocumentoIdentidad` (`TipoDocId_idTipoDocumentoIdentidad`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `rol`
+--
+
 CREATE TABLE IF NOT EXISTS `rol` (
   `Rol_idRol` int(11) NOT NULL AUTO_INCREMENT,
   `Rol_nombre` varchar(50) NOT NULL,
@@ -412,8 +570,18 @@ CREATE TABLE IF NOT EXISTS `rol` (
   PRIMARY KEY (`Rol_idRol`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
+--
+-- Volcado de datos para la tabla `rol`
+--
+
 INSERT INTO `rol` (`Rol_idRol`, `Rol_nombre`, `Rol_descripcion`, `Rol_estado`) VALUES
 (1, 'Administrador', 'Rol que se le asignara al administrador del sistema', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `rol_usuario`
+--
 
 CREATE TABLE IF NOT EXISTS `rol_usuario` (
   `RolUs_idRolUsuario` int(11) NOT NULL AUTO_INCREMENT,
@@ -425,8 +593,18 @@ CREATE TABLE IF NOT EXISTS `rol_usuario` (
   KEY `Per_idPersona` (`Per_idPersona`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
+--
+-- Volcado de datos para la tabla `rol_usuario`
+--
+
 INSERT INTO `rol_usuario` (`RolUs_idRolUsuario`, `Rol_idRol`, `Per_idPersona`, `RolUs_estado`) VALUES
 (1, 1, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `sucursal`
+--
 
 CREATE TABLE IF NOT EXISTS `sucursal` (
   `Suc_idSucursal` int(11) NOT NULL AUTO_INCREMENT,
@@ -438,8 +616,18 @@ CREATE TABLE IF NOT EXISTS `sucursal` (
   KEY `Emp_idEmpresa` (`Emp_idEmpresa`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
+--
+-- Volcado de datos para la tabla `sucursal`
+--
+
 INSERT INTO `sucursal` (`Suc_idSucursal`, `Suc_nombre`, `Suc_direccion`, `Suc_estado`, `Emp_idEmpresa`) VALUES
 (1, 'BSE Events', 'Direccion de BSE', 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tarea`
+--
 
 CREATE TABLE IF NOT EXISTS `tarea` (
   `Tar_idTarea` int(11) NOT NULL AUTO_INCREMENT,
@@ -455,6 +643,10 @@ CREATE TABLE IF NOT EXISTS `tarea` (
   KEY `Gru_idGrupo` (`Gru_idGrupo`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
+--
+-- Volcado de datos para la tabla `tarea`
+--
+
 INSERT INTO `tarea` (`Tar_idTarea`, `Mod_idModulo`, `Gru_idGrupo`, `Tar_nombre`, `Tar_descripcion`, `Tar_orden`, `Tar_url`, `Tar_estado`) VALUES
 (1, 1, 1, 'Grupos', 'Grupos', 1, '../param_generales/grupos.php', 1),
 (2, 1, 1, 'Opciones', 'Opciones', 2, '../param_generales/opciones.php', 1),
@@ -468,11 +660,23 @@ INSERT INTO `tarea` (`Tar_idTarea`, `Mod_idModulo`, `Gru_idGrupo`, `Tar_nombre`,
 (10, 3, 5, 'Nuevo evento', 'Nuevo evento', 1, '../eventos/registrar_evento.php', 1),
 (11, 2, 4, 'Participantes', 'Gestion de Participantes', 5, '../Mantenedores/participante_view.php', 1);
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipoambiente`
+--
+
 CREATE TABLE IF NOT EXISTS `tipoambiente` (
   `TipAm_idTipoAmbiente` int(11) NOT NULL AUTO_INCREMENT,
   `TipAm_descripcion` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`TipAm_idTipoAmbiente`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipodocumentoidentidad`
+--
 
 CREATE TABLE IF NOT EXISTS `tipodocumentoidentidad` (
   `TipoDocId_idTipoDocumentoIdentidad` int(11) NOT NULL AUTO_INCREMENT,
@@ -480,10 +684,20 @@ CREATE TABLE IF NOT EXISTS `tipodocumentoidentidad` (
   PRIMARY KEY (`TipoDocId_idTipoDocumentoIdentidad`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
+--
+-- Volcado de datos para la tabla `tipodocumentoidentidad`
+--
+
 INSERT INTO `tipodocumentoidentidad` (`TipoDocId_idTipoDocumentoIdentidad`, `TipoDocId_descripcion`) VALUES
 (1, 'DNI'),
 (2, 'LIBRETA MILITAR'),
 (3, 'CARNET DE EXTRANJERIA');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuario`
+--
 
 CREATE TABLE IF NOT EXISTS `usuario` (
   `Per_idPersona` int(11) NOT NULL AUTO_INCREMENT,
@@ -495,45 +709,85 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   PRIMARY KEY (`Per_idPersona`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
+--
+-- Volcado de datos para la tabla `usuario`
+--
+
 INSERT INTO `usuario` (`Per_idPersona`, `Usu_login`, `Usu_pass`, `Usu_estado`, `Usu_fechaCese`, `Suc_idSucursal`) VALUES
 (1, 'amds', '202cb962ac59075b964b07152d234b70', 1, NULL, 1);
 
+--
+-- Restricciones para tablas volcadas
+--
 
+--
+-- Filtros para la tabla `ambiente`
+--
 ALTER TABLE `ambiente`
   ADD CONSTRAINT `ambiente_ibfk_1` FOREIGN KEY (`TipAm_idTipoAmbiente`) REFERENCES `tipoambiente` (`TipAm_idTipoAmbiente`),
   ADD CONSTRAINT `ambiente_ibfk_2` FOREIGN KEY (`Loc_idLocal`) REFERENCES `locala` (`Loc_idLocal`);
 
+--
+-- Filtros para la tabla `certificacion`
+--
 ALTER TABLE `certificacion`
   ADD CONSTRAINT `certificacion_ibfk_1` FOREIGN KEY (`Pon_idPonente`) REFERENCES `ponente` (`Pon_idPonente`);
 
+--
+-- Filtros para la tabla `especializacion`
+--
 ALTER TABLE `especializacion`
   ADD CONSTRAINT `especializacion_ibfk_1` FOREIGN KEY (`Pon_idPonente`) REFERENCES `ponente` (`Pon_idPonente`);
 
+--
+-- Filtros para la tabla `participante`
+--
 ALTER TABLE `participante`
   ADD CONSTRAINT `participante_ibfk_1` FOREIGN KEY (`Per_idPersona`) REFERENCES `persona` (`Per_idPersona`);
 
+--
+-- Filtros para la tabla `permiso`
+--
 ALTER TABLE `permiso`
   ADD CONSTRAINT `permiso_ibfk_1` FOREIGN KEY (`Rol_idRol`) REFERENCES `rol` (`Rol_idRol`),
   ADD CONSTRAINT `permiso_ibfk_2` FOREIGN KEY (`Tar_idTarea`) REFERENCES `tarea` (`Tar_idTarea`);
 
+--
+-- Filtros para la tabla `personal`
+--
 ALTER TABLE `personal`
   ADD CONSTRAINT `personal_ibfk_1` FOREIGN KEY (`Per_idPersona`) REFERENCES `persona` (`Per_idPersona`),
   ADD CONSTRAINT `personal_ibfk_2` FOREIGN KEY (`Suc_idSucursal`) REFERENCES `sucursal` (`Suc_idSucursal`);
 
+--
+-- Filtros para la tabla `ponente`
+--
 ALTER TABLE `ponente`
   ADD CONSTRAINT `ponente_ibfk_1` FOREIGN KEY (`TipoDocId_idTipoDocumentoIdentidad`) REFERENCES `tipodocumentoidentidad` (`TipoDocId_idTipoDocumentoIdentidad`);
 
+--
+-- Filtros para la tabla `rol_usuario`
+--
 ALTER TABLE `rol_usuario`
   ADD CONSTRAINT `rol_usuario_ibfk_1` FOREIGN KEY (`Rol_idRol`) REFERENCES `rol` (`Rol_idRol`),
   ADD CONSTRAINT `rol_usuario_ibfk_2` FOREIGN KEY (`Per_idPersona`) REFERENCES `usuario` (`Per_idPersona`);
 
+--
+-- Filtros para la tabla `sucursal`
+--
 ALTER TABLE `sucursal`
   ADD CONSTRAINT `sucursal_ibfk_1` FOREIGN KEY (`Emp_idEmpresa`) REFERENCES `empresa` (`Emp_idEmpresa`);
 
+--
+-- Filtros para la tabla `tarea`
+--
 ALTER TABLE `tarea`
   ADD CONSTRAINT `tarea_ibfk_1` FOREIGN KEY (`Mod_idModulo`) REFERENCES `modulo` (`Mod_idModulo`),
   ADD CONSTRAINT `tarea_ibfk_2` FOREIGN KEY (`Gru_idGrupo`) REFERENCES `grupo` (`Gru_idGrupo`);
 
+--
+-- Filtros para la tabla `usuario`
+--
 ALTER TABLE `usuario`
   ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`Per_idPersona`) REFERENCES `personal` (`Per_idPersona`);
 

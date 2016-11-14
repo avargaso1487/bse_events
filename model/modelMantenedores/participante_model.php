@@ -20,14 +20,17 @@ class ParticipanteModel {
             case 'registrar_participante':
                 echo $this->registrarParticipante();
                 break;
+            case 'datos_participante':
+                echo $this->datosParticipante();
+                break;
             case 'editar_participante':
                 echo $this->editarParticipante();
                 break;
             case 'eliminar_participante':
                 echo $this->eliminarParticipante();
                 break;
-            case 'datos_participante':
-                echo $this->datosParticipante();
+            case 'activar_participante':
+                echo $this->activarParticipante();
                 break;
             case "get":break;
         }
@@ -59,7 +62,6 @@ class ParticipanteModel {
         $item = 0;
         while($row = mysqli_fetch_row($this->result)){
             $item++;
-
             echo '<tr>
                     <td style="text-align:center; font-size: 11px; height: 10px; width: 5%; font-weight: bolder;">'.$item.'</td>
                     <td style="font-size: 11px; height: 10px; width: 20%;">'.html_entity_decode($row[1]).'</td>
@@ -82,17 +84,30 @@ class ParticipanteModel {
             }
             echo ' <td style="font-size: 11px; height: 10px; width: 8%; text-align: center;">                        
                       <div class="hidden-sm hidden-xs action-buttons"> 
-                          <a href="#" class="tooltip-error" data-rel="tooltip" title="Información">
+                          <a href="#" class="tooltip-error" data-rel="tooltip" title="Ver Información">
                               <span class="blue">
-                                  <i class="ace-icon fa fa-info-circle bigger-150" onclick="detalles('.$row[0].');"></i>
+                                  <i class="ace-icon fa fa-info-circle bigger-150" onclick="mostrarInformacion('.$row[0].');"></i>
                               </span>
                           </a>
-                          <a href="#" class="tooltip-error" data-rel="tooltip" title="Edit">
+                          <a href="#" class="tooltip-error" data-rel="tooltip" title="Editar">
                               <span class="green">
                                   <i class="ace-icon fa fa-pencil bigger-150" onclick="editar('.$row[0].');"></i>
                               </span>
-                          </a>                                
-                      </div>                                                 
+                          </a>';
+                          if ($row[6] == 1) {
+                              echo '<a href="#" class="tooltip-error" data-rel="tooltip" title="Eliminar">
+                                      <span class="red">
+                                          <i class="ace-icon fa fa-trash-o bigger-150" onclick="eliminar('.$row[0].');"></i>
+                                      </span>
+                                  </a>';
+                          } else {
+                              echo '<a href="#" class="tooltip-error" data-rel="tooltip" title="Activar">
+                                      <span class="red">
+                                          <i class="ace-icon fa fa-pencil-square-o bigger-150" onclick="activar('.$row[0].');"></i>
+                                      </span>
+                                  </a>';
+                          }
+                echo'</div>                                                 
                    </td>';
         }
     }
@@ -106,7 +121,7 @@ class ParticipanteModel {
     function datosParticipante() {
         $this->gestionarParticipante('opc_datos_participante');
         $row = mysqli_fetch_row($this->result);
-        $output[]=array_map('utf8_encode', $row);
+        $output[]=array_map('html_entity_decode', $row);
         echo json_encode($output);
     }
 
@@ -119,6 +134,12 @@ class ParticipanteModel {
 
     function eliminarParticipante() {
         $this->gestionarParticipante('opc_eliminar_participante');
+        $this->cerrarAbrir();
+        echo 1;
+    }
+
+    function activarParticipante() {
+        $this->gestionarParticipante('opc_activar_participante');
         $this->cerrarAbrir();
         echo 1;
     }
