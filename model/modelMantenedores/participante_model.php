@@ -17,6 +17,9 @@ class ParticipanteModel {
             case 'mostrar_participante':
                 echo $this->mostrarParticipante();
                 break;
+            case 'mostrar_participante_inscripcion':
+                echo $this->mostrar_participante_inscripcion();
+                break;
             case 'registrar_participante':
                 echo $this->registrarParticipante();
                 break;
@@ -109,6 +112,43 @@ class ParticipanteModel {
                           }
                 echo'</div>                                                 
                    </td>';
+        }
+    }
+
+    function mostrar_participante_inscripcion() {
+        $this->gestionarParticipante('opc_mostrar_participante');
+        $this->cerrarAbrir();
+        $item = 0;
+        while($row = mysqli_fetch_row($this->result)){
+            $item++;
+
+            echo '<tr>
+                    <td style="text-align:center; font-size: 11px; height: 10px; width: 5%; font-weight: bolder;">'.$item.'</td>
+                    <td style="font-size: 11px; height: 10px; width: 20%;">'.html_entity_decode($row[1]).'</td>
+                    <td style="font-size: 11px; height: 10px; width: 8%;" class="text-center">'.$row[2].'</td>
+                    <td style="font-size: 11px; height: 10px; width: 10%;" class="text-center">'.html_entity_decode($row[3]).'</td>
+                    <td style="font-size: 11px; height: 10px; width: 12%;" class="text-center">'.html_entity_decode($row[4]).'</td>
+                    
+                    <td style="font-size: 12px; height: 10px; width: 5%; text-align: center;">
+                        <div class="hidden-sm hidden-xs action-buttons">
+                            <a href="#" class="tooltip-error btn btn-minier btn-primary" data-rel="tooltip" onclick="seleccionarParticipante('.$row[7].');">
+                        Seleccionar</a>
+                        </div>
+                        <div class="hidden-md hidden-lg">
+                            <div class="inline pos-rel">
+                                <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                    <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+                                </button>
+
+                                <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                                    <li>
+                                        <a href="#" class="tooltip-error btn btn-minier btn-primary" data-rel="tooltip" onclick="seleccionarParticipante('.$row[7].');">Seleccionar</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </td>
+                </tr>';
         }
     }
 
