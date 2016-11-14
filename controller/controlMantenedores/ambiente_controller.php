@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once '../../model/modelMantenedores/ambiente_model.php';
+include_once '../../model/modelambiente/ambiente_model.php';
 
 $param = array();
 $param['param_opcion']='';
