@@ -428,7 +428,7 @@ INSERT INTO `grupo` (`Gru_idGrupo`, `Gru_nombre`, `Gru_descripcion`, `Gru_orden`
 (2, 'Acceso y Seguridad', 'Modulo para el control de accesos y seguridad del sistema', 2, 1),
 (3, 'Auditoria', 'Modulo para la realizacion de la auditoria del sistema', 3, 1),
 (4, 'Mantenedores', 'Modulo para las tablas maestras del sistema', 4, 1),
-(5, 'Gestión de Eventos', 'Modulo para la gestion de eventos realizados por BSE', 5, 1),
+(5, 'Gestión de eventos', 'Modulo para la gestion de eventos realizados por BSE', 5, 1),
 (6, 'Facturacion', 'Modulo para la realizacion de las facturaciones de cada evento', 6, 1),
 (7, 'Reportes', 'Modulo para la generacion de los reportes necesarios para la toma de decisiones.', 7, 0);
 
