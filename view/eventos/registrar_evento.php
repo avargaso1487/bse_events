@@ -8,7 +8,7 @@
 	else
 	{
 		date_default_timezone_set('America/Lima');
-		$grupo = "Gestión de Eventos";
+		$grupo = "Gestión de eventos";
 		$tarea = "Nuevo evento";
 		$link_tarea = "registrar_evento.php";
 		$titulo = "Registrar nuevo evento";

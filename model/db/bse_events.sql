@@ -297,19 +297,12 @@ DELIMITER ;
 -- Estructura de tabla para la tabla `actividad`
 --
 
-CREATE TABLE IF NOT EXISTS `actividad` (
-  `Acti_idActividad` int(11) NOT NULL AUTO_INCREMENT,
-  `Acti_nombre` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`Acti_idActividad`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+create table if not exists TipoActividad(
+  TipoActi_idTipoActividad int not null AUTO_INCREMENT,
+  TipoActi_descripcion varchar(200) not null,
+  primary key(TipoActi_idTipoActividad)
+);
 
---
--- Volcado de datos para la tabla `actividad`
---
-
-INSERT INTO `actividad` (`Acti_idActividad`, `Acti_nombre`) VALUES
-(1, 'Actividad 1'),
-(2, 'Actividad 2');
 
 -- --------------------------------------------------------
 
@@ -438,6 +431,7 @@ INSERT INTO `grupo` (`Gru_idGrupo`, `Gru_nombre`, `Gru_descripcion`, `Gru_orden`
 -- Estructura de tabla para la tabla `inscripciones`
 --
 
+  
 CREATE TABLE IF NOT EXISTS `inscripciones` (
   `Ins_idInscripcion` int(11) NOT NULL AUTO_INCREMENT,
   `Par_idParticipante` int(11) NOT NULL,
@@ -872,7 +866,29 @@ INSERT INTO `usuario` (`Per_idPersona`, `Usu_login`, `Usu_pass`, `Usu_estado`, `
 --
 -- Restricciones para tablas volcadas
 --
+create table if not exists actividad(
+  Acti_idActividad int not null AUTO_INCREMENT,
+  Even_idEvento int not null, 
+  Pon_idPonente int null,
+  Acti_nombre varchar(200) not null,
+  Acti_descripcion varchar(500) not null,
+  Acti_precio decimal(9,2) null,
+  Amb_idAmbiente int null,
+  Acti_fecha varchar(11) null,
+  Acti_horaInicio varchar(10) null,
+  Acti_horaFin varchar(10) null,
+  TipoActi_idTipoActividad int not null,
+  estado char(1) not null,
+  primary key(Acti_idActividad),
+  foreign key(Even_idEvento) references evento(Even_idEvento),
+  foreign key(Pon_idPonente) references ponente(Pon_idPonente),
+  foreign key(Amb_idAmbiente) references ambiente(Amb_idAmbiente),
+  foreign key(TipoActi_idTipoActividad) references TipoActividad(TipoActi_idTipoActividad)
+);
 
+insert into TipoActividad(TipoActi_idTipoActividad,TipoActi_descripcion) values 
+  (1,'PONENCIA'),
+  (2,'TALLER');
 --
 -- Filtros para la tabla `ambiente`
 --
