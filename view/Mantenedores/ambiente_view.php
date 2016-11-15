@@ -161,7 +161,7 @@
 
 										<div class="modal-body">
 											<div class="row">
-											<form class="form-horizontal form-bordered" method="post" action="../../controller/controlambiente/ambiente_controller.php" onsubmit="return validarCampos()">
+											<form class="form-horizontal form-bordered" method="post" action="../../controller/controlMantenedores/ambiente_controller.php" onsubmit="return validarCampos()">
                             
                             
                             <div class="form-group">
@@ -179,7 +179,7 @@
                             
 
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">Tipo Ambiente</label>
+                                <label class="col-sm-3 control-label">Tipo de Ambiente</label>
                                 <div class="col-sm-6" id="combo1">
                                     
                                 </div>
@@ -202,7 +202,8 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-md-12">
-                                    <center><input type="submit" value="Registrar" class="btn btn-primary mr-xs mb-sm buttonform" ></center>
+                                	<center><button type="button" id="btn_cancelar_participante" class="btn btn-primary mr-xs mb-sm buttonform" data-dismiss="modal">Cancelar</button>
+                                    <input type="submit" value="Registrar" class="btn btn-primary mr-xs mb-sm buttonform" ></center>
                                 </div>
                             </div>
                             </form>
@@ -231,7 +232,7 @@
 
 											<div class="modal-body">
 												<div class="row">
-													<form class="form-horizontal form-bordered" method="post" action="../../controller/controlambiente/ambiente_controller.php">
+													<form class="form-horizontal form-bordered" method="post" action="../../controller/controlMantenedores/ambiente_controller.php">
                             
                             
                                     <input  id="codigo_e" name="param_ambiente_id" type="text" style="visibility:hidden;" >

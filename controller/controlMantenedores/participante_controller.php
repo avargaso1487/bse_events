@@ -2,6 +2,8 @@
 
 session_start();
 include_once '../../model/modelMantenedores/participante_model.php';
+include_once '../../model/conexion_model.php';
+$conexion = Conexion_Model::getConexion();
 
 $param = array();
 $param['opcion'] = '';
@@ -26,12 +28,12 @@ if(isset($_POST['opcion']))
 
 if(isset($_POST['nombre']))
 {
-    $param['nombre'] = utf8_decode($_POST['nombre']);
+    $param['nombre'] = $_POST['nombre'];
 }
 
 if(isset($_POST['apellido']))
 {
-    $param['apellido'] = utf8_decode($_POST['apellido']);
+    $param['apellido'] = $_POST['apellido'];
 }
 
 if(isset($_POST['dni']))
@@ -41,7 +43,7 @@ if(isset($_POST['dni']))
 
 if(isset($_POST['direccion']))
 {
-    $param['direccion'] = utf8_decode($_POST['direccion']);
+    $param['direccion'] = $_POST['direccion'];
 }
 
 if(isset($_POST['fechaNacimiento']))
@@ -71,12 +73,12 @@ if(isset($_POST['nivel']))
 
 if(isset($_POST['profesion']))
 {
-    $param['profesion'] = utf8_decode($_POST['profesion']);
+    $param['profesion'] = $_POST['profesion'];
 }
 
 if(isset($_POST['centroTrabajo']))
 {
-    $param['centroTrabajo'] = utf8_decode($_POST['centroTrabajo']);
+    $param['centroTrabajo'] = $_POST['centroTrabajo'];
 }
 
 if(isset($_POST['codigoParticipante']))
@@ -84,6 +86,24 @@ if(isset($_POST['codigoParticipante']))
     $param['codigoParticipante'] = $_POST['codigoParticipante'];
 }
 
-$Participante = new ParticipanteModel();
-echo $Participante->gestionar($param);
-print_r($param);
+if ($param['opcion']  == 'editar_participante') {
+    $dni_repetido = mysqli_query($conexion, "SELECT pe.Per_dni FROM persona pe JOIN participante pa ON pe.Per_idPersona=pa.Per_idPersona WHERE pe.Per_dni='".$param['dni']."' AND pe.Per_idPersona <> '".$param['codigoParticipante']."' ");
+    if (mysqli_num_rows($dni_repetido) > 0) {
+        $data['error_dni'] = true;
+        echo json_encode($data);
+    } else {
+        $Participante = new ParticipanteModel();
+        echo $Participante->gestionar($param);
+    }
+} else {
+    $dni_repetido = mysqli_query($conexion, "SELECT pe.Per_dni FROM persona pe JOIN participante pa ON pe.Per_idPersona=pa.Per_idPersona WHERE pe.Per_dni='".$param['dni']."' ");
+    if (mysqli_num_rows($dni_repetido) > 0) {
+        $data['error_dni'] = true;
+        echo json_encode($data);
+    } else {
+        $Participante = new ParticipanteModel();
+        echo $Participante->gestionar($param);
+    }
+}
+
+
