@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-11-2016 a las 01:55:26
+-- Tiempo de generación: 14-11-2016 a las 06:09:30
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
 
@@ -24,6 +24,26 @@ DELIMITER $$
 --
 -- Procedimientos
 --
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_combos`(IN `ve_opcion` VARCHAR(300), IN `ve_codigo` INT)
+    NO SQL
+BEGIN
+IF ve_opcion='opc_combo_tipoDocumentoPago' THEN
+  select TipDocPago_idTipoDocumentoPago, TipDocPago_descripcion from tipodocumentopago;
+END IF;
+IF ve_opcion='opc_combo_paquetes' THEN
+  select Paq_idPaquete, Paq_descripcion from paquete order by Paq_descripcion asc;
+END IF;
+IF ve_opcion='opc_combo_actividades' THEN
+  select Acti_idActividad, Acti_nombre from actividad order by Acti_nombre asc;
+END IF;
+IF ve_opcion='opc_datos_actividad' THEN
+  select Acti_idActividad, Acti_nombre from actividad where Acti_idActividad = ve_codigo;
+END IF;
+IF ve_opcion='opc_datos_participante' THEN
+  select pa.Par_idParticipante,CONCAT(UPPER(pe.Per_apellidos), ', ', UPPER(pe.Per_nombres)) from participante pa inner join persona pe on pe.Per_idPersona = pa.Per_idPersona where pa.Par_idParticipante = ve_codigo;
+END IF;
+end$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_control_ambiente`(IN `opcion` VARCHAR(200), IN `codigo` INT, IN `descripcion` varchar(50), 
 IN `capacidad` int, in `tipoAmbiente` int,in `locala` int )
 BEGIN
@@ -132,6 +152,19 @@ IF ve_opcion='opc_login_listar' THEN
 END IF;
 end$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_gestionar_inscripcion`(IN `ve_opcion` VARCHAR(200), IN `ve_participante` INT, IN `ve_banco` VARCHAR(300), IN `ve_nroOperacion` VARCHAR(300), IN `ve_fechaPago` DATE, IN `ve_ruta` VARCHAR(300), IN `ve_tipoPago` INT, IN `ve_paquete` INT, IN `ve_actividad` INT)
+    NO SQL
+BEGIN
+IF ve_opcion='opc_nueva_inscripcion' THEN
+  insert into inscripciones (Par_idParticipante,Ins_banco,  Ins_numeroOperacion, Ins_fechaPago, Ins_imagenVoucher, TipDocPago_idTipoDocumentoPago,Paq_idPaquete) values (ve_participante, ve_banco, ve_nroOperacion, ve_fechaPago, ve_ruta, ve_tipoPago, ve_paquete);
+END IF;
+IF ve_opcion='opc_grabar_inscripcion_actividad' THEN
+  SET @INCRIPCION = (SELECT MAX(Ins_idInscripcion) AS id FROM inscripciones);
+  insert into inscripcion_actividad (Ins_idInscripcion, Acti_idActividad) values (@INCRIPCION, ve_actividad);
+END IF;
+
+end$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_gestion_empresa`(IN `ve_opcion` VARCHAR(100), IN `ve_razonSocial` VARCHAR(200), IN `ve_direccion` VARCHAR(200), IN `ve_ruc` VARCHAR(11), IN `ve_codigo` INT)
     NO SQL
 BEGIN
@@ -159,41 +192,41 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_gestion_participante`(IN `opcion
     NO SQL
 BEGIN
 
-	IF opcion = 'opc_mostrar_participante' THEN
-    	SELECT pe.Per_idPersona, CONCAT(UPPER(pe.Per_apellidos), ', ', UPPER(pe.Per_nombres)), pe.Per_dni, UPPER(pa.Par_nivel), UPPER(pa.Par_carreraProfesional),pe.Per_email, pe.Per_estado 
-	FROM persona pe
+  IF opcion = 'opc_mostrar_participante' THEN
+      SELECT pe.Per_idPersona, CONCAT(UPPER(pe.Per_apellidos), ', ', UPPER(pe.Per_nombres)), pe.Per_dni, UPPER(pa.Par_nivel), UPPER(pa.Par_carreraProfesional),pe.Per_email, pe.Per_estado, pa.Par_idParticipante  
+  FROM persona pe
     JOIN participante pa ON pe.Per_idPersona = pa.Per_idPersona;
     END IF;
 
-	IF opcion = 'opc_registrar_participante' THEN
-    	INSERT INTO persona (Per_nombres, Per_apellidos, Per_dni, Per_direccion, Per_fechaNacimiento, Per_telefonoFijo, Per_telefonoMovil, Per_email, Per_estado) VALUES (nombre, apellido, dni, direccion, fechaNacimiento, telefonoFijo, telefonoMovil, email, 1);
+  IF opcion = 'opc_registrar_participante' THEN
+      INSERT INTO persona (Per_nombres, Per_apellidos, Per_dni, Per_direccion, Per_fechaNacimiento, Per_telefonoFijo, Per_telefonoMovil, Per_email, Per_estado) VALUES (nombre, apellido, dni, direccion, fechaNacimiento, telefonoFijo, telefonoMovil, email, 1);
         SET @ID = (SELECT MAX(Per_idPersona) FROM persona);
         INSERT INTO participante (Per_idPersona, Par_nivel, Par_carreraProfesional, Par_centroTrabajo) VALUES (@ID, nivel, profesion, centroTrabajo);
     END IF;
     
     IF opcion = 'opc_datos_participante' THEN
-    	SELECT pe.Per_idPersona, pe.Per_nombres,  pe.Per_apellidos,  pe.Per_dni, pe.Per_direccion, pe.Per_fechaNacimiento, pe.Per_telefonoFijo, pe.Per_telefonoMovil, pe.Per_email, pa.Par_nivel, pa.Par_carreraProfesional, pa.Par_centroTrabajo, pe.Per_estado 
-	FROM persona pe
+      SELECT pe.Per_idPersona, pe.Per_nombres,  pe.Per_apellidos,  pe.Per_dni, pe.Per_direccion, pe.Per_fechaNacimiento, pe.Per_telefonoFijo, pe.Per_telefonoMovil, pe.Per_email, pa.Par_nivel, pa.Par_carreraProfesional, pa.Par_centroTrabajo, pe.Per_estado 
+  FROM persona pe
     JOIN participante pa ON pe.Per_idPersona = pa.Per_idPersona
     WHERE pe.Per_idPersona = codigoParticipante;
     END IF;
     
     IF opcion = 'opc_editar_participante' THEN
-    	UPDATE persona pe
+      UPDATE persona pe
         JOIN participante pa ON pe.Per_idPersona=pa.Per_idPersona
         SET pe.Per_nombres = nombre, pe.Per_apellidos = apellido, pe.Per_dni = dni, pe.Per_direccion = direccion, pe.Per_fechaNacimiento = fechaNacimiento, pe.Per_telefonoFijo = telefonoFijo, pe.Per_telefonoMovil = telefonoMovil, pe.Per_email = email, pa.Par_nivel = nivel, pa.Par_carreraProfesional = profesion, pa.Par_centroTrabajo = centroTrabajo
         WHERE pe.Per_idPersona = codigoParticipante;
     END IF;
     
     IF opcion = 'opc_eliminar_participante' THEN
-    	UPDATE persona pe
+      UPDATE persona pe
         JOIN participante pa ON pe.Per_idPersona=pa.Per_idPersona
         SET pe.Per_estado = 0
         WHERE pe.Per_idPersona = codigoParticipante AND pe.Per_estado = 1;
     END IF;
     
     IF opcion = 'opc_activar_participante' THEN
-    	UPDATE persona pe
+      UPDATE persona pe
         JOIN participante pa ON pe.Per_idPersona=pa.Per_idPersona
         SET pe.Per_estado = 1
         WHERE pe.Per_idPersona = codigoParticipante AND pe.Per_estado = 0;
@@ -257,6 +290,26 @@ END IF;
 end$$
 
 DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `actividad`
+--
+
+CREATE TABLE IF NOT EXISTS `actividad` (
+  `Acti_idActividad` int(11) NOT NULL AUTO_INCREMENT,
+  `Acti_nombre` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`Acti_idActividad`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Volcado de datos para la tabla `actividad`
+--
+
+INSERT INTO `actividad` (`Acti_idActividad`, `Acti_nombre`) VALUES
+(1, 'Actividad 1'),
+(2, 'Actividad 2');
 
 -- --------------------------------------------------------
 
@@ -382,6 +435,57 @@ INSERT INTO `grupo` (`Gru_idGrupo`, `Gru_nombre`, `Gru_descripcion`, `Gru_orden`
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `inscripciones`
+--
+
+CREATE TABLE IF NOT EXISTS `inscripciones` (
+  `Ins_idInscripcion` int(11) NOT NULL AUTO_INCREMENT,
+  `Par_idParticipante` int(11) NOT NULL,
+  `Ins_banco` varchar(50) NOT NULL,
+  `Ins_numeroOperacion` varchar(50) NOT NULL,
+  `Ins_fechaPago` date DEFAULT NULL,
+  `Ins_imagenVoucher` varchar(100) NOT NULL,
+  `TipDocPago_idTipoDocumentoPago` int(11) NOT NULL,
+  `Paq_idPaquete` int(11) NOT NULL,
+  PRIMARY KEY (`Ins_idInscripcion`),
+  KEY `Par_idParticipante` (`Par_idParticipante`),
+  KEY `TipDocPago_idTipoDocumentoPago` (`TipDocPago_idTipoDocumentoPago`),
+  KEY `Paq_idPaquete` (`Paq_idPaquete`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Volcado de datos para la tabla `inscripciones`
+--
+
+INSERT INTO `inscripciones` (`Ins_idInscripcion`, `Par_idParticipante`, `Ins_banco`, `Ins_numeroOperacion`, `Ins_fechaPago`, `Ins_imagenVoucher`, `TipDocPago_idTipoDocumentoPago`, `Paq_idPaquete`) VALUES
+(1, 1, 'BCP', '243253', '2016-09-09', '../../view/voucher/11695965_820992201303491_8569793140075028118_n.jpg', 2, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `inscripcion_actividad`
+--
+
+CREATE TABLE IF NOT EXISTS `inscripcion_actividad` (
+  `InsAct_idInscripcionActividad` int(11) NOT NULL AUTO_INCREMENT,
+  `Ins_idInscripcion` int(11) NOT NULL,
+  `Acti_idActividad` int(11) NOT NULL,
+  PRIMARY KEY (`InsAct_idInscripcionActividad`),
+  KEY `Ins_idInscripcion` (`Ins_idInscripcion`),
+  KEY `Acti_idActividad` (`Acti_idActividad`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Volcado de datos para la tabla `inscripcion_actividad`
+--
+
+INSERT INTO `inscripcion_actividad` (`InsAct_idInscripcionActividad`, `Ins_idInscripcion`, `Acti_idActividad`) VALUES
+(1, 1, 1),
+(2, 1, 2);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `locala`
 --
 
@@ -415,6 +519,26 @@ INSERT INTO `modulo` (`Mod_idModulo`, `Mod_descripcion`, `Mod_estado`) VALUES
 (3, 'Eventos', 1),
 (4, 'Facturacion', 1),
 (5, 'Reportes', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `paquete`
+--
+
+CREATE TABLE IF NOT EXISTS `paquete` (
+  `Paq_idPaquete` int(11) NOT NULL AUTO_INCREMENT,
+  `Paq_descripcion` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`Paq_idPaquete`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Volcado de datos para la tabla `paquete`
+--
+
+INSERT INTO `paquete` (`Paq_idPaquete`, `Paq_descripcion`) VALUES
+(1, 'Paquete 1'),
+(2, 'Paquete 2');
 
 -- --------------------------------------------------------
 
@@ -455,7 +579,7 @@ CREATE TABLE IF NOT EXISTS `permiso` (
   PRIMARY KEY (`Pso_idPermiso`),
   KEY `Rol_idRol` (`Rol_idRol`),
   KEY `Tar_idTarea` (`Tar_idTarea`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
 
 --
 -- Volcado de datos para la tabla `permiso`
@@ -472,7 +596,8 @@ INSERT INTO `permiso` (`Pso_idPermiso`, `Rol_idRol`, `Tar_idTarea`, `Pso_estado`
 (8, 1, 8, 1),
 (9, 1, 9, 1),
 (10, 1, 10, 1),
-(11, 1, 11, 1);
+(11, 1, 11, 1),
+(12, 1, 12, 1);
 
 -- --------------------------------------------------------
 
@@ -554,7 +679,14 @@ CREATE TABLE IF NOT EXISTS `ponente` (
   `Pon_estado` int(11) NOT NULL,
   PRIMARY KEY (`Pon_idPonente`),
   KEY `TipoDocId_idTipoDocumentoIdentidad` (`TipoDocId_idTipoDocumentoIdentidad`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Volcado de datos para la tabla `ponente`
+--
+
+INSERT INTO `ponente` (`Pon_idPonente`, `Pon_nombre`, `Pon_apellidos`, `TipoDocId_idTipoDocumentoIdentidad`, `Pon_numeroDocumentoIdentidad`, `Pon_direccion`, `Pon_fijo`, `Pon_email`, `Pon_celular`, `Pon_carreraProfesional`, `Pon_fechaNacimiento`, `Pon_nacionalidad`, `Pon_estadoLaboral`, `Pon_hojaVida`, `Pon_centroTrabajoActual`, `Pon_cv`, `Pon_estado`) VALUES
+(1, 'Jorge Luis', 'Arias Tandaypan', 1, '47934182', 'Ramón Castilla 263', '044-414514', 'ariastandaypan@gmail.com', '953536749', 'Ingenieria de Sistemas', '1993-09-09', 'Peruana', 'PROGRAMADOR', 'RESUMEN DE HOJA DE VIDA PRUEBA', 'PREMIUN.NET', '../../view/cv/CV_JORGE LUIS ARIAS TANDAYPAN.pdf', 1);
 
 -- --------------------------------------------------------
 
@@ -641,7 +773,7 @@ CREATE TABLE IF NOT EXISTS `tarea` (
   PRIMARY KEY (`Tar_idTarea`),
   KEY `Mod_idModulo` (`Mod_idModulo`),
   KEY `Gru_idGrupo` (`Gru_idGrupo`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
 
 --
 -- Volcado de datos para la tabla `tarea`
@@ -658,7 +790,8 @@ INSERT INTO `tarea` (`Tar_idTarea`, `Mod_idModulo`, `Gru_idGrupo`, `Tar_nombre`,
 (8, 2, 4, 'Ambientes', 'Mantenedor de Ambientes', 4, '../Mantenedores/ambiente_view.php', 1),
 (9, 3, 5, 'Listado de eventos', 'Listado de eventos', 1, '../eventos/lista_eventos.php', 1),
 (10, 3, 5, 'Nuevo evento', 'Nuevo evento', 1, '../eventos/registrar_evento.php', 1),
-(11, 2, 4, 'Participantes', 'Gestion de Participantes', 5, '../Mantenedores/participante_view.php', 1);
+(11, 2, 4, 'Participantes', 'Gestion de Participantes', 5, '../Mantenedores/participante_view.php', 1),
+(12, 3, 5, 'Inscripciones', 'Inscripciones de los participantes', 3, '../Evento/Inscripcion_view.php', 1);
 
 -- --------------------------------------------------------
 
@@ -692,6 +825,26 @@ INSERT INTO `tipodocumentoidentidad` (`TipoDocId_idTipoDocumentoIdentidad`, `Tip
 (1, 'DNI'),
 (2, 'LIBRETA MILITAR'),
 (3, 'CARNET DE EXTRANJERIA');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipodocumentopago`
+--
+
+CREATE TABLE IF NOT EXISTS `tipodocumentopago` (
+  `TipDocPago_idTipoDocumentoPago` int(11) NOT NULL AUTO_INCREMENT,
+  `TipDocPago_descripcion` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`TipDocPago_idTipoDocumentoPago`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Volcado de datos para la tabla `tipodocumentopago`
+--
+
+INSERT INTO `tipodocumentopago` (`TipDocPago_idTipoDocumentoPago`, `TipDocPago_descripcion`) VALUES
+(1, 'Tipo Pago 1'),
+(2, 'Tipo Pago 2');
 
 -- --------------------------------------------------------
 
@@ -738,6 +891,21 @@ ALTER TABLE `certificacion`
 --
 ALTER TABLE `especializacion`
   ADD CONSTRAINT `especializacion_ibfk_1` FOREIGN KEY (`Pon_idPonente`) REFERENCES `ponente` (`Pon_idPonente`);
+
+--
+-- Filtros para la tabla `inscripciones`
+--
+ALTER TABLE `inscripciones`
+  ADD CONSTRAINT `inscripciones_ibfk_1` FOREIGN KEY (`Par_idParticipante`) REFERENCES `participante` (`Par_idParticipante`),
+  ADD CONSTRAINT `inscripciones_ibfk_2` FOREIGN KEY (`TipDocPago_idTipoDocumentoPago`) REFERENCES `tipodocumentopago` (`TipDocPago_idTipoDocumentoPago`),
+  ADD CONSTRAINT `inscripciones_ibfk_3` FOREIGN KEY (`Paq_idPaquete`) REFERENCES `paquete` (`Paq_idPaquete`);
+
+--
+-- Filtros para la tabla `inscripcion_actividad`
+--
+ALTER TABLE `inscripcion_actividad`
+  ADD CONSTRAINT `inscripcion_actividad_ibfk_1` FOREIGN KEY (`Ins_idInscripcion`) REFERENCES `inscripciones` (`Ins_idInscripcion`),
+  ADD CONSTRAINT `inscripcion_actividad_ibfk_2` FOREIGN KEY (`Acti_idActividad`) REFERENCES `actividad` (`Acti_idActividad`);
 
 --
 -- Filtros para la tabla `participante`
