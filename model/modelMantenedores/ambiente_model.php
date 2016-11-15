@@ -228,6 +228,16 @@ class Ambiente_Model {
                              
         }
     }
+    function get_ambientes(){
+            $sql = "SELECT
+                    Amb_idAmbiente,
+                    Amb_descripcion                    
+                    FROM ambiente
+                    ";
+            $res = mysqli_query($this->conexion,$sql) or die (mysqli_error($this->conexion));
+            $data = mysqli_fetch_all($res, MYSQLI_ASSOC);
+            return json_encode($data);
+        }
 
     
 }

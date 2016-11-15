@@ -103,6 +103,7 @@
                                 
         }
 
+
         function recuperar_datos() {
             $this->prepararConsultaGestionarponente('opc_datos_ponente');            
             $row = mysqli_fetch_row($this->result);
@@ -228,7 +229,17 @@
                 </td>';
             }                   
         }
-        
+        function get_ponentes(){
+            $sql = "SELECT
+                    Pon_idPonente,
+                    Pon_nombre,
+                    Pon_apellidos
+                    FROM ponente
+                    ";
+            $res = mysqli_query($this->conexion,$sql) or die (mysqli_error($this->conexion));
+            $data = mysqli_fetch_all($res, MYSQLI_ASSOC);
+            return json_encode($data);
+        }
     }
 
 ?>

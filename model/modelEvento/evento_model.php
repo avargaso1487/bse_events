@@ -8,7 +8,8 @@
         function cerrarAbrir(){
             mysqli_close($this->conexion);
             $this->conexion = Conexion_Model::getConexion();
-        }        
+        }
+        
         function registrar_nuevo_evento($param){
             $sql = "INSERT INTO evento (Suc_idSucursal,Even_nombre,Even_descripcion,
                     Even_fechaInicio,Even_fechaFin,Even_estado) VALUES(
@@ -17,11 +18,11 @@
                     '".$param['descripcion']."',
                     '".$param['fechaI']."',
                     '".$param['fechaI']."',
-                    '".$param['estado']."',
+                    '".$param['estado']."'
                     )";
             $res = mysqli_query($this->conexion,$sql) or die (mysqli_error($this->conexion));
-            if(!$res) $exito = false;
-            echo 1;
+            if(!$res) return  0;
+            else return 1;
         }
         function get_evento($param){
             $sql = "SELECT

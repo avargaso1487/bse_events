@@ -1,4 +1,4 @@
-<script src="../default/assets/js/jquery.2.1.1.min.js"></script>
+
 		<script src="../default/assets/js/ace-extra.min.js"></script>		
 		
 		<script type="text/javascript">
@@ -15,15 +15,14 @@
 		<script type="text/javascript">
 			if('ontouchstart' in document.documentElement) document.write("<script src='../default/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
 		</script>		
-		<script src="../default/assets/js/jquery.2.1.1.min.js"></script>
-	    <script src="../default/assets/js/bootstrap.min.js"></script>
+		
 	    <script src="../default/assets/js/jquery.dataTables.min.js"></script>
 	    <script src="../default/assets/js/jquery.dataTables.bootstrap.min.js"></script>
 	    <script src="../default/assets/js/jquery.maskedinput.min.js"></script>
 	    <script src="../default/assets/js/jquery.autosize.min.js"></script>
 	    <script src="../default/assets/js/jquery.inputlimiter.1.3.1.min.js"></script>
-
-		
+	    
+		<script src="../../view/js/plugins/timepicker/bootstrap-timepicker.min.js"></script>
 		<!-- page specific plugin scripts -->
 		<!-- ace scripts -->
 		<script src="../default/assets/js/ace-elements.min.js"></script>
@@ -48,3 +47,4 @@
 		}
 	</script>
 	<script type="text/javascript">mostrarMenu();</script>
+	<script src="../default/js/scriptEvento.js"></script>

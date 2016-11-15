@@ -5,7 +5,7 @@
 
 		<meta name="description" content="" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-
+		<link rel="stylesheet" href="../../view/js/plugins/timepicker/bootstrap-timepicker.min.css">
 		<!-- bootstrap & fontawesome -->
 		<link rel="stylesheet" href="../default/assets/css/bootstrap.min.css" />
 		<link rel="stylesheet" href="../default/assets/font-awesome/4.2.0/css/font-awesome.min.css" />
@@ -23,5 +23,7 @@
 		    .datepicker{z-index:1151 !important;}
 		</style>
 		
+		<script src="../default/assets/js/jquery.2.1.1.min.js"></script>
+	    <script src="../default/assets/js/bootstrap.min.js"></script>
 		
 	</head>

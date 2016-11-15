@@ -84,8 +84,8 @@
 						      				<div class="col-md-offset-4 col-md-4 form-group">
 												<label><strong> Estado </strong></label>
 												<select class="form-control input-sm" id="cboEstado" name="cboEstado">
-													<option value="A" selected> Activo </option>
-													<option value="I"> Inactivo </option>
+													<option value="1"> Activo </option>
+													<option value="0"> Inactivo </option>
 												</select>
 						      				</div>
 								      	</div>
@@ -154,6 +154,7 @@ function guardarEvento(url){
       contentType: false,
       processData: false,
       success: function(rpta){
+      	alert(rpta);
         if(rpta == 1){
         	alert("Registro exitoso");
         }else{
