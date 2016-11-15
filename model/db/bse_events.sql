@@ -297,11 +297,6 @@ DELIMITER ;
 -- Estructura de tabla para la tabla `actividad`
 --
 
-create table if not exists TipoActividad(
-  TipoActi_idTipoActividad int not null AUTO_INCREMENT,
-  TipoActi_descripcion varchar(200) not null,
-  primary key(TipoActi_idTipoActividad)
-);
 
 
 -- --------------------------------------------------------
@@ -431,7 +426,6 @@ INSERT INTO `grupo` (`Gru_idGrupo`, `Gru_nombre`, `Gru_descripcion`, `Gru_orden`
 -- Estructura de tabla para la tabla `inscripciones`
 --
 
-  
 CREATE TABLE IF NOT EXISTS `inscripciones` (
   `Ins_idInscripcion` int(11) NOT NULL AUTO_INCREMENT,
   `Par_idParticipante` int(11) NOT NULL,
@@ -856,24 +850,19 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   PRIMARY KEY (`Per_idPersona`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
---
--- Volcado de datos para la tabla `usuario`
---
-
-INSERT INTO `usuario` (`Per_idPersona`, `Usu_login`, `Usu_pass`, `Usu_estado`, `Usu_fechaCese`, `Suc_idSucursal`) VALUES
-(1, 'amds', '202cb962ac59075b964b07152d234b70', 1, NULL, 1);
-
---
--- Restricciones para tablas volcadas
---
+create table if not exists TipoActividad(
+  TipoActi_idTipoActividad int not null AUTO_INCREMENT,
+  TipoActi_descripcion varchar(200) not null,
+  primary key(TipoActi_idTipoActividad)
+);
 create table if not exists actividad(
-  Acti_idActividad int not null AUTO_INCREMENT,
+  Acti_idActividad int(11) not null AUTO_INCREMENT,
   Even_idEvento int not null, 
   Pon_idPonente int null,
   Acti_nombre varchar(200) not null,
   Acti_descripcion varchar(500) not null,
   Acti_precio decimal(9,2) null,
-  Amb_idAmbiente int null,
+  Amb_idAmbiente int(11) null,
   Acti_fecha varchar(11) null,
   Acti_horaInicio varchar(10) null,
   Acti_horaFin varchar(10) null,
@@ -889,6 +878,19 @@ create table if not exists actividad(
 insert into TipoActividad(TipoActi_idTipoActividad,TipoActi_descripcion) values 
   (1,'PONENCIA'),
   (2,'TALLER');
+
+
+--
+-- Volcado de datos para la tabla `usuario`
+--
+
+INSERT INTO `usuario` (`Per_idPersona`, `Usu_login`, `Usu_pass`, `Usu_estado`, `Usu_fechaCese`, `Suc_idSucursal`) VALUES
+(1, 'amds', '202cb962ac59075b964b07152d234b70', 1, NULL, 1);
+
+--
+-- Restricciones para tablas volcadas
+--
+
 --
 -- Filtros para la tabla `ambiente`
 --
@@ -919,9 +921,9 @@ ALTER TABLE `inscripciones`
 --
 -- Filtros para la tabla `inscripcion_actividad`
 --
-ALTER TABLE `inscripcion_actividad`
-  ADD CONSTRAINT `inscripcion_actividad_ibfk_1` FOREIGN KEY (`Ins_idInscripcion`) REFERENCES `inscripciones` (`Ins_idInscripcion`),
-  ADD CONSTRAINT `inscripcion_actividad_ibfk_2` FOREIGN KEY (`Acti_idActividad`) REFERENCES `actividad` (`Acti_idActividad`);
+-- ALTER TABLE `inscripcion_actividad`
+  -- ADD CONSTRAINT `inscripcion_actividad_ibfk_1` FOREIGN KEY (`Ins_idInscripcion`) REFERENCES `inscripciones` (`Ins_idInscripcion`),
+  -- ADD CONSTRAINT `inscripcion_actividad_ibfk_2` FOREIGN KEY (`Acti_idActividad`) REFERENCES `actividad` (`Acti_idActividad`);
 
 --
 -- Filtros para la tabla `participante`
