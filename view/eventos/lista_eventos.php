@@ -73,9 +73,8 @@
 								                <th>Nombre de evento</th>
 								                <th>Fecha Inicio - Fin</th>
 								                <th>Costo total</th>
-								                <th>Número de asistentes</th>
-								                <th>Estado</th>
-								                <th>Operaciones</th>
+								                <th>Nº asistentes</th>
+								                <th></th>
 								            </tr>
 										</thead>
 										<tbody id="cuerpo_tabla_eventos">
@@ -113,14 +112,15 @@
 <?php require('footer.php') ?>
 
 <script type="text/javascript">		        
-function listarEventos(){ 
-  	var param_opcion = 'mostrar_ponente'; 
-  	var codigo = 0;
+
+function listar_eventos(){ 
+  	var opcion = 3;
   	$.ajax({
       	type: 'POST',        
-      	data:'param_opcion='+param_opcion,
-      	url: '../../controller/controlMantenedores/ponente_controller.php',
+      	data:'opcion='+opcion,
+      	url: '../../controller/controlEvento/evento_controller.php',
       	success: function(data){
+      		// alert(data);
           	$('#tabla_eventos').DataTable().destroy();
           	$('#cuerpo_tabla_eventos').html(data);
           	$('#tabla_eventos').DataTable();
@@ -128,9 +128,9 @@ function listarEventos(){
       	error: function(data){
                  
       	}
-  	});    
+  	});
 }
 </script>
 <script type="text/javascript">
-	listarEventos();
+	listar_eventos();
 </script>

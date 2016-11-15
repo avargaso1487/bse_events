@@ -56,36 +56,55 @@
 							<h1> <?= $titulo  ?></h1>
 						</div><!-- /.page-header -->
 						<div class="row">
-							<div class="col-md-12">	
-								<div id="mensaje2"></div>							
-								<div class="table-header">
-									Datos del evento
+							<div class="col-md-12">
+								<div class="Contenedor  widget-box">
+									<form id="frmEvento">
+										<div class="table-header">
+											Datos generales del evento
+							      		</div>
+								      	<div class="widget-main row">
+								      		<div class="col-md-offset-4 col-md-4 form-group">
+												<label><strong> Sucursal  </strong></label>
+												<select class="form-control input-sm" id="cboSucursal" name="cboSucursal">
+													<option value="0">-- Seleccionar --</option>
+												</select>
+						      				</div>
+						      				<div class="col-md-offset-4 col-md-4 form-group">
+												<label><strong> Nombre del evento  </strong></label>
+												<input type="text" class="form-control input-sm" id="txtNombre" name="txtNombre">
+						      				</div>
+						      				<div class="col-md-offset-4 col-md-4 form-group">
+												<label><strong> Fecha inicio </strong></label>
+	                                       		<input class="form-control" id="txtFechaI" name="txtFechaI" type="date" autofocus="">
+						      				</div>
+						      				<div class="col-md-offset-4 col-md-4 form-group">
+												<label><strong> Descripción </strong></label>
+												<textarea class="form-control" id="txtDescripcion" name="txtDescripcion"></textarea>
+						      				</div>
+						      				<div class="col-md-offset-4 col-md-4 form-group">
+												<label><strong> Estado </strong></label>
+												<select class="form-control input-sm" id="cboEstado" name="cboEstado">
+													<option value="A" selected> Activo </option>
+													<option value="I"> Inactivo </option>
+												</select>
+						      				</div>
+								      	</div>
+								      	<div class="form-actions center" style="margin-bottom:-0px;">
+											<button type="button" class="btn btn-sm btn-success" onclick="guardarEvento();">
+												Guardar
+												<i class="ace-icon fa fa-arrow-right icon-on-right bigger-110"></i>
+											</button>
+										</div>
+									</form>
 								</div>
-								<div>
-									<table id="tabla_eventos" class="table table-striped table-bordered">
-										<thead>
-								            <tr>
-								                <th>Código</th>
-								                <th>Nombre de evento</th>
-								                <th>Fecha Inicio - Fin</th>
-								                <th>Costo total</th>
-								                <th>Número de asistentes</th>
-								                <th>Estado</th>
-								                <th>Operaciones</th>
-								            </tr>							         
-										</thead>
-										<tbody id="cuerpo_tabla_eventos">
-											<!-- Lista de eventos -->
-										</tbody>
-									</table>
-								</div>
-							</div>				
-							<input type="hidden" dissabled="true" value="<?= $grupo  ?>" id="NombreGrupo">
-                            <input type="hidden" dissabled="true" value="<?= $tarea  ?>" id="NombreTarea">
-							<!-- FIN DE CONTENIDO DE PAGINA -->										               
-						</div><!-- /.col -->
-					</div>
-				</div><!-- /.page-content -->							
+								<!-- Contenedor Datos generales del evento -->
+							</div>
+						</div>
+					</div><!-- /.page-content -->
+				<input type="hidden" dissabled="true" value="<?= $grupo  ?>" id="NombreGrupo">
+                <input type="hidden" dissabled="true" value="<?= $tarea  ?>" id="NombreTarea">
+				<!-- FIN DE CONTENIDO DE PAGINA -->
+
 				<div class="footer">
 					<div class="footer-inner">
 						<div class="footer-content">
@@ -106,25 +125,44 @@
 
 <?php require('footer.php') ?>
 
-<script type="text/javascript">		        
-function listarEventos(){ 
-  	var param_opcion = 'mostrar_ponente'; 
-  	var codigo = 0;
-  	$.ajax({
-      	type: 'POST',        
-      	data:'param_opcion='+param_opcion,
-      	url: '../../controller/controlMantenedores/ponente_controller.php',
-      	success: function(data){
-          	$('#tabla_eventos').DataTable().destroy();
-          	$('#cuerpo_tabla_eventos').html(data);
-          	$('#tabla_eventos').DataTable();
-      	},
-      	error: function(data){
-                 
-      	}
-  	});    
-}
-</script>
 <script type="text/javascript">
-	listarEventos();
+function guardarEvento(url){
+	var opcion = 1;
+	if($.trim($('#txtNombre').val()).length==0){
+		$('#txtNombre').parent().addClass('has-error');
+	}else{
+		$('#txtNombre').parent().removeClass('has-error');
+	}
+	if($.trim($('#txtFechaI').val()).length==0){
+		$('#txtFechaI').parent().addClass('has-error');
+	}else{
+		$('#txtFechaI').parent().removeClass('has-error');
+	}
+
+    if(document.getElementsByClassName("has-error").length > 0){
+      alert("Verifique los datos ingresados");
+      return false;
+    }
+    var formData = new FormData($('#frmEvento')[0]);
+    formData.append("opcion",opcion);
+    $.ajax({
+      url: '../../controller/controlEvento/evento_controller.php',
+      type: "post",
+      dataType: "html",
+      data: formData,
+      cache: false,
+      contentType: false,
+      processData: false,
+      success: function(rpta){
+        if(rpta == 1){
+        	alert("Registro exitoso");
+        }else{
+        	alert("No se pudo registrar el evento");
+        }
+      },
+      error: function(rpta){
+        alert("Error en el registro del protocolo: \n"+rpta);
+      }
+    });
+} 
 </script>

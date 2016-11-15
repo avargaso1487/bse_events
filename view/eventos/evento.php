@@ -13,6 +13,10 @@
 		$link_tarea = "evento.php";
 		$titulo = "Evento: II full day de gestión de TI";
 	}
+	$eventoID = "";
+	if(isset($_POST['eventoID'])){
+		$eventoID = $_POST['eventoID'];
+	}
 ?>
 
 <!DOCTYPE html>
@@ -74,11 +78,11 @@
 					      				</div>
 					      				<div class="col-md-3 form-group">
 											<label><strong> Fecha inicio </strong></label>
-											<input type="text" class="form-control input-sm" id="txtFechaI" name="txtFechaI">
+											<input class="form-control" id="txtFechaI" name="txtFechaI" type="date">
 					      				</div>
 					      				<div class="col-md-3 form-group">
 											<label><strong> Fecha fin </strong></label>
-											<input type="text" class="form-control input-sm" id="txtFechaF" name="txtFechaF">
+											<input class="form-control" id="txtFechaF" name="txtFechaF" type="date">
 					      				</div>
 					      				<div class="col-md-3 form-group">
 											<label><strong> Duración </strong>(Días)</label>
@@ -90,7 +94,7 @@
 					      				</div>
 					      				<div class="col-md-8 form-group">
 											<label><strong> Descripción </strong></label>
-											<textarea class="form-control"></textarea>
+											<textarea class="form-control" id="txtDescripcion" name="txtDescripcion"></textarea>
 					      				</div>
 					      				<div class="col-md-4 form-group">
 											<label><strong> Estado </strong></label>
@@ -111,9 +115,14 @@
 								<!-- Contenedor Datos generales del evento -->
 							</div>
 							<div class="col-md-12">
+
 								<div class="Contenedor widget-box">
 									<div class="table-header">
 										Lista de actividades
+										&nbsp;&nbsp;
+										<a  href="javascript:;" onclick="abrirModalActi();" id="nueva_actividad" class="white">
+				                            <i class='ace-icon fa fa-plus-circle bigger-150'></i>
+				                        </a>
 						      		</div>
 							      	<div class="widget-main">
 							      		<table id="tabla_eventos" class="table table-striped table-bordered">
@@ -184,8 +193,89 @@
 							</span>						
 						</div>
 					</div>					
-				</div>
+				</div>				
 				<!-- footer -->
+				<div class="modal fade" id="modalActividad" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" style="width: 60% !important;">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                          <h4 class="modal-title text-center" id="cabeceraRegistro"><b>Actividad</b></h4>
+                        </div>
+                        <div class="modal-body">
+                       <form action="" method="POST" class="form-horizontal" id="from_actividad"> 
+                       		<div id="mensaje"></div>
+                            <form role="form" id="frmRegistroEgresados" class="form-horizontal" method="POST">
+		                        <div class="row">
+		                        	<div class="form-group">
+		                               <label class="col-md-2 col-md-offset-1 control-label">Tipo actividad</label>
+		                               <div class="col-md-7">
+		                                   <select class="form-control input-sm" id="cboTipoActividad" name="cboTipoActividad">
+		                                   		<option value="0">-- Seleccionar --</option>
+		                                   </select>
+		                               </div>
+		                            </div>
+		                            <div class="form-group">
+		                               <label class="col-md-2 col-md-offset-1 control-label">Actividad</label>
+		                               <div class="col-md-7">
+		                                   <input class="form-control" id="txtActividad" name="txtActividad" type="text" autofocus="">
+		                               </div>		                                                  
+		                            </div>	
+		                            <div class="form-group">
+		                               <label class="col-md-2 col-md-offset-1 control-label">Ponente</label>
+		                               <div class="col-md-7">
+		                                   <select class="form-control input-sm" id="cboPonente" name="cboPonente">
+		                                   		<option value="0">-- Seleccionar --</option>
+		                                   </select>
+		                               </div>
+		                            </div>
+		                            <div class="form-group">
+		                               <label class="col-md-2  col-md-offset-1  control-label">Ambiente</label>
+		                               <div class="col-md-7">
+		                                   <select class="form-control input-sm" id="cboAmbiente" name="cboAmbiente">
+		                                   		<option value="0">-- Seleccionar --</option>
+		                                   </select>
+		                               </div>
+		                            </div>
+		                            <div class="form-group">
+		                               <label class="col-md-2  col-md-offset-1  control-label">Fecha</label>
+		                               <div class="col-md-4">
+		                                   <input class="form-control" id="txtFecha" name="txtFecha" type="date">
+		                               </div>
+		                            </div>
+		                            <div class="form-group">
+		                               <label class="col-md-2   col-md-offset-1  control-label">Hora Inicio / Fin </label>
+		                               <div class="col-md-2">
+		                                   <input class="form-control" id="txtHoraI" name="txtHoraI" type="text" >
+		                               </div>
+		                                <div class="col-md-2">
+		                                   <input class="form-control" id="txtHoraI" name="txtHoraI" type="text" >
+		                               </div>
+		                            </div>
+		                            <div class="form-group">
+		                               <label class="col-md-2  col-md-offset-1  control-label">Precio</label>
+		                               <div class="col-md-4">
+		                                   <input class="form-control" id="txtPrecio" name="txtPrecio" type="text">
+		                               </div>
+		                            </div>
+		                            <div class="form-group">
+		                               <label class="col-md-2  col-md-offset-1  control-label">Descripción</label>
+		                               <div class="col-md-7">
+		                                   <textarea class="form-control" id="txtDescripcion" name="txtDescripcion"></textarea>
+		                               </div>
+		                            </div>
+		                            
+			                        <div class="modal-footer">
+			                            <button type="button" class="btn btn-primary" id="cancel_sucursal">Cancelar</button> 
+			                            <button type="button" class="btn btn-primary" id="register_sucursal" onclick="guardar_actividad();"> Registrar </button>
+			                        </div>
+		                    </form>
+                        </form>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <!-- Modal -->
 				<input type="hidden" dissabled="true" value="<?= $grupo  ?>" id="NombreGrupo">
                 <input type="hidden" dissabled="true" value="<?= $tarea  ?>" id="NombreTarea">
 				<!-- FIN DE CONTENIDO DE PAGINA -->
@@ -199,25 +289,80 @@
 
 <?php require('footer.php') ?>
 
-<script type="text/javascript">		        
-function listarEventos(){ 
-  	var param_opcion = 'mostrar_ponente'; 
-  	var codigo = 0;
+<script type="text/javascript">
+function guardar_actividad(){
+	var opcion = 1;
+	if($.trim($('#txtActividad').val()).length==0){
+		$('#txtActividad').parent().addClass('has-error');
+	}else{
+		$('#txtActividad').parent().removeClass('has-error');
+	}
+	if($.trim($('#txtFechaI').val()).length==0){
+		$('#txtFechaI').parent().addClass('has-error');
+	}else{
+		$('#txtFechaI').parent().removeClass('has-error');
+	}
+
+    if(document.getElementsByClassName("has-error").length > 0){
+      alert("Verifique los datos ingresados");
+      return false;
+    }
+    var formData = new FormData($('#from_actividad')[0]);
+    formData.append("opcion",opcion);
+    $.ajax({
+      url: '../../controller/controlEvento/evento_controller.php',
+      type: "post",
+      dataType: "html",
+      data: formData,
+      cache: false,
+      contentType: false,
+      processData: false,
+      success: function(rpta){
+        if(rpta == 1){
+        	alert("Registro exitoso");
+        }else{
+        	alert("No se pudo registrar el evento");
+        }
+      },
+      error: function(rpta){
+        alert("Error en el registro del protocolo: \n"+rpta);
+      }
+    });
+}
+function cargardatos(){
+	cargar_datos_generales();
+}
+function cargar_datos_generales(){ 
+  	var opcion = 2;
   	$.ajax({
       	type: 'POST',        
-      	data:'param_opcion='+param_opcion,
-      	url: '../../controller/controlMantenedores/ponente_controller.php',
+      	data:'opcion='+opcion+'&txtEventoID='+'<?= $eventoID; ?>',
+      	url: '../../controller/controlEvento/evento_controller.php',
       	success: function(data){
-          	$('#tabla_eventos').DataTable().destroy();
-          	$('#cuerpo_tabla_eventos').html(data);
-          	$('#tabla_eventos').DataTable();
+      		var obj = JSON.parse(data);
+
+      		$('#txtNombre').val(obj.evento[0].Even_nombre);
+      		$('#txtFechaI').val(obj.evento[0].Even_fechaInicio);
+      		$('#txtFechaF').val(obj.evento[0].Even_fechaFin);
+      		$('#txtDuracion').val(obj.evento[0].Even_duracion);
+      		$('#txtPrecioT').val(obj.evento[0].Even_precioTotal);
+      		$('#txtDescripcion').val(obj.evento[0].Even_descripcion);
+      		$('#cboEstado').val(obj.evento[0].Even_estado);
       	},
       	error: function(data){
                  
       	}
-  	});    
+  	});
+}
+function abrirModalActi() {
+	$('#modalActividad').modal({
+        show:true,
+        backdrop:'static',
+    });  
 }
 </script>
 <script type="text/javascript">
-	listarEventos();
+	<?php if (isset($_POST['eventoID'])): ?>
+		cargardatos();
+	<?php endif ?>
 </script>
