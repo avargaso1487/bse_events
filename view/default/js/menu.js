@@ -3,7 +3,7 @@ window.onload = function()
 	mostrarMenu();	
 	alerta_almacen();	
     alerta_spa(); 
-};
+}
 
 
 function mostrarMenu()

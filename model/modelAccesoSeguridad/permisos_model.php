@@ -210,6 +210,8 @@ class Permiso_Model {
                     </tr>";
                 }
             }
+            else
+                echo "TODAS LAS TAREAS HAN SIDO ASIGNADAS PARA ESTE USUARIO";
         }
     }    
 
