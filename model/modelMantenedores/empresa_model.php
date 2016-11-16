@@ -33,6 +33,9 @@
                     echo $this->active_empresa();
                     break; 
                 case "get":break; 
+                case "mostrar_empresas_cbo":
+                    echo $this->comboEmpresas();
+                    break;
             }
         }
 
@@ -154,8 +157,58 @@
             }                   
         }
         
-    }
+        private function getArrayEmpresaCbo()
+        {
+            $datos = array();
+            while($fila = mysqli_fetch_array($this->result))
+            {
+                array_push($datos, array(
+                    "empCodigo" => $fila["codigo"],
+                    "empNombre" => $fila["empresa"]));
+            }
+            return $datos;
+        }
 
+        private function getArrayTotal() {
+            $total = 0;
+            while ($fila = mysqli_fetch_array($this->result)) {
+                $total = $fila["total"];
+            }
+            return $total;
+        }  
+
+        function comboEmpresas()
+        {
+            $this->prepararConsultaGestionarEmpresa('opc_contar_empresa_cbo'); 
+            $this->cerrarAbrir();
+            $total = $this->getArrayTotal();
+            $datos = array();
+            if($total>0)
+            {
+                
+                $this->prepararConsultaGestionarEmpresa('opc_listar_empresa_cbo');
+                $this->cerrarAbrir();
+                $datos = $this->getArrayEmpresaCbo();
+                echo    '<div class="input-group col-md-12">                        
+                            <select class="form-control" name="param_colaboradorEmpresa" id="param_colaboradorEmpresa" onchange="cargarSucursales(0)">
+                                <option value=""  disabled selected style="display: none;">Seleccionar Empresa</option>';
+                for($i=0; $i<count($datos); $i++)
+                {
+                         echo "<option value='".utf8_decode($datos[$i]["empCodigo"])."'>".($datos[$i]["empNombre"])."</option>";
+                }
+                     echo '</select>
+                        </div>';
+            }
+            else
+            {
+                echo '<div class="input-group col-md-12">                        
+                            <select class="form-control" name="param_colaboradorEmpresa" id="param_colaboradorEmpresa" onchange="cargarSucursales()">
+                                <option value=""  disabled selected style="display: none;">No se han registrado empresas</option>
+                            </select>
+                    </div>';
+            }
+        }
+    }
 ?>
 
 

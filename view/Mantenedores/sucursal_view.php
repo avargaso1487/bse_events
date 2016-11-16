@@ -150,7 +150,7 @@
 								</div>
 							</div>				
 							<input type="hidden" dissabled="true" value="Mantenedores" id="NombreGrupo">
-                            <input type="hidden" dissabled="true" value="Sucursal" id="NombreTarea">			
+                            <input type="hidden" dissabled="true" value="Sucursales" id="NombreTarea">			
 							<!-- FIN DE CONTENIDO DE PAGINA -->										               
 						</div><!-- /.col -->
 					</div>
