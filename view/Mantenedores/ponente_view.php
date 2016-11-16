@@ -123,7 +123,8 @@
 							</h1>
 						</div><!-- /.page-header -->
 						<div class="row">
-							<div class="col-md-12">								
+							<div class="col-md-12">	
+								<div id="mensaje2"></div>							
 								<div class="table-header">
 									PONENTES REGISTRADAS &nbsp;&nbsp;
 									<a  href="#" id="new_ponente" class="white">
@@ -141,6 +142,7 @@
 								                <th style="text-align: center; font-size: 11px; height: 10px; width: 10%;">C. PROFESIONAL</th>
 								                <th style="text-align: center; font-size: 11px; height: 10px; width: 9%;">F. NACIMIENTO</th>
 								                <th style="text-align: center; font-size: 11px; height: 10px; width: 10%;">NACIONALIDAD</th>
+								                <th style="text-align: center; font-size: 11px; height: 10px; width: 5%;">CV</th>
 								                <th style="text-align: center; font-size: 11px; height: 10px; width: 5%;">ESTADO</th>	
                 								<th style="text-align: center; font-size: 11px; height: 10px; width: 8%;">OPERACIONES</th>
 								            </tr>							         
@@ -176,118 +178,212 @@
                           <h4 class="modal-title text-center" id="cabeceraRegistro"><b></b></h4>
                         </div>
                         <div class="modal-body">
-                       <form action="" method="POST" class="form-horizontal" id="form_eventoPago"> 
-                            <form role="form" id="frmRegistroEgresados" class="form-horizontal" method="POST">
-		                        <div class="row">
-		                            <div class="form-group">		                               
-		                               <label for="socio" class="col-md-2 control-label" >Nombres:</label>
-		                               <div class="col-md-4">
-		                                   <input class="form-control" placeholder="Ingrese los Nombres" id="param_nombres" name="param_nombres" type="text" autofocus="">
-		                               </div>
-		                               <label for="socio" class="col-md-1 control-label">Apellidos:</label>
-		                               <div class="col-md-4">
-		                                   <input class="form-control" placeholder="Ingrese los Apellidos" id="param_apellidos" name="param_apellidos" type="text" autofocus="">
-		                               </div>		                               
-		                            </div>		                          
-		                            <div class="form-group">
-		                               <label for="socio" class="col-md-2 control-label">T. Doc:</label>
-		                               <div class="col-md-4">
-		                                   <select class="form-control" name="param_tipoDocumento" id="param_tipoDocumento">
-		                               			<option value="" disabled selected style="display: none;">Seleccione Tipo Documento</option>
-		                               			<option value="J">Juridico</option>
-		                               			<option value="N">Natural</option>
-		                               		</select>	
-		                               </div>	
-		                               <label for="socio" class="col-md-1 control-label">N° Doc: </label>
-		                               <div class="col-md-4">
-		                                   <input class="form-control" placeholder="N° DOCUMENTO" id="param_nroDocumento" name="param_nroDocumento" type="text" autofocus="" onkeypress="return solonumeros(event)">
-		                               </div>			                               	                               
-		                            </div> 
-                                    <div class="form-group">                                       
-                                       <label for="socio" class="col-md-2 control-label" >Domicilio:</label>
-                                       <div class="col-md-5">
-                                           <input class="form-control" placeholder="Ingrese los Dirección" id="param_direccion" name="param_direccion" type="text" autofocus="">
-                                       </div>
-                                       <label for="socio" class="col-md-1 control-label">Teléfono:</label>
-                                       <div class="col-md-3">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">
-                                                    <i class="ace-icon fa fa-phone"></i>
-                                                </span>
-                                                <input class="form-control" type="text" id="param_telefonoFijo" name="param_telefonoFijo" onkeypress="return telefonovalidation(event)" placeholder="Ejm: 044-123456" />
-                                            </div>
-                                        </div>                               
-                                    </div>
-                                    <div class="form-group">                                       
-                                       <label for="socio" class="col-md-2 control-label">Email:</label>
-                                       <div class="col-md-4">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">
-                                                    <i class="ace-icon fa fa-envelope"></i>
-                                                </span>
-                                                <input class="form-control" type="text" id="param_email" name="param_email" placeholder="example@correo.com" />
-                                            </div>
-                                        </div>                                     
-                                        <label for="socio" class="col-md-2 control-label">Celular:</label>
-                                       <div class="col-md-3">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">
-                                                    <i class="ace-icon fa fa-phone"></i>
-                                                </span>
-                                                <input class="form-control" type="text" id="param_celular" name="param_celular" onkeypress="return solonumeros(event)" maxlength="9" placeholder="Ejm: 912345678" />
-                                            </div>
-                                        </div>                                                                
-                                    </div>
-                                    
-		                            <div class="form-group">		                               
-		                               <label for="socio" class="col-md-2 control-label">C. Profesional:</label>
-		                               <div class="col-md-5">
-		                                   <input class="form-control" placeholder="Carrera Profesional" id="param_nombres" name="param_nombres" type="text" autofocus="">
-		                               </div>		                               
-		                               <label for="socio" class="col-md-2 control-label">Fecha Nac:</label>
-                                       <div class="col-md-2">
-                                           <input class="form-control" id="param_fechaNacimiento" name="param_fechaNacimiento" type="date" autofocus="">
-                                       </div>                               
-		                            </div>
-                                    <div class="form-group">                                       
-                                       <label for="socio" class="col-md-2 control-label">Nacionalidad:</label>
-                                       <div class="col-md-4">
-                                           <input class="form-control" placeholder="Ingrese Nacionalidad" id="param_nacionalidad" name="param_nacionalidad" type="text" autofocus="">
-                                       </div>
-                                       <label for="socio" class="col-md-2 control-label">E. Laboral:</label>
-                                       <div class="col-md-3">
-                                           <input class="form-control" placeholder="Ingrese Estado Laboral" id="param_estadoLaboral" name="param_estadoLaboral" type="text" autofocus="">
-                                       </div>                                      
-                                    </div>
-                                    <div class="form-group">                                       
-                                       <label for="socio" class="col-md-2 control-label">Centro de Trabajo:</label>
-                                       <div class="col-md-4">
-                                           <input class="form-control" placeholder="Ingrese Centro de Trabajo Actual" id="param_centroTrabajo" name="param_centroTrabajo" type="text" autofocus="">
-                                       </div>
-                                       <label for="socio" class="col-md-2 control-label">Adjuntar CV:</label>
-                                       <div class="col-md-3">
-                                            <input type="file" id="id-input-file-2" id="param_cv" name="param_cv"/>
-                                       </div>                                      
-                                    </div>
-                                    <div class="form-group">                                       
-                                       <label for="socio" class="col-md-2 control-label">R. Hoja de Vida:</label>
-                                       <div class="col-md-9">
-                                           <textarea class="form-control" rows="5" id="param_resumenHojaVida" name="param_resumenHojaVida" placeholder="Ingrese resumen de hoja de vida (Opcional)" ></textarea>   
-                                       </div>                                    
-                                    </div>                                                                                           		                        
-		                            <input  type="hidden" id="param_funcion" name="param_funcion" value="N"/>
-		                            <input  type="hidden" id="param_codigo" name="param_codigo"/>		                           
-			                        <div class="modal-footer">
-			                            <button type="button" class="btn btn-primary" id="cancel_ponentes">Cancelar</button> 
-			                            <button type="button" class="btn btn-primary" id="register_ponentes">Registrar</button>            
-			                        </div>
-		                    </form>
-                        </form>
+                        <div id="mensaje"></div>
+                       
+                        <form id="frmPonentes" class="form-horizontal">
+	                        <div class="row">
+	                            <div class="form-group">		                               
+	                               <label for="socio" class="col-md-2 control-label" >Nombres:</label>
+	                               <div class="col-md-4">
+	                                   <input class="form-control" placeholder="Ingrese los Nombres" id="param_nombres" name="param_nombres" type="text" autofocus="">
+	                               </div>
+	                               <label for="socio" class="col-md-1 control-label">Apellidos:</label>
+	                               <div class="col-md-4">
+	                                   <input class="form-control" placeholder="Ingrese los Apellidos" id="param_apellidos" name="param_apellidos" type="text" autofocus="">
+	                               </div>		                               
+	                            </div>		                          
+	                            <div class="form-group">
+	                               <label for="socio" class="col-md-2 control-label">T. Doc:</label>
+	                               <div class="col-md-4" id="documentoIdentidad">
+	                                   
+	                               </div>	
+	                               <label for="socio" class="col-md-1 control-label">N° Doc: </label>
+	                               <div class="col-md-4">
+	                                   <input class="form-control" placeholder="N° DOCUMENTO" id="param_nroDocumento" name="param_nroDocumento" type="text" autofocus="" onkeypress="return solonumeros(event)">
+	                               </div>			                               	                               
+	                            </div> 
+                                <div class="form-group">                                       
+                                   <label for="socio" class="col-md-2 control-label" >Domicilio:</label>
+                                   <div class="col-md-5">
+                                       <input class="form-control" placeholder="Ingrese los Dirección" id="param_direccion" name="param_direccion" type="text" autofocus="">
+                                   </div>
+                                   <label for="socio" class="col-md-1 control-label">Teléfono:</label>
+                                   <div class="col-md-3">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="ace-icon fa fa-phone"></i>
+                                            </span>
+                                            <input class="form-control" type="text" id="param_telefonoFijo" name="param_telefonoFijo" onkeypress="return telefonovalidation(event)" placeholder="Ejm: 044-123456" />
+                                        </div>
+                                    </div>                               
+                                </div>
+                                <div class="form-group">                                       
+                                   <label for="socio" class="col-md-2 control-label">Email:</label>
+                                   <div class="col-md-4">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="ace-icon fa fa-envelope"></i>
+                                            </span>
+                                            <input class="form-control" type="text" id="param_email" name="param_email" placeholder="example@correo.com" />
+                                        </div>
+                                    </div>                                     
+                                    <label for="socio" class="col-md-2 control-label">Celular:</label>
+                                   <div class="col-md-3">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="ace-icon fa fa-phone"></i>
+                                            </span>
+                                            <input class="form-control" type="text" id="param_celular" name="param_celular" onkeypress="return solonumeros(event)" maxlength="9" placeholder="Ejm: 912345678" />
+                                        </div>
+                                    </div>                                                                
+                                </div>
+                                
+	                            <div class="form-group">		                               
+	                               <label for="socio" class="col-md-2 control-label">C. Profesional:</label>
+	                               <div class="col-md-5">
+	                                   <input class="form-control" placeholder="Carrera Profesional" id="param_carreraProfesional" name="param_carreraProfesional" type="text" autofocus="">
+	                               </div>		                               
+	                               <label for="socio" class="col-md-2 control-label">Fecha Nac:</label>
+                                   <div class="col-md-2">
+                                       <input class="form-control" id="param_fechaNacimiento" name="param_fechaNacimiento" type="date" autofocus="">
+                                   </div>                               
+	                            </div>
+                                <div class="form-group">                                       
+                                   <label for="socio" class="col-md-2 control-label">Nacionalidad:</label>
+                                   <div class="col-md-4">
+                                       <input class="form-control" placeholder="Ingrese Nacionalidad" id="param_nacionalidad" name="param_nacionalidad" type="text" autofocus="">
+                                   </div>
+                                   <label for="socio" class="col-md-2 control-label">E. Laboral:</label>
+                                   <div class="col-md-3">
+                                       <input class="form-control" placeholder="Ingrese Estado Laboral" id="param_estadoLaboral" name="param_estadoLaboral" type="text" autofocus="">
+                                   </div>                                      
+                                </div>
+                                <div class="form-group">                                       
+                                   <label for="socio" class="col-md-2 control-label">Centro de Trabajo:</label>
+                                   <div class="col-md-4">
+                                       <input class="form-control" placeholder="Ingrese Centro de Trabajo Actual" id="param_centroTrabajo" name="param_centroTrabajo" type="text" autofocus="">
+                                   </div>
+                                   <label for="socio" class="col-md-2 control-label">Adjuntar CV:</label>
+                                   <div class="col-md-3">
+                                        <input id="imagen" name="imagen" type="file">
+                                   </div>                                      
+                                </div>
+                                <div class="form-group">                                       
+                                   <label for="socio" class="col-md-2 control-label">R. Hoja de Vida:</label>
+                                   <div class="col-md-9">
+                                       <textarea class="form-control" rows="4" id="param_resumenHojaVida" name="param_resumenHojaVida" placeholder="Ingrese resumen de hoja de vida (Opcional)" ></textarea>   
+                                   </div>                                    
+                                </div> 
+                                <div class="form-group">    
+                                	
+                                	<label for="socio" class="col-md-3 control-label" id="mensajeCV">:</label>                                                                                                      
+                                </div>                                                                                           		
+                                                      
+	                            <input  type="hidden" id="param_funcion" name="param_funcion" value="N"/>
+	                            <input  type="hidden" id="param_opcion" name="param_opcion" value="new_ponente"/>       
+	                            <input  type="hidden" id="param_codigo" name="param_codigo"/>		                           
+		                        <div class="modal-footer">
+		                            <button type="button" class="btn btn-primary" id="cancel_ponentes">Cancelar</button> 
+		                            <button type="button" class="btn btn-primary" id="register_ponentes">Registrar</button>            
+		                        </div>
+	                    </form>
+                        
                         </div>
                       </div>
                     </div>
                 </div>
 			</div>
+
+			<div class="modal fade" id="modalInformacion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" style="width: 50% !important;">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                          <h4 class="modal-title text-center" id="cabeceraRegistro2"><b></b></h4>
+                        </div>
+                        <div class="modal-body">
+                        <div id="mensaje"></div>
+                       
+                        <form id="frmPonentes" class="form-horizontal">
+	                        <div class="row">
+	                            <div class="form-group">		                               
+	                               <label for="socio" class="col-md-3 control-label" ><strong>Nombres:</strong></label>
+	                               <div class="col-md-4">
+	                            		<label for="socio" class="control-label" id="nombres"></label>                       
+	                               </div>	                               		                              
+	                            </div>		                          
+	                            <div class="form-group">
+	                               <label for="socio" class="col-md-3 control-label"><strong>T. Documento:</strong></label>
+	                               <div class="col-md-3">
+	                                   <label for="socio" class="control-label" id="tipoDoc" style='text-align: left; font-size: 12px;'></label> 
+	                               </div>	
+	                               <label for="socio" class="col-md-3 control-label"><strong>N° Documento: </strong></label>
+	                               <div class="col-md-3">
+	                                   <label for="socio" class="control-label" id="nroDoc"></label> 
+	                               </div>			                               	                               
+	                            </div> 
+                                <div class="form-group">                                       
+                                   <label for="socio" class="col-md-3 control-label" ><strong>Domicilio:</strong></label>
+                                   <div class="col-md-3">
+                                       <label for="socio" class="control-label" id="direccion"></label> 
+                                   </div>
+                                   <label for="socio" class="col-md-3 control-label"><strong>Teléfono:</strong></label>
+                                   <div class="col-md-3">
+                                        <label for="socio" class="control-label" id="telefono"></label> 
+                                    </div>                               
+                                </div>
+                                <div class="form-group">                                       
+                                   <label for="socio" class="col-md-3 control-label"><strong>Email:</strong></label>
+                                   <div class="col-md-3">
+                                        <label for="socio" class="control-label" id="email"></label> 
+                                    </div>                                     
+                                    <label for="socio" class="col-md-3 control-label"><strong>Celular:</strong></label>
+                                   <div class="col-md-3">
+                                        <label for="socio" class="control-label" id="celular"></label>
+                                    </div>                                                                
+                                </div>
+                                
+	                            <div class="form-group">		                               
+	                               <label for="socio" class="col-md-3 control-label"><strong>C. Profesional:</strong></label>
+	                               <div class="col-md-3">
+	                                   <label for="socio" class="control-label" id="carreraProfesional"></label>
+	                               </div>		                               
+	                               <label for="socio" class="col-md-3 control-label"><strong>F. Nacimiento:</strong></label>
+                                   <div class="col-md-3">
+                                       <label for="socio" class="control-label" id="fechaNacimiento"></label>
+                                   </div>                               
+	                            </div>
+                                <div class="form-group">                                       
+                                   <label for="socio" class="col-md-3 control-label"><strong>Nacionalidad:</strong></label>
+                                   <div class="col-md-3">
+                                       <label for="socio" class="control-label" id="nacionalidad"></label>
+                                   </div>
+                                   <label for="socio" class="col-md-3 control-label"><strong>Estado Laboral:</strong></label>
+                                   <div class="col-md-3">
+                                       <label for="socio" class="control-label" id="estadoLaboral"></label>
+                                   </div>                                      
+                                </div>
+                                <div class="form-group">                                       
+                                   <label for="socio" class="col-md-3 control-label"><strong>Centro de Trabajo:</strong></label>
+                                   <div class="col-md-4">
+                                       <label for="socio" class="control-label" id="centroTrabajo"></label>
+                                   </div>                                                              
+                                </div>
+                                <div class="form-group">                                       
+                                   <label for="socio" class="col-md-3 control-label"><strong>R. Hoja de Vida:</strong></label>
+                                   <div class="col-md-8">
+                                       <label for="socio" class="control-label" id="hojaVida" style='text-align: justify;' ></label>
+                                   </div>                                    
+                                </div>                                                 
+		                        <div class="modal-footer">
+		                            <button type="button" class="btn btn-primary" id="cancel_informacion">Cancelar</button>                  
+		                        </div>
+	                    </form>
+                        
+                        </div>
+                      </div>
+                    </div>
+                </div>
 
 			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
 				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
@@ -385,7 +481,7 @@
 	            }
 	        } 
 
-	        $('#id-input-file-1 , #id-input-file-2').ace_file_input({
+	        $('#id-input-file-1 , #imagen').ace_file_input({
                     no_file:'Ajuntar Cv...',
                     btn_choose:'Choose',
                     btn_change:'Change',

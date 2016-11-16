@@ -29,7 +29,7 @@ function listarArticulo()
         type:'POST',
         data: {param_opcion:'listar'},
         
-        url: "../../controller/controlambiente/ambiente_controller.php",
+        url: "../../controller/controlMantenedores/ambiente_controller.php",
         success:function(data){
         		
         
@@ -48,7 +48,7 @@ function mostrarTipo(){
     $.ajax({
         type: 'POST',        
         data:'param_opcion='+param_opcion,
-        url: "../../controller/controlambiente/ambiente_controller.php",
+        url: "../../controller/controlMantenedores/ambiente_controller.php",
         success: function(data){
             $('#combo1').html(data);
             
@@ -67,7 +67,7 @@ function mostrarLocal(){
     $.ajax({
         type: 'POST',        
         data:'param_opcion='+param_opcion,
-        url: "../../controller/controlambiente/ambiente_controller.php",
+        url: "../../controller/controlMantenedores/ambiente_controller.php",
         success: function(data){
             $('#combo2').html(data);
             
@@ -86,7 +86,7 @@ function mostrarTipo_e(){
     $.ajax({
         type: 'POST',        
         data:'param_opcion='+param_opcion,
-        url: "../../controller/controlambiente/ambiente_controller.php",
+        url: "../../controller/controlMantenedores/ambiente_controller.php",
         success: function(data){
             $('#combo1_e').html(data);
             
@@ -105,7 +105,7 @@ function mostrarLocal_e(){
     $.ajax({
         type: 'POST',        
         data:'param_opcion='+param_opcion,
-        url: "../../controller/controlambiente/ambiente_controller.php",
+        url: "../../controller/controlMantenedores/ambiente_controller.php",
         success: function(data){
             $('#combo2_e').html(data);
             
@@ -126,7 +126,7 @@ function editarAmbiente(idAmbiente)
         type:'POST',
         data: {param_opcion:'buscar',param_ambiente_id:idAmbiente},
         dataType: 'json',
-        url: "../../controller/controlambiente/ambiente_controller.php",
+        url: "../../controller/controlMantenedores/ambiente_controller.php",
         success:function(data){
                 if(data.length > 0)
                 {
@@ -141,8 +141,9 @@ function editarAmbiente(idAmbiente)
                             
                         });
 
+
                 }
-                            
+                           
         }
     });
     document.getElementById("codigo_e").disabled=false;
@@ -160,7 +161,7 @@ function mostrarAmbiente(idAmbiente)
         type:'POST',
         data: {param_opcion:'buscar',param_ambiente_id:idAmbiente},
         dataType: 'json',
-        url: "../../controller/controlambiente/ambiente_controller.php",
+        url: "../../controller/controlMantenedores/ambiente_controller.php",
         success:function(data){
                 if(data.length > 0)
                 {
@@ -197,7 +198,7 @@ function anularAmbiente(idAmbiente)
     $.ajax({
         type:'POST',
         data: {param_opcion:'eliminar',param_ambiente_id: idAmbiente},
-        url: "../../controller/controlambiente/ambiente_controller.php",
+        url: "../../controller/controlMantenedores/ambiente_controller.php",
         success:function(data)
         {
              	listarArticulo();
@@ -215,7 +216,7 @@ function eliminarArticuloF(idArticulo)
     $.ajax({
         type:'POST',
         data: {param_opcion:'eliminarF',param_articulo_id: idArticulo},
-        url: "../../controller/controlambiente/ambiente_controller.php",
+        url: "../../controller/controlMantenedores/ambiente_controller.php",
         success:function(data)
         {
                 //alert("Artículo eliminado satisfactoriamente"); 
@@ -237,31 +238,11 @@ function eliminarArticuloF(idArticulo)
 function limpiar()
 {
     
-    // document.getElementById("codigobarras").value='';
-    // document.getElementById("concepto").value='';
-    // document.getElementById("descripcion").value='';
-    // document.getElementById("presentacion1").value='';
-    // document.getElementById("presentacion2").value='';
-    // document.getElementById("proporcion").value='';
-    // //document.getElementById("subfamilia").selectedIndex=0;
-    // document.getElementById("observaciones").value='';
-    // //document.getElementById("stock").value='';
-    // document.getElementById("stockminimo").value='';
-    // document.getElementById("stock1").value='';
-    // document.getElementById("stock2").value='';
-    // document.getElementById("costocompra").value='';
-    // document.getElementById("precioventa").value='';
-    // document.getElementById("precioventa1").value='';
-    // document.getElementById("precioventa2").value='';
-    // document.getElementById("igv").value='';
-    // document.getElementById("tran").checked=false;
-    // document.getElementById("presentacion1").disabled=true;
-    // document.getElementById("presentacion2").disabled=true;
-    // document.getElementById("precioventa").disabled=false;
-    // document.getElementById("precioventa1").disabled=true;
-    // document.getElementById("precioventa2").disabled=true;
-    // document.getElementById("stock1").disabled=true;
-    // document.getElementById("stock2").disabled=true;
+     descripcion = document.getElementById("descripcion").value='';
+    capacidad = document.getElementById("capacidad").value='';
+    tipoAmb = document.getElementById("tipoAmb").selectedIndex='0';
+    local = document.getElementById("local").selectedIndex='0';
+    
 
 }
 

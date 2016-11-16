@@ -152,9 +152,7 @@ class Ambiente_Model {
                     <td style='text-align: center; font-size: 11px; height: 10px; '>".($datos[$i]["Amb_estado"])."</td>                    
                     
                     <td style='text-align: center' class='hidden-sm hidden-xs action-buttons'>
-                    <a class='blue' >
-                    <i  class='ace-icon fa fa-search bigger-130' onclick='mostrarAmbiente(".$datos[$i]["Amb_idAmbiente"].")' href='#'' type='button' data-toggle='modal' data-target='#modalEditarAmb' value='Editar'></i>  
-                    </a>
+                    
                     <a class='green' href='#'>
                     <i  class='ace-icon fa fa-pencil bigger-130' onclick='editarAmbiente(".$datos[$i]["Amb_idAmbiente"].")' href='#'' type='button' data-toggle='modal' data-target='#modalEditarAmb' value='Eliminar'></i>
                     </a>";
@@ -186,14 +184,14 @@ class Ambiente_Model {
         
         $this->prepararConsultaAmbiente('opc_grabar');
         if($this->result)
-        header("Location:../../view/Mantenedores/ambientes.php");
+        header("Location:../../view/Mantenedores/ambiente_view.php");
         //echo '{"success":true,"message":{"reason": "Grabado Correctamente"}}';
     }
 
     function actualizar() {
         $this->prepararConsultaAmbiente('opc_actualizar');
         if($this->result)
-        header("Location:../../view/mantenedores/ambientes.php");
+        header("Location:../../view/mantenedores/ambiente_view.php");
     }
     
 
@@ -205,12 +203,7 @@ class Ambiente_Model {
         echo 1;
     }
 
-    function eliminarF() {
-        $this->prepararConsultaAmbiente('opc_eliminarFisica');
-        if($this->result)
-        {echo 1;}
-    
-    }
+
 
     function buscar()
     {
@@ -235,6 +228,16 @@ class Ambiente_Model {
                              
         }
     }
+    function get_ambientes(){
+            $sql = "SELECT
+                    Amb_idAmbiente,
+                    Amb_descripcion                    
+                    FROM ambiente
+                    ";
+            $res = mysqli_query($this->conexion,$sql) or die (mysqli_error($this->conexion));
+            $data = mysqli_fetch_all($res, MYSQLI_ASSOC);
+            return json_encode($data);
+        }
 
     
 }

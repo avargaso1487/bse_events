@@ -107,7 +107,7 @@ require('../sup_layout.php');
                         <i class="ace-icon fa fa-home home-icon"></i>
                         <a href="#">Mantenedores</a>
                     </li>
-                    <li><a href="participantes.php">Participantes</a></li>
+                    <li><a href="participante_view.php">Participantes</a></li>
                     <li>
                         <span class="invoice-info-label">Fecha:</span>
                         <span class="blue"><?php echo date('d-m-Y'); ?></span>
@@ -124,6 +124,7 @@ require('../sup_layout.php');
                 </div><!-- /.page-header -->
                 <div class="row">
                     <div class="col-md-12">
+                        <div id="mensaje2"></div>
                         <div class="table-header">
                             PARTICIPANTES REGISTRADOS &nbsp;&nbsp;
                             <a  href="#" id="btn_nuevo_participante" class="white">
@@ -135,12 +136,12 @@ require('../sup_layout.php');
                                 <thead>
                                 <tr>
                                     <th style="text-align: center; font-size: 11px; height: 10px; width: 5%;">N°</th>
-                                    <th style="text-align: center; font-size: 11px; height: 10px; width: 15%;">APELLIDOS Y NOMBRES</th>
-                                    <th style="text-align: center; font-size: 11px; height: 10px; width: 9%;">Nº DOCUMENTO</th>
+                                    <th style="text-align: center; font-size: 11px; height: 10px; width: 20%;">APELLIDOS Y NOMBRES</th>
+                                    <th style="text-align: center; font-size: 11px; height: 10px; width: 10%;">DOCUMENTO</th>
                                     <th style="text-align: center; font-size: 11px; height: 10px; width: 10%;">NIVEL</th>
-                                    <th style="text-align: center; font-size: 11px; height: 10px; width: 9%;">TEL. MÓVIL</th>
-                                    <th style="text-align: center; font-size: 11px; height: 10px; width: 10%;">CENTRO DE TRABAJO</th>
-                                    <th style="text-align: center; font-size: 11px; height: 10px; width: 5%;">ESTADO</th>
+                                    <th style="text-align: center; font-size: 11px; height: 10px; width: 12%;">C. PROFESIONAL</th>
+                                    <th style="text-align: center; font-size: 11px; height: 10px; width: 17%;">EMAIL</th>
+                                    <th style="text-align: center; font-size: 11px; height: 10px; width: 10%;">ESTADO</th>
                                     <th style="text-align: center; font-size: 11px; height: 10px; width: 8%;">OPERACIONES</th>
                                 </tr>
                                 </thead>
@@ -176,6 +177,7 @@ require('../sup_layout.php');
                         <h4 class="modal-title text-center" id="cabeceraRegistro"><b></b></h4>
                     </div>
                     <div class="modal-body">
+                        <div id="mensaje"></div>
                         <form role="form" class="form-horizontal">
                             <div class="form-body">
                                 <div class="row">
@@ -191,50 +193,70 @@ require('../sup_layout.php');
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-2 control-label">D.N.I.*</label>
-                                        <div class="col-md-3">
-                                            <input type="text" class="form-control" id="dni_participante" name="dni_participante" placeholder="Ingrese el número de DNI" onkeypress="return solonumeros(event)">
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" id="dni_participante" name="dni_participante" placeholder="Ingrese el número de DNI" onkeypress="return solonumeros(event)" maxlength="8">
                                         </div>
-                                        <label class="col-md-1 control-label">Dirección*</label>
-                                        <div class="col-md-5">
+                                        <label class="col-md-1 control-label">Dirección</label>
+                                        <div class="col-md-4">
                                             <input type="text" class="form-control" id="direccion_participante" name="direccion_participante" placeholder="Ingrese la dirección">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-2 control-label">Fecha Nacimiento *</label>
-                                        <div class="col-md-2">
-                                            <input type="text" class="form-control" id="fechaNacimiento_participante" name="fechaNacimiento_participante">
+                                        <div class="col-md-4">
+                                            <input type="date" class="form-control" id="fechaNacimiento_participante" name="fechaNacimiento_participante">
                                         </div>
-                                        <label class="col-md-1 control-label">Tel. Fijo</label>
-                                        <div class="col-md-3">
-                                            <input type="text" class="form-control" id="telefonoFijo_participante" name="telefonoFijo_participante" placeholder="EJM: (044) - 123456">
-                                        </div>
-                                        <label class="col-md-1 control-label">Tel. Móvil</label>
-                                        <div class="col-md-3">
-                                            <input type="text" class="form-control" id="telefonoFijo_participante" name="telefonoFijo_participante" placeholder="EJM: (044) - 123456">
+                                        <label class="col-md-1 control-label">Teléfono</label>
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    <i class="ace-icon fa fa-phone"></i>
+                                                </span>
+                                                <input type="text" class="form-control" id="telefonoFijo_participante" name="telefonoFijo_participante" placeholder="EJM: (044) - 123456">
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">Celular</label>
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    <i class="ace-icon fa fa-phone"></i>
+                                                </span>
+                                                <input type="text" class="form-control" id="telefonoMovil_participante" name="telefonoMovil_participante" placeholder="EJM: 999555999">
+                                            </div>
+                                        </div>
+                                        <label class="col-md-1 control-label">Email *</label>
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    <i class="ace-icon fa fa-envelope"></i>
+                                                </span>
+                                                <input type="text" class="form-control" id="email_participante" name="email_participante" placeholder="Ingrese su correo electrónico" onKeyUp="javascript:validateMail('email_participante')">
 
-                                    <div class="form-group">
-                                        <label style="font-weight:bold;">Email *</label>
-                                        <input type="text" class="form-control" id="email_participante" name="email_participante" placeholder="Ingrese su dirección de correo electrónico">
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="form-group">
-                                        <label style="font-weight:bold;">Nivel *</label>
-                                        <select class="form-control" id="nivel_participante" name="nivel_participante">
-                                            <option value="">Seleccione...</option>
-                                            <option value="estudiante">ESTUDIANTE</option>
-                                            <option value="egresado">EGRESADO</option>
-                                            <option value="egresado">PROFESIONAL</option>
-                                        </select>
+                                        <label class="col-md-2 control-label">Nivel *</label>
+                                        <div class="col-md-3">
+                                            <select class="form-control" id="nivel_participante" name="nivel_participante">
+                                                <option value="">Seleccione...</option>
+                                                <option value="estudiante">ESTUDIANTE</option>
+                                                <option value="egresado">EGRESADO</option>
+                                                <option value="profesional">PROFESIONAL</option>
+                                            </select>
+                                        </div>
+                                        <label class="col-md-2 control-label">Carrera Profesional *</label>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" id="profesion_participante" name="profesion_participante" placeholder="Ingrese la carrera profesional" onkeypress="return soloLetras(event)">
+                                        </div>
                                     </div>
-
                                     <div class="form-group">
-                                        <label style="font-weight:bold;">Carrera Profesional *</label>
-                                        <input type="text" class="form-control" id="profesion_participante" name="profesion_participante" placeholder="Ingrese la carrera profesional">
-                                    </div>
-                                    <div class="form-group">
-                                        <label style="font-weight:bold;">Centro de Trabajao </label>
-                                        <input type="text" class="form-control" id="centroTrabajo_participante" name="centroTrabajo_participante" placeholder="Ingrese el centro de trabajo">
+                                        <label class="col-md-2 control-label">Centro de Trabajo</label>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" id="centroTrabajo_participante" name="centroTrabajo_participante" placeholder="Ingrese el centro de trabajo">
+                                        </div>
                                     </div>
                                 </div>
                                 <input  type="hidden" id="operacion" name="operacion" value="Registrar"/>
