@@ -19,7 +19,6 @@
 		$eventoID = $_POST['eventoID'];
 	}
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 	<!-- head -->
@@ -67,47 +66,46 @@
 										Datos generales del evento
 						      		</div>
 							      	<div class="widget-main row">
-							      		<div class="col-md-5 form-group">
+							      		<div class="col-md-4 col-md-offset-1  form-group">
 											<label><strong> Sucursal  </strong></label>
-											<select class="form-control input-sm" id="cboSucursal" name="cboSucursal">												
+											<select disabled class="form-control input-sm" id="cboSucursal" name="cboSucursal">
 											</select>
 					      				</div>
-					      				<div class="col-md-7 form-group">
+					      				<div class="col-md-6 form-group">
 											<label><strong> Nombre del evento  </strong></label>
-											<input type="text" class="form-control input-sm" id="txtNombre" name="txtNombre">
+											<input disabled type="text" class="form-control input-sm" id="txtNombre" name="txtNombre">
 					      				</div>
-					      				<div class="col-md-3 form-group">
+					      				<div class="col-md-2 col-md-offset-1 form-group">
 											<label><strong> Fecha inicio </strong></label>
-											<input class="form-control" id="txtFechaI" name="txtFechaI" type="date">
+											<input disabled class="form-control input-sm" id="txtFechaI" name="txtFechaI" type="date">
 					      				</div>
-					      				<div class="col-md-3 form-group">
+					      				<div class="col-md-2 form-group">
 											<label><strong> Fecha fin </strong></label>
-											<input class="form-control" id="txtFechaF" name="txtFechaF" type="date">
+											<input disabled class="form-control input-sm" id="txtFechaF" name="txtFechaF" type="date">
 					      				</div>
-					      				<div class="col-md-3 form-group">
+					      				<div class="col-md-2 form-group">
 											<label><strong> Duración </strong>(Días)</label>
-											<input type="text" class="form-control input-sm" id="txtDuracion" name="txtDuracion">
+											<input disabled type="text" class="form-control input-sm" id="txtDuracion" name="txtDuracion" style="text-align: center">
 					      				</div>
-					      				<div class="col-md-3 form-group">
-											<label><strong> Precio total </strong>(S/.)</label>
-											<input type="text" class="form-control input-sm" id="txtPrecioT" name="txtPrecioT">
+					      				<div class="col-md-2 form-group">
+											<label><strong> Precio del evento </strong>(S/.)</label>
+											<input disabled type="text" class="form-control input-sm" id="txtPrecioT" name="txtPrecioT">
 					      				</div>
-					      				<div class="col-md-8 form-group">
-											<label><strong> Descripción </strong></label>
-											<textarea class="form-control" id="txtDescripcionEven" name="txtDescripcionEven"></textarea>
-					      				</div>
-					      				<div class="col-md-4 form-group">
+					      				<div class="col-md-2 form-group">
 											<label><strong> Estado </strong></label>
-											<select class="form-control input-sm" id="cboEstadoEvem" name="cboEstadoEvem">
+											<select disabled class="form-control input-sm" id="cboEstadoEvem" name="cboEstadoEvem">
 												<option value="1"> Activo </option>
 												<option value="0"> Inactivo </option>
 											</select>
 					      				</div>
+					      				<div class="col-md-6 col-md-offset-1 form-group">
+											<label><strong> Descripción </strong></label>
+											<textarea disabled class="form-control input-sm" id="txtDescripcionEven" name="txtDescripcionEven"></textarea>
+					      				</div>					      				
 							      	</div>
 							      	<div class="form-actions center" style="margin-bottom:-0px;">
 										<button type="button" class="btn btn-sm btn-success">
-											Submit
-											<i class="ace-icon fa fa-arrow-right icon-on-right bigger-110"></i>
+											Actualizar
 										</button>
 									</div>
 								</div>
@@ -352,9 +350,6 @@ function guardar_actividad(){
 	}else{
 		$('#txtHoraF').parent().removeClass('has-error');
 	}
-
-
-
     if(document.getElementsByClassName("has-error").length > 0){
       alert("Verifique los datos ingresados");
       return false;
@@ -399,7 +394,6 @@ function cargar_datos_generales(){
       	url: '../../controller/controlEvento/evento_controller.php',
       	success: function(data){
       		var obj = JSON.parse(data);
-
       		$('#txtNombre').val(obj.evento[0].Even_nombre);
       		$('#txtFechaI').val(obj.evento[0].Even_fechaInicio);
       		$('#txtFechaF').val(obj.evento[0].Even_fechaFin);
@@ -421,6 +415,20 @@ function cargarCboTiposActiv(){
       	url: '../../controller/controlActividad/actividad_controller.php',
       	success: function(data){
       		$('#cboTipoActividad').html(data);
+      	},
+      	error: function(data){
+                 
+      	}
+  	});
+}
+function cargarCboSucursales(){
+	var opcion = 6;
+  	$.ajax({
+      	type: 'POST',        
+      	data:'opcion='+opcion,
+      	url: '../../controller/controlEvento/evento_controller.php',
+      	success: function(data){
+      		$('#cboSucursal').html(data);
       	},
       	error: function(data){
                  
@@ -475,16 +483,15 @@ function listar_actividades(){
 
 </script>
 <script type="text/javascript">
+	cargarCboTiposActiv();
+	cargarCboPonente();
+	cargarCboAmbientes();
+	listar_actividades();
+	cargarCboSucursales();
 	$(".timepicker").timepicker({
       showInputs: false
     });
 	<?php if (isset($_POST['eventoID'])): ?>
 		cargardatos();
 	<?php endif ?>
-	
-	cargarCboTiposActiv();
-	cargarCboPonente();
-	cargarCboAmbientes();
-	listar_actividades();
-
 </script>

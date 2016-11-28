@@ -1,7 +1,9 @@
 <?php 
 	session_start();
 	include_once '../../model/modelEvento/evento_model.php';
+	include_once '../../model/modelMantenedores/sucursal_model.php';
 	$evento = new Evento_model();
+	$sucursal = new Sucursal_Model();
 
 	$param['eventoID'] = "";
 	$param['sucursalID'] = "";
@@ -24,16 +26,27 @@
 	if(isset($_POST['cboEstado'])){ $param['estado'] = $_POST['cboEstado'];}
 
 	switch ($_POST['opcion']) {
-	   case 1:
+	   	case 1:
 	        registrar_nuevo_evento($evento,$param);
 	        break;
-	   case 2:
+	   	case 2:
 	        get_evento($evento,$param);
 	        break;
-	   case 3:
-	         listar_eventos($evento);
-	         break;
+	   	case 3:
+	        listar_eventos($evento);
+	        break;
+	    case 6:
+	        get_cbo_sucursal($sucursal);
+	        break;
 
+	}
+	function get_cbo_sucursal($sucursal){
+		$sucursales = $sucursal->get_sucursales();
+		$sucursales = json_decode($sucursales);
+		echo "<option value='0'>-- Seleccionar sucursal --</option>";
+		foreach ($sucursales as $key => $sucursal){
+			echo "<option value=".$sucursal->Suc_idSucursal.">".$sucursal->Suc_nombre."</option>";
+		}
 	}
 	function get_evento($evento, $param){
 		$rpta = $evento->get_evento($param);

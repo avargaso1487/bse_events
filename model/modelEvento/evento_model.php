@@ -11,18 +11,28 @@
         }
         
         function registrar_nuevo_evento($param){
-            $sql = "INSERT INTO evento (Suc_idSucursal,Even_nombre,Even_descripcion,
-                    Even_fechaInicio,Even_fechaFin,Even_estado) VALUES(
+            $sql = "INSERT INTO evento (
+                    Suc_idSucursal,
+                    Even_nombre,
+                    Even_descripcion,
+                    Even_fechaInicio,
+                    Even_fechaFin,
+                    Even_duracion,
+                    Even_precioTotal,
+                    Even_estado
+                    ) VALUES(
                     '".$param['sucursalID']."',
-                    '".$param['nombre']."',
+                    '".strtoupper($param['nombre'])."',
                     '".$param['descripcion']."',
                     '".$param['fechaI']."',
-                    '".$param['fechaI']."',
+                    '".$param['fechaF']."',
+                    '".$param['duracion']."',
+                    '".$param['precioT']."',
                     '".$param['estado']."'
                     )";
             $res = mysqli_query($this->conexion,$sql) or die (mysqli_error($this->conexion));
             if(!$res) return  0;
-            else return 1;
+            else return mysqli_insert_id($this->conexion);
         }
         function get_evento($param){
             $sql = "SELECT

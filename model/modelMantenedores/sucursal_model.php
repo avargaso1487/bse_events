@@ -93,6 +93,18 @@
             $this->cerrarAbrir();
             echo 1;                       
         }
+        function get_sucursales(){
+            $sql = "SELECT
+                    Suc_idSucursal,
+                    Suc_nombre,
+                    Suc_direccion,
+                    Suc_estado
+                    FROM sucursal
+                    ";
+            $res = mysqli_query($this->conexion,$sql) or die (mysqli_error($this->conexion));
+            $data = mysqli_fetch_all($res, MYSQLI_ASSOC);
+            return json_encode($data);
+        }
 
         function mostrar_sucursal() {
             $i = 0;
