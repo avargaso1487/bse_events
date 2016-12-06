@@ -74,16 +74,30 @@
             $data = mysqli_fetch_all($res, MYSQLI_ASSOC);
             return json_encode($data);
         }
-
-
-
-
-
-
-
-
-
-
+        function get_actividad($param){
+             $sql = "SELECT
+                    a.Acti_idActividad,
+                    a.Even_idEvento,
+                    a.Pon_idPonente,
+                    a.Acti_nombre,
+                    a.Acti_descripcion,
+                    a.Acti_precio,
+                    a.Amb_idAmbiente,
+                    a.Acti_fecha,
+                    a.Acti_horaInicio,
+                    a.Acti_horaFin,
+                    a.TipoActi_idTipoActividad,
+                    a.estado,
+                    ta.TipoActi_descripcion
+                    FROM actividad a
+                    INNER JOIN tipoActividad ta ON ta.TipoActi_idTipoActividad = a.TipoActi_idTipoActividad
+                    WHERE a.Acti_idActividad = '$param[actividadID]'
+                    ";
+            $res = mysqli_query($this->conexion,$sql) or die (mysqli_error($this->conexion));
+            $data['actividad'] = mysqli_fetch_all($res, MYSQLI_ASSOC);
+            return json_encode($data);
+        }
+        
         function get_eventos(){
             $sql = "SELECT
                     e.Even_idEvento,

@@ -85,7 +85,7 @@
 						      				</div>
 						      				<div class="col-md-2 form-group">
 												<label><strong> Duración </strong>(Dias)</label>
-	                                       		<input class="form-control" id="txtDuracion" name="txtDuracion" type="text" onkeypress="return soloNumeroDecimal(event);" readonly>
+	                                       		<input style="text-align:center;"class="form-control" id="txtDuracion" name="txtDuracion" type="text" onkeypress="return soloNumeroDecimal(event);" readonly>
 						      				</div>
 						      				<div class="col-md-2 form-group">
 												<label><strong> Precio del evento </strong>(S/.)</label>
@@ -157,7 +157,6 @@ function validarFechaI () {
 		$('#txtFechaF').val("");
 		$('#txtDuracion').val("");
 		$('#txtFechaF').prop("disabled", true);
-
 		return false;
 	}else{		
 		$('#txtFechaF').prop("disabled", false);
@@ -166,7 +165,7 @@ function validarFechaI () {
 	ArrayfechaI = fechaI.split("-");
 	fechaI = "" + ArrayfechaI[2] +'-'+ (ArrayfechaI[1]) +'-'+ ArrayfechaI[0] + "";
 	if(diferenciaFechasDMA(hoyDMA,fechaI) < 0){
-		alert("Fecha no válida");
+		alert("Fecha no válida.\nSeleccione una fecha posterior a hoy.");
 		$('#txtFechaI').val("");
 		$('#txtFechaF').val("");
 		$('#txtDuracion').val("");
@@ -186,7 +185,7 @@ function validarFechaF(){
 	ArrayfechaF = fechaF.split("-");
 	fechaF = "" + ArrayfechaF[2] +'-'+ (ArrayfechaF[1]) +'-'+ ArrayfechaF[0] + "";
 	if(diferenciaFechasDMA(fechaI,fechaF) < 0){
-		alert("Fecha no válida");
+		alert("Fecha no válida.\nSeleccione una fecha posterior a la fecha inicial.");
 		$('#txtFechaF').val("");
 		$('#txtDuracion').val("");
 	}else{
@@ -198,31 +197,12 @@ function validarFechaF(){
 function guardarEvento(){
 	$('#btnGuardar').prop("disabled", true);
 	var opcion = 1;
-	if($.trim($('#cboSucursal').val())==0){
-		$('#cboSucursal').parent().addClass('has-error');
-	}else{
-		$('#cboSucursal').parent().removeClass('has-error');
-	}
-	if($.trim($('#txtNombre').val()).length==0){
-		$('#txtNombre').parent().addClass('has-error');
-	}else{
-		$('#txtNombre').parent().removeClass('has-error');
-	}
-	if($.trim($('#txtFechaI').val()).length==0){
-		$('#txtFechaI').parent().addClass('has-error');
-	}else{
-		$('#txtFechaI').parent().removeClass('has-error');
-	}
-	if($.trim($('#txtFechaF').val()).length==0){
-		$('#txtFechaF').parent().addClass('has-error');
-	}else{
-		$('#txtFechaF').parent().removeClass('has-error');
-	}
-	if($.trim($('#txtPrecioT').val()).length==0){
-		$('#txtPrecioT').parent().addClass('has-error');
-	}else{
-		$('#txtPrecioT').parent().removeClass('has-error');
-	}
+	valorNoValido('#cboSucursal',0);
+	inputMinimo('#txtNombre',2);
+	inputMinimo('#txtFechaI',1);
+	inputMinimo('#txtFechaF',1);
+	inputMinimo('#txtPrecioT',1);
+
     if(document.getElementsByClassName("has-error").length > 0){
       alert("Verifique los datos ingresados");
       $('#btnGuardar').prop("disabled", false);
@@ -267,7 +247,6 @@ function bloquearControles(opc){
 	$('#txtPrecioT').prop("disabled", true);
 	$('#cboSucursal').prop("disabled", true);
 	$('#cboEstado').prop("disabled", true);
-
 }
 function cargarCboSucursales(){
 	var opcion = 6;

@@ -4,6 +4,27 @@ var mes= f.getMonth()+1;
 var hoyDMA = f.getDate()+'-'+mes+'-'+año;
 
 
+// Veirfica que el valor que se mande no sea igual al valor del elemento dado
+function valorNoValido(element,valor){
+	if($(element).val() == valor) $(element).parent().addClass('has-error');
+	else $(element).parent().removeClass('has-error');
+}
+// Valida que el input dado tenga un minimo de caracteres
+function inputMinimo(input,min){
+	if($.trim($(input).val()).length < min) $(input).parent().addClass('has-error');
+	else $(input).parent().removeClass('has-error');
+}
+// Valida que el input dado tenga un maximo de caracteres
+function inputMaximo(input,max){
+	if($.trim($(input).val()).length > max) $(input).parent().addClass('has-error');
+	else $(input).parent().removeClass('has-error');
+}
+// Valida que el input dado tenga una longitud determinada
+function inputIgual(input,numCaracteres){
+	if($.trim($(input).val()).length != numCaracteres) $(input).parent().addClass('has-error');
+	else $(input).parent().removeClass('has-error');
+}
+
 function diferenciaFechasDMA(dateStart,dateEnd){//Dia, Mes Año
 	valuesStart=dateStart.split("-");
     valuesEnd = dateEnd.split("-");

@@ -47,6 +47,9 @@
 	   	case 3:
 	        listar_actividades($actividad,$param);
 	        break;
+	    case 4:
+	        get_actividad($actividad,$param);
+	        break;	        
 	    case 6:
 	        get_cbo_tipos_activ($tipo_actividad);
 	        break;
@@ -85,16 +88,15 @@
 	function registrar_nueva_actividad($actividad,$evento, $param){
 		$rpta = $actividad->registrar_nueva_actividad($param);
 		if($rpta == 1){
-			$rpta2 = $actividad->actualizar_por_actividad($param);
-			if ($rpta2 == 1)echo 1;
-			else echo 0;
+			echo 1;
 		}else{
 			echo 0;
 		}
 	}
-
-
-
+	function get_actividad($actividad, $param){
+		$rpta = $actividad->get_actividad($param);
+		echo $rpta;
+	}
 
 
 	function listar_actividades($actividad, $param){
@@ -120,18 +122,25 @@
 		                    <i class='ace-icon fa fa-caret-down'></i>
 		                </button>
 
-		                <ul class='lista-flotante dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close '>
+		                <ul class='lista-flotante dropdown-menu dropdown-only-icon dropdown-menu-right dropdown-caret dropdown-close '>
 				                <li>
-			                    	<form method='post' action='solicitud.php' target='blanck'>
-							            <input type='hidden' id='eventoID' name='eventoID'>                
-			                        	<button type='submit' class='btn btn-block btn-transparente btn-flat btn-xs'>
-			                        		<span class='text-blue'>
-			                            	<i class='ace-icon fa fa-search bigger-120'></i>
-			                          		</span>
-				                          	<span> Asignar actividades </span>
-										</button>
-							        </form>
+			                    	<button class='btn btn-xs btn-success btn-block' onclick='verActividad(".$actividad->Acti_idActividad.");'>
+										<i class='ace-icon fa fa-search bigger-120'></i>
+										Ver
+									</button>
 		                   		</li>
+		                   		<li>
+		                   			<button class='btn btn-xs btn-info btn-block' onclick='editarActividad(".$actividad->Acti_idActividad.");'>
+										<i class='ace-icon fa fa-pencil bigger-120'></i>
+										Editar
+									</button>
+								</li>
+								<li>
+									<button class='btn btn-xs btn-danger btn-block'>
+										<i class='ace-icon fa fa-trash-o bigger-120'></i>
+										Eliminar
+									</button>
+								</li>
 		                </ul>
 		              </div>
 					</td>

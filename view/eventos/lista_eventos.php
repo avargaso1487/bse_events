@@ -70,9 +70,10 @@
 										<thead>
 								            <tr>
 								                <th>Código</th>
+								                <th>Sucursal</th>
 								                <th>Nombre de evento</th>
 								                <th>Fecha Inicio - Fin</th>
-								                <th>Costo total</th>
+								                <th>Precio evento</th>
 								                <th>Nº asistentes</th>
 								                <th></th>
 								            </tr>

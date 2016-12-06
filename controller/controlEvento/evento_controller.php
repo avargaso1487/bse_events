@@ -59,11 +59,17 @@
 	function listar_eventos($evento){
 		$eventos = $evento->get_eventos();
 		$eventos = json_decode($eventos);
+		
 		foreach ($eventos as $key => $evento){
+			$arrayFechaI = explode("-", $evento->Even_fechaInicio);
+			$mostrarFechaI = $arrayFechaI[2].'/'.$arrayFechaI[1].'/'.$arrayFechaI[0];
+			$arrayFechaF = explode("-", $evento->Even_fechaFin);
+			$mostrarFechaF = $arrayFechaF[2].'/'.$arrayFechaF[1].'/'.$arrayFechaF[0];
 			echo "<tr>
 					<td>".$evento->Even_idEvento."</td>
+					<td>".$evento->Suc_nombre."</td>
 					<td>".$evento->Even_nombre."</td>
-					<td>".$evento->Even_fechaInicio.' - '.$evento->Even_fechaFin."</td>
+					<td>".$mostrarFechaI.' - '.$mostrarFechaF."</td>
 					<td>".$evento->Even_precioTotal."</td>
 					<td>0</td>
 					<td >
@@ -72,26 +78,15 @@
 		                    <i class='ace-icon fa fa-caret-down'></i>
 		                </button>
 
-		                <ul class='lista-flotante dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close '>
-				                <li>
-			                    	<form method='post' action='solicitud.php' target='blanck'>
-							            <input type='hidden' id='eventoID' name='eventoID'>                
-			                        	<button type='submit' class='btn btn-block btn-transparente btn-flat btn-xs'>
-			                        		<span class='text-blue'>
-			                            	<i class='ace-icon fa fa-search bigger-120'></i>
-			                          		</span>
-				                          	<span> Asignar actividades </span>
-										</button>
-							        </form>
-		                   		</li>
+		                <ul class='lista-flotante dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close '>				                
 		                   		<li>
-			                    	<form method='post' action='evento.php' target='blanck'>
+			                    	<form method='post' action='evento.php'>
 							            <input type='hidden' id='eventoID' name='eventoID' value='$evento->Even_idEvento'>
 			                        	<button type='submit' class='btn btn-block btn-primary btn-flat btn-xs'>
 			                        		<span class='text-blue'>
 			                            	<i class='ace-icon fa fa-search bigger-120'></i>
 			                          		</span>
-				                          	<span> Ver evento </span>
+				                          	<span> Gestionar evento </span>
 										</button>
 							        </form>
 		                   		</li>

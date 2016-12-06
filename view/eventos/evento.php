@@ -93,7 +93,7 @@
 					      				</div>
 					      				<div class="col-md-2 form-group">
 											<label><strong> Estado </strong></label>
-											<select disabled class="form-control input-sm" id="cboEstadoEvem" name="cboEstadoEvem">
+											<select disabled class="form-control input-sm" id="cboEstadoEven" name="cboEstadoEven">
 												<option value="1"> Activo </option>
 												<option value="0"> Inactivo </option>
 											</select>
@@ -104,9 +104,20 @@
 					      				</div>					      				
 							      	</div>
 							      	<div class="form-actions center" style="margin-bottom:-0px;">
-										<button type="button" class="btn btn-sm btn-success">
+										<button disabled type="button" id="btnActualizar"  class="btn btn-sm btn-success">
 											Actualizar
 										</button>
+										<button disabled type="button" id="btnCancelar" class="btn btn-sm btn-grey " onclick="habilitarEditor(false);">
+											Cancelar
+										</button>
+										<div class="widget-toolbar action-buttons" id="btnEditar">
+											<button type="button" class="btn btn-sm btn-primary" onclick="habilitarEditor(true);">
+												<a href="#" data-action="reload">
+													<i class="ace-icon fa fa-pencil white"></i>
+												</a>
+												Editar datos generales
+											</button>
+										</div>
 									</div>
 								</div>
 								<!-- Contenedor Datos generales del evento -->
@@ -117,7 +128,7 @@
 									<div class="table-header">
 										Lista de actividades
 										&nbsp;&nbsp;
-										<a  href="javascript:;" onclick="abrirModal('#modalActividad');" id="nueva_actividad" class="white">
+										<a  href="javascript:;" onclick="limpiar_form_activ();abrirModal('#modalActividad');" id="nueva_actividad" class="white">
 				                            <i class='ace-icon fa fa-plus-circle bigger-150'></i>
 				                        </a>
 						      		</div>
@@ -145,35 +156,6 @@
 								<!-- Contenedor Datos generales del evento -->
 							</div>
 							<!-- Contenedor Lista de actividades -->
-							<div class="col-md-12">
-								<div class="Contenedor widget-box">
-									<div class="table-header">
-										Lista de asistentes
-						      		</div>
-							      	<div class="widget-main">
-							      		<table id="tabla_asistentes" class="table table-striped table-bordered">
-											<thead>
-									            <tr>
-									                <th>Código</th>
-									                <th>Actividad</th>
-									                <th>Ponente</th>
-									                <th>Fecha</th>
-									                <th>Hora Inicio - Fin</th>
-									                <th>Precio</th>
-									                <th>Tipo actividad</th>
-									                <th>Estado</th>
-									                <th>Ope</th>
-									            </tr>
-											</thead>
-											<tbody id="cuerpo_tabla_asistentes">
-												<!-- Lista de eventos -->
-											</tbody>
-										</table>
-							      	</div>
-								</div>
-								<!-- Contenedor Datos generales del evento -->
-							</div>
-							<!-- Contenedor Lista de asistentes -->
 						</div>
 
 
@@ -214,7 +196,7 @@
 		                            <div class="form-group">
 		                               <label class="col-md-2 col-md-offset-1 control-label">Actividad</label>
 		                               <div class="col-md-7">
-		                                   <input class="form-control" id="txtActividad" name="txtActividad" type="text">
+		                                   <input class="form-control" id="txtActividad" name="txtActividad" type="text" style="text-transform: uppercase">
 		                               </div>		                                                  
 		                            </div>	
 		                            <div class="form-group">
@@ -242,7 +224,7 @@
 		                            <div class="form-group">
 		                               <label class="col-md-2  col-md-offset-1  control-label">Fecha</label>
 		                               <div class="col-md-4">
-		                                   <input class="form-control" id="txtFecha" name="txtFecha" type="date">
+		                                   <input class="form-control" id="txtFecha" name="txtFecha" type="date" onblur="validarFecha(this.value)">
 		                               </div>
 		                            </div>
 		                            <div class="form-group">
@@ -250,7 +232,7 @@
 		                               <div class="col-md-3">
 		                                   <div class="bootstrap-timepicker">
 								                  <div class="input-group">
-								                    <input type="text" class="form-control timepicker" id="txtHoraI" name="txtHoraI">
+								                    <input type="text" class="form-control timepicker" id="txtHoraI" name="txtHoraI" value="">
 
 								                    <div class="input-group-addon">
 								                      <i class="fa fa-clock-o"></i>
@@ -262,7 +244,7 @@
 		                                <div class="col-md-3">
 		                                   <div class="bootstrap-timepicker">
 								                  <div class="input-group">
-								                    <input type="text" class="form-control timepicker" id="txtHoraF" name="txtHoraF">
+								                    <input type="text" class="form-control timepicker" id="txtHoraF" name="txtHoraF" value="">
 
 								                    <div class="input-group-addon">
 								                      <i class="fa fa-clock-o"></i>
@@ -289,8 +271,8 @@
 		                               </div>
 		                            </div>
 			                        <div class="modal-footer">
-			                            <button type="button" class="btn btn-primary" id="cancel_sucursal" onclick="cerrarModal('#modalActividad');">Cancelar</button> 
-			                            <button type="button" class="btn btn-primary" id="register_sucursal" onclick="guardar_actividad();"> Registrar </button>
+			                            <button type="button" class="btn btn-primary" id="btnCerrarActiv" onclick="cerrarModal('#modalActividad');">Regresar</button> 
+			                            <button type="button" class="btn btn-primary" id="btnGuardarActiv" onclick="guardar_actividad();"> Registrar </button>
 			                        </div>
 		                    </form>
                         </form>
@@ -313,43 +295,78 @@
 <?php require('footer.php') ?>
 
 <script type="text/javascript">
+function editarActividad(actividadID){
+	verActividad(actividadID);
+	$('#btnGuardarActiv').show();
+	$('#btnGuardarActiv').html("Actualizar");
+}
+function verActividad(actividadID){
+	abrirModal('#modalActividad');
+	limpiar_form_activ();
+	$('#btnGuardarActiv').hide();
+	var opcion = 4;
+  	$.ajax({
+      	type: 'POST',        
+      	data:'opcion='+opcion+'&txtActividadID='+actividadID,
+      	url: '../../controller/controlActividad/actividad_controller.php',
+      	success: function(data){
+      		var obj = JSON.parse(data);
+      		$('#cboTipoActividad').val(obj.actividad[0].TipoActi_idTipoActividad);
+      		$('#txtActividad').val(obj.actividad[0].Acti_nombre);
+      		$('#txtDescripcion').val(obj.actividad[0].Acti_descripcion);
+      		$('#cboPonente').val(obj.actividad[0].Pon_idPonente);
+      		$('#cboAmbiente').val(obj.actividad[0].Amb_idAmbiente);
+      		$('#txtFecha').val(obj.actividad[0].Acti_fecha);
+      		$('#txtHoraI').val(obj.actividad[0].Acti_horaInicio);
+      		$('#txtHoraF').val(obj.actividad[0].Acti_horaFin);
+      		$('#txtPrecio').val(obj.actividad[0].Acti_precio);
+      		$('#cboEstado').val(obj.actividad[0].estado);
+      	},
+      	error: function(data){
+                 
+      	}
+  	});
+}
+function habilitarEditor(opc){
+	$('#btnActualizar').prop("disabled", !opc);
+	$('#btnCancelar').prop("disabled", !opc);
+	$('#cboSucursal').prop("disabled", !opc);
+	$('#txtNombre').prop("disabled", !opc);
+	$('#txtFechaI').prop("disabled", !opc);
+	$('#txtFechaF').prop("disabled", !opc);
+	$('#txtPrecioT').prop("disabled", !opc);
+	$('#cboEstadoEven').prop("disabled", !opc);
+	$('#txtDescripcionEven').prop("disabled", !opc);
+	if(opc){
+		$('#btnEditar').hide("slow");
+	}else{
+		$('#btnEditar').show("slow");
+	}
+}
+function limpiar_form_activ(){
+	$('#cboTipoActividad').val("0");
+	$('#txtActividad').val("");
+	$('#txtDescripcion').val("");
+	$('#cboPonente').val("0");
+	$('#cboAmbiente').val("0");
+	$('#txtFecha').val("");
+	$('#txtHoraI').val("");
+	$('#txtHoraF').val("");
+	$('#txtPrecio').val("");
+	$('#cboEstado').val("A");
+	$('#btnGuardarActiv').show('slow');
+	$('#btnGuardarActiv').html("Guardar");
+}
 function guardar_actividad(){
 	var opcion = 1;
-	if($('#cboTipoActividad').val()==0){
-		$('#cboTipoActividad').parent().addClass('has-error');
-	}else{
-		$('#cboTipoActividad').parent().removeClass('has-error');
-	}
-	if($('#cboAmbiente').val()==0){
-		$('#cboAmbiente').parent().addClass('has-error');
-	}else{
-		$('#cboAmbiente').parent().removeClass('has-error');
-	}
-	if($.trim($('#txtActividad').val()).length==0){
-		$('#txtActividad').parent().addClass('has-error');
-	}else{
-		$('#txtActividad').parent().removeClass('has-error');
-	}
-	if($.trim($('#txtFecha').val()).length==0){
-		$('#txtFecha').parent().addClass('has-error');
-	}else{
-		$('#txtFecha').parent().removeClass('has-error');
-	}
-	if($.trim($('#txtPrecio').val()).length==0){
-		$('#txtPrecio').parent().addClass('has-error');
-	}else{
-		$('#txtPrecio').parent().removeClass('has-error');
-	}
-	if($.trim($('#txtHoraI').val()).length==0){
-		$('#txtHoraI').parent().addClass('has-error');
-	}else{
-		$('#txtHoraI').parent().removeClass('has-error');
-	}
-	if($.trim($('#txtHoraF').val()).length==0){
-		$('#txtHoraF').parent().addClass('has-error');
-	}else{
-		$('#txtHoraF').parent().removeClass('has-error');
-	}
+	valorNoValido('#cboTipoActividad',0);
+	valorNoValido('#cboAmbiente',0);
+	inputMinimo('#txtActividad',2);
+	inputMinimo('#txtFecha',1);
+	inputMinimo('#txtPrecio',1);
+	inputMinimo('#txtHoraI',1);
+	inputMinimo('#txtHoraF',1);
+
     if(document.getElementsByClassName("has-error").length > 0){
       alert("Verifique los datos ingresados");
       return false;
@@ -369,10 +386,7 @@ function guardar_actividad(){
         if(rpta == 1){
         	cerrarModal('#modalActividad');
         	listar_actividades();
-        	var precio = parseFloat($('#txtPrecioT').val());
-        	precio = precio + parseFloat($('#txtPrecio').val());
-        	$('#txtPrecioT').val(precio);
-
+        	limpiar_form_activ();
         	alert("Registro exitoso");
         }else{
         	alert("No se pudo registrar el evento");
@@ -401,6 +415,7 @@ function cargar_datos_generales(){
       		$('#txtPrecioT').val(obj.evento[0].Even_precioTotal);
       		$('#txtDescripcionEven').val(obj.evento[0].Even_descripcion);
       		$('#cboEstadoEven').val(obj.evento[0].Even_estado);
+      		window.setTimeout($('#cboSucursal').val(obj.evento[0].Suc_idSucursal), 2000);      		
       	},
       	error: function(data){
                  
@@ -480,9 +495,57 @@ function listar_actividades(){
       	}
   	});
 }
-
+function validarFecha(fechita){
+	var fechaI = $('#txtFechaI').val();
+	var fechaF = $('#txtFechaF').val();
+	//validar fecha  con la inicial
+	ArrayfechaI = fechaI.split("-");
+	fechaI = "" + ArrayfechaI[2] +'-'+ (ArrayfechaI[1]) +'-'+ ArrayfechaI[0] + "";
+	//--
+	Arrayfechita = fechita.split("-");
+	fechita = "" + Arrayfechita[2] +'-'+ (Arrayfechita[1]) +'-'+ Arrayfechita[0] + "";
+	//--
+	ArrayfechaF = fechaF.split("-");
+	fechaF = "" + ArrayfechaF[2] +'-'+ (ArrayfechaF[1]) +'-'+ ArrayfechaF[0] + "";
+	if(diferenciaFechasDMA(fechaI,fechita) < 0){
+		mensaje = "Fecha no válida. \nSeleccione una fecha posterior a ";
+		mensaje = mensaje + "" + fechaI;
+		alert(mensaje);
+		$('#txtFecha').val("");
+		return;
+	}
+	if(diferenciaFechasDMA(fechita,fechaF) < 0){
+		mensaje = "Fecha no válida. \nSeleccione una fecha anterior a ";
+		mensaje = mensaje + "" + fechaF;
+		alert(mensaje);
+		$('#txtFecha').val("");
+		return;
+	}
+}
+function validarFechaI () {
+	if($('#txtFechaI').val() == ''){
+		alert("Seleccione una fecha válida");
+		$('#txtFechaF').val("");
+		$('#txtDuracion').val("");
+		$('#txtFechaF').prop("disabled", true);
+		return false;
+	}else{		
+		$('#txtFechaF').prop("disabled", false);
+	}
+	var fechaI = $('#txtFechaI').val();
+	ArrayfechaI = fechaI.split("-");
+	fechaI = "" + ArrayfechaI[2] +'-'+ (ArrayfechaI[1]) +'-'+ ArrayfechaI[0] + "";
+	if(diferenciaFechasDMA(hoyDMA,fechaI) < 0){
+		alert("Fecha no válida.\nSeleccione una fecha posterior a hoy.");
+		$('#txtFechaI').val("");
+		$('#txtFechaF').val("");
+		$('#txtDuracion').val("");
+		$('#txtFechaF').prop("disabled", true);
+	}
+}
 </script>
 <script type="text/javascript">
+	limpiar_form_activ();
 	cargarCboTiposActiv();
 	cargarCboPonente();
 	cargarCboAmbientes();

@@ -43,7 +43,8 @@
                     e.Even_duracion,
                     e.Even_fechaInicio,
                     e.Even_fechaFin,
-                    e.Even_precioTotal                    
+                    e.Even_precioTotal,
+                    e.Even_estado
                     FROM evento e
                     WHERE e.Even_idEvento = '$param[eventoID]'
                     ";
@@ -54,6 +55,7 @@
         function get_eventos(){
             $sql = "SELECT
                     e.Even_idEvento,
+                    s.Suc_nombre,
                     e.Suc_idSucursal,
                     e.Even_nombre,
                     e.Even_descripcion,
@@ -62,6 +64,7 @@
                     e.Even_fechaFin,
                     e.Even_precioTotal                    
                     FROM evento e
+                    inner join sucursal s on s.Suc_idSucursal = e.Suc_idSucursal
                     ";
             $res = mysqli_query($this->conexion,$sql) or die (mysqli_error($this->conexion));
             $data = mysqli_fetch_all($res, MYSQLI_ASSOC);
