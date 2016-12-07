@@ -14,7 +14,7 @@
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title>Mantenedores - Ambientes</title>
+		<title>Mantenedores - Tipo Ambiente</title>
 
 		<meta name="description" content="" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -108,7 +108,7 @@
                                 <i class="ace-icon fa fa-home home-icon"></i>
                                 <a href="#">Mantenedores</a>
                             </li>
-                            <li><a href="ambiente_view.php">Ambientes</a></li>
+                            <li><a href="tipoambiente_view.php">Tipo Ambiente</a></li>
                             <li>
                                 <span class="invoice-info-label">Fecha:</span>
                                 <span class="blue"><?php echo date('d-m-Y'); ?></span>
@@ -120,13 +120,13 @@
 					<div class="page-content">					
 						<div class="page-header">
 							<h1>
-								Ambientes Registrados	
+								Tipos de Ambiente Registrados	
 							</h1>
 						</div><!-- /.page-header -->
 						<div class="row">
 							<div class="col-md-12">								
 								<div class="table-header">
-									AMBIENTES REGISTRADOS &nbsp;&nbsp;
+									TIPOS DE AMBIENTE REGISTRADOS &nbsp;&nbsp;
 									<a href='#modal-form' data-toggle='modal' class='white' onclick="limpiar();">
 					                    <i class='ace-icon fa fa-plus-circle bigger-150'></i>
 					                </a>
@@ -137,10 +137,7 @@
 								            <tr>
 								                <th style="text-align: center; font-size: 11px; height: 10px; width: 5%;">N°</th>
 								                <th style="text-align: center; font-size: 11px; height: 10px; width: 15%;">DESCRIPCIÓN</th>
-								                <th style="text-align: center; font-size: 11px; height: 10px; width: 9%;">CAPACIDAD</th>
-								                <th style="text-align: center; font-size: 11px; height: 10px; width: 9%;">TIPO AMBIENTE</th>	
-								                <th style="text-align: center; font-size: 11px; height: 10px; width: 10%;">LOCAL</th>
-								                <th style="text-align: center; font-size: 11px; height: 10px; width: 9%;">ESTADO</th>	
+								                <th style="text-align: center; font-size: 11px; height: 10px; width: 15%;">ESTADO</th>
                 								<th style="text-align: center; font-size: 11px; height: 10px; width: 8%;">OPERACIONES</th>
 								            </tr>							         
 										</thead>
@@ -156,43 +153,21 @@
 									<div class="modal-content">
 										<div class="modal-header">
 											<button type="button" class="close" data-dismiss="modal">&times;</button>
-											<h4 class="blue bigger">Registro de Ambientes</h4>
+											<h4 class="blue bigger">Registro de Tipo de Ambientes</h4>
 										</div>
 
 										<div class="modal-body">
 											<div class="row">
-											<form class="form-horizontal form-bordered" method="post" action="../../controller/controlMantenedores/ambiente_controller.php" onsubmit="return validarCampos()">
+											<form class="form-horizontal form-bordered" method="post" action="../../controller/controlMantenedores/tipoambiente_controller.php" onsubmit="return validarCampos()">
                             
                             
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Descripción</label>
                                 <div class="col-sm-7">
-                                    <input class="form-control" id="descripcion" name="param_ambiente_descripcion" type="text" placeholder="Ingrese descripción " >
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Capacidad</label>
-                                <div class="col-sm-7">
-                                    <input class="form-control" id="capacidad" name="param_ambiente_capacidad"  type="text" placeholder="Ingrese capacidad "  >
+                                    <input class="form-control" id="descripcion" name="param_tipoambiente_descripcion" type="text" placeholder="Ingrese descripción " >
                                 </div>
                             </div>
                             
-
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Tipo de Ambiente</label>
-                                <div class="col-sm-6" id="combo1">
-                                    
-                                </div>
-                            </div>
-
-
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Local</label>
-                                <div class="col-sm-6" id="combo2">
-                                    
-                                </div>
-                            </div>
-
                             
                             <div class="form-group">
                                 
@@ -227,45 +202,24 @@
 										<div class="modal-content">
 											<div class="modal-header">
 												<button type="button" class="close" data-dismiss="modal">&times;</button>
-												<h4 class="blue bigger">Datos de Ambiente</h4>
+												<h4 class="blue bigger">Datos de Tipo Ambiente</h4>
 											</div>
 
 											<div class="modal-body">
 												<div class="row">
-													<form class="form-horizontal form-bordered" method="post" action="../../controller/controlMantenedores/ambiente_controller.php">
+													<form class="form-horizontal form-bordered" method="post" action="../../controller/controlMantenedores/tipoambiente_controller.php">
                             
                             
-                                    <input  id="codigo_e" name="param_ambiente_id" type="text" style="visibility:hidden;" >
+                                    <input  id="codigo_e" name="param_tipoambiente_id" type="text" style="visibility:hidden;" >
                             
 
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Descripción</label>
                                 <div class="col-sm-7">
-                                    <input class="form-control" id="descripcion_e" name="param_ambiente_descripcion" type="text" placeholder="Ingrese nueva descripción" >
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Capacidad</label>
-                                <div class="col-sm-7">
-                                    <input class="form-control" id="capacidad_e" name="param_ambiente_capacidad"  type="text" placeholder="Ingrese nueva capacidad "  >
+                                    <input class="form-control" id="descripcion_e" name="param_tipoambiente_descripcion" type="text" placeholder="Ingrese nueva descripción" >
                                 </div>
                             </div>
                             
-
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Tipo Ambiente</label>
-                                <div class="col-sm-6" id="combo1_e">
-                                    
-                                </div>
-                            </div>
-
-
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Local</label>
-                                <div class="col-sm-6" id="combo2_e">
-                                    
-                                </div>
-                            </div>
                             
                             <div class="form-group">
                                 
@@ -293,7 +247,7 @@
 
 							</div>				
 							<input type="hidden" dissabled="true" value="Mantenedores" id="NombreGrupo">
-                            <input type="hidden" dissabled="true" value="Ambientes" id="NombreTarea">			
+                            <input type="hidden" dissabled="true" value="Tipo Ambientes" id="NombreTarea">			
 							<!-- FIN DE CONTENIDO DE PAGINA -->										               
 						</div><!-- /.col -->
 					</div>
@@ -362,7 +316,7 @@
 		<script src="../default/assets/js/ace.min.js"></script>
 		
 
-		<script src="../default/js/ambiente.js"></script>
+		<script src="../default/js/tipoambiente.js"></script>
 		<script type="text/javascript">		        
 	        function solonumeros(e) {
 	            key = e.keyCode || e.which;

@@ -7,6 +7,7 @@ create table if not exists DocumentoPago
     TipDocPago_idTipoDocumentoPago int not null,
     DocPago_estado int not null,
     Par_idParticipante int not null,
+    DocPago_fecha datetime not null,
     primary key (DocPago_serieDocumentoPago, DocPago_numeroDocumentoPago),
     foreign key (TipDocPago_idTipoDocumentoPago) references TipoDocumentoPago(TipDocPago_idTipoDocumentoPago),
     foreign key (Par_idParticipante) references Participante(Par_idParticipante)

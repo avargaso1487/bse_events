@@ -15,7 +15,7 @@
 <head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title>Facturación</title>
+		<title>Facturación-Ventas</title>
 
 		<meta name="description" content="" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -132,28 +132,29 @@
 								<!-- PAGE CONTENT BEGINS -->
 								<div class="table-header">
 									VENTAS REGISTRADAS &nbsp;&nbsp;
-									<a href='nuevoServicioSpa.php'  class='white' onclick="limpiar();">
+									<a href='nuevaVenta_view.php'  class='white' onclick="limpiar();">
 					                    <i class='ace-icon fa fa-plus-circle bigger-150'></i>
 					                </a>
 				                </div>
 								
 									<div>
-										<table class="table table-striped table-bordered" id="dataTables-example">
+										<table class="table table-striped table-bordered" id="tablaFacturas">
 											<thead>
 												<tr>
-													<th style="text-align: center; font-size: 11px; height: 10px; width:10%">Código</th>
+													
 													<th style="text-align: center; font-size: 11px; height: 10px; width:10%">Número Documento</th>
 													<th style="text-align: center; font-size: 11px; height: 10px; width:10%">Participante</th>
 													<th style="text-align: center; font-size: 11px; height: 10px; width:6%">Tipo de Documento</th>
 													<th style="text-align: center; font-size: 11px; height: 10px; width:6%">Fecha</th>
+													<th style="text-align: center; font-size: 11px; height: 10px; width:6%">Monto</th>
 													<th style="text-align: center; font-size: 11px; height: 10px; width:6%">Estado</th>
-													<th style="text-align: center; font-size: 11px; height: 10px; width:6%">Operaciones</th>
+													<!-- <th style="text-align: center; font-size: 11px; height: 10px; width:6%">Operaciones</th> -->
 													
 
 												</tr>
 											</thead>
 
-											<tbody id="cuerpoTabla">
+											<tbody id="cuerpoFacturas">
 												
 												
 												
@@ -162,12 +163,10 @@
 									</div><!-- /.span -->
 								
 
-								
-								
 								<br><br>
 									<div class="col-md-8 col-md-offset-2" id="detalle_servicio">
 								
-								<div class="table-header">
+								<!-- <div class="table-header">
 									DETALLE DE VENTA &nbsp;&nbsp;									
 								</div>
 								<div>
@@ -182,7 +181,7 @@
 										<tbody id="cuerpoDetalleVenta">																	
 										</tbody>
 									</table>
-								</div><br><br>
+								</div><br><br> -->
 							</div>
 
 								<input type="hidden" dissabled="true" value="FACTURACIÓN" id="NombreGrupo">
@@ -256,7 +255,7 @@
 		<script src="../default/assets/js/ace.min.js"></script>
 		
 
-		<script src="../default/js/ambiente.js"></script>
+		<script src="../default/js/venta.js"></script>
 		<script type="text/javascript">		        
 	        function solonumeros(e) {
 	            key = e.keyCode || e.which;
