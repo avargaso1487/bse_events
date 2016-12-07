@@ -161,15 +161,22 @@
 			                   		"<li>
 			                   			<button class='btn btn-xs btn-info btn-block' onclick='editarActividad(".$actividad->Acti_idActividad.");'>
 											<i class='ace-icon fa fa-pencil bigger-120'></i>
-											Editar
+											Editar actividad
 										</button>
 									</li>
 									<li>
 										<button class='btn btn-xs btn-danger btn-block' onclick='eliminarActividad(".$actividad->Even_idEvento.",".$actividad->Acti_idActividad.");'>
 											<i class='ace-icon fa fa-trash-o bigger-120'></i>
-											Eliminar
+											Eliminar actividad
 										</button>
-									</li>";
+									</li>
+									<li>
+										<a href='../Evento/Inscripcion_view.php' class='btn btn-xs btn-primary btn-block'>
+											<i class='ace-icon fa fa-plus bigger-120'></i>
+											Inscripciones
+										</a>
+									</li>
+									";
 							}
 		                echo "</ul>
 		              </div>
