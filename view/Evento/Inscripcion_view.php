@@ -141,6 +141,19 @@
 			                            </div>
 			                            <input class="form-control" type="hidden" name="param_participanteID" id="param_participanteID"/>
 			                            <div class="form-group">
+			                               <label for="socio" class="col-md-2 control-label">Evento:</label>
+			                               <div class="col-md-4" id="evento">
+			                                   
+			                               </div>	
+			                               <label for="socio" class="col-md-1 control-label">Condición: </label>			                               
+											<div class="col-md-3">
+												<label class="radio-inline ace"><input type="radio" name="param_condicion" id="param_condicion" value="N" checked="checked" onclick="mostrarMonto()">Normal</label>
+											<label class="radio-inline ace"><input type="radio" name="param_condicion" id="param_condicion" value="B" onclick="mostrarMonto()">Becado</label>
+											<label class="radio-inline ace"><input type="radio" name="param_condicion" id="param_condicion" value="D" onclick="mostrarMonto()">Descuento</label>
+											</div>											
+													                               	                               
+			                            </div> 
+			                            <div class="form-group">
 			                               <label for="socio" class="col-md-2 control-label">Paquete:</label>
 			                               <div class="col-md-3" id="paquete">
 			                                   
@@ -172,9 +185,15 @@
                                 		</div>                                            			                            		    
 	                            		<input  type="hidden" id="param_codigo" name="param_codigo"/>
 	                            		<div class="form-group">
+	                            			<label for="socio" class="col-md-2 control-label">Dcto(%): </label>                              
+			                               	<div class="col-md-1">
+		                                   		<input class="form-control" id="param_descuento" name="param_descuento" type="text" disabled="disabled" value="0">
+		                               		</div>	
 			                            	<label for="socio" class="col-md-2 control-label">Actividad: </label>                              
 			                               	<div class="col-md-4" id="actividad">
-		                                   
+		                                   		<select class="form-control">
+                    								<option value="" disabled selected style="display: none;">Seleccione Actividades</option>
+                    							</select>
 		                               		</div>
 
 		                              
@@ -187,9 +206,12 @@
 				                            </div> 
 				                            <input class="form-control" id="param_opcion" name="param_opcion" type="hidden" value="registrar_inscripcion">
 				                            <input class="form-control" id="param_actividadID" name="param_actividadID" type="hidden">
-				                            <input class="form-control" id="param_nombreActividad" name="param_nombreActividad" type="hidden">                           	                               
+				                            <input class="form-control" id="param_nombreActividad" name="param_nombreActividad" type="hidden">
+				                            <input class="form-control" id="param_precio" name="param_precio" type="hidden">                           	                               
 			                            </div>
-		                            <div class="row">
+
+			                            
+		                            
 		                            	<div class="col-md-8 col-md-offset-2">								
 											<div class="table-header">
 												Inscripción - Actividades
@@ -198,17 +220,31 @@
 												<table id="tablaDetalleActividades" class="table table-striped table-bordered">
 													<thead>											
 											            <tr>
-											                <th style="text-align: center; font-size: 11px; height: 10px; width: 8%;">N°</th>
-											                <th style="text-align: center; font-size: 11px; height: 10px; width: 10%;">Actividad</th>								              
+											                <th style="text-align: center; font-size: 11px; height: 10px; width: 8%;">Código</th>
+											                <th style="text-align: center; font-size: 11px; height: 10px; width: 10%;">Actividad</th>
+											                <th style="text-align: center; font-size: 11px; height: 10px; width: 10%;">Precio</th>								              
 			                								<th style="text-align: center; font-size: 11px; height: 10px; width: 5%;">Operaciones</th>
 											            </tr>							         
 													</thead>
 													<tbody id="cuerpoActividades">																			
 													</tbody>
 												</table>
-											</div>
+											</div><br>
 										</div>
-		                            </div>		                           
+		                            	<div class="form-group">
+			                            	<label for="socio" class="col-md-6 control-label">Total Neto: </label>                              
+			                               	<div class="col-md-1">
+		                                   		<input class="form-control" id="param_montoNeto" name="param_montoNeto" type="text" disabled="disabled">
+		                               		</div>
+			                            	<label for="socio" class="col-md-2 control-label">Monto Total: </label>                              
+			                               	<div class="col-md-1">
+			                               		<input class="form-control" id="param_monto" name="param_monto" type="text" disabled="disabled">	                                   		
+		                               		</div>
+
+	                              
+	                                                	                              
+		                            	</div>	
+		                            	                           
 		                        		<div class="modal-footer">		                            		
 		                            		<button type="button" class="btn btn-primary" id="register_inscripcion">Registrar</button> 
 		                            		<button type="button" class="btn btn-primary" id="cancel_inscripcion">Cancelar</button>            

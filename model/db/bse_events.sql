@@ -34,13 +34,22 @@ IF ve_opcion='opc_combo_paquetes' THEN
   select Paq_idPaquete, Paq_descripcion from paquete order by Paq_descripcion asc;
 END IF;
 IF ve_opcion='opc_combo_actividades' THEN
-  select Acti_idActividad, Acti_nombre from actividad order by Acti_nombre asc;
+  select Acti_idActividad, Acti_nombre from actividad where Even_idEvento = ve_codigo and estado = 'A' order by Acti_nombre asc;
 END IF;
 IF ve_opcion='opc_datos_actividad' THEN
-  select Acti_idActividad, Acti_nombre from actividad where Acti_idActividad = ve_codigo;
+  select Acti_idActividad, Acti_nombre, Acti_precio from actividad where Acti_idActividad = ve_codigo;
 END IF;
 IF ve_opcion='opc_datos_participante' THEN
   select pa.Par_idParticipante,CONCAT(UPPER(pe.Per_apellidos), ', ', UPPER(pe.Per_nombres)) from participante pa inner join persona pe on pe.Per_idPersona = pa.Per_idPersona where pa.Par_idParticipante = ve_codigo;
+END IF;
+IF ve_opcion='opc_combo_evento' THEN
+  select Even_idEvento, Even_nombre from evento where Even_estado = 1;
+END IF;
+IF ve_opcion='opc_llenar_todas_actividades' THEN
+  select Acti_nombre, Acti_precio, Acti_idActividad from actividad where Even_idEvento = ve_codigo and estado = 'A' order by Acti_nombre;
+END IF;
+IF ve_opcion='opc_obtener_neto' THEN
+  select sum(Acti_precio) from actividad where Even_idEvento = ve_codigo;
 END IF;
 end$$
 
@@ -561,11 +570,11 @@ END IF;
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_gestionar_inscripcion`(IN `ve_opcion` VARCHAR(200), IN `ve_participante` INT, IN `ve_banco` VARCHAR(300), IN `ve_nroOperacion` VARCHAR(300), IN `ve_fechaPago` DATE, IN `ve_ruta` VARCHAR(300), IN `ve_tipoPago` INT, IN `ve_paquete` INT, IN `ve_actividad` INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_gestionar_inscripcion`(IN `ve_opcion` VARCHAR(200), IN `ve_participante` INT, IN `ve_banco` VARCHAR(300), IN `ve_nroOperacion` VARCHAR(300), IN `ve_fechaPago` DATE, IN `ve_ruta` VARCHAR(300), IN `ve_tipoPago` INT, IN `ve_paquete` INT, IN `ve_actividad` INT, IN `ve_evento` INT, IN `ve_condicion` VARCHAR(300), IN `ve_montoTotal` VARCHAR(100), IN `ve_descuento` VARCHAR(100))
     NO SQL
 BEGIN
 IF ve_opcion='opc_nueva_inscripcion' THEN
-  insert into inscripciones (Par_idParticipante,Ins_banco,  Ins_numeroOperacion, Ins_fechaPago, Ins_imagenVoucher, TipDocPago_idTipoDocumentoPago,Paq_idPaquete) values (ve_participante, ve_banco, ve_nroOperacion, ve_fechaPago, ve_ruta, ve_tipoPago, ve_paquete);
+  insert into inscripciones (Par_idParticipante,Ins_banco,  Ins_numeroOperacion, Ins_fechaPago, Ins_imagenVoucher, TipDocPago_idTipoDocumentoPago,Paq_idPaquete, Even_idEvento, Ins_condicion, Ins_montoTotal, Ins_descuento) values (ve_participante, ve_banco, ve_nroOperacion, ve_fechaPago, ve_ruta, ve_tipoPago, ve_paquete, ve_evento, ve_condicion, ve_montoTotal, ve_descuento);
 END IF;
 IF ve_opcion='opc_grabar_inscripcion_actividad' THEN
   SET @INCRIPCION = (SELECT MAX(Ins_idInscripcion) AS id FROM inscripciones);
@@ -965,8 +974,8 @@ CREATE TABLE IF NOT EXISTS `paquete` (
 --
 
 INSERT INTO `paquete` (`Paq_idPaquete`, `Paq_descripcion`) VALUES
-(1, 'Paquete 1'),
-(2, 'Paquete 2');
+(1, 'Todo el Evento'),
+(2, 'Por Actividad');
 
 -- --------------------------------------------------------
 

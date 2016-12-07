@@ -15,6 +15,10 @@
 	$param['param_fileArchivo'] = '';	
 	$param['ruta'] = '';
 	$param['codigoActividad'] = '';
+	$param['param_evento'] = '';
+	$param['param_descuento'] = '';
+	$param['param_condicion'] = '';
+	$param['param_monto'] = '';
 	          
 	if(isset($_POST['param_opcion'])){ $param['param_opcion'] = $_POST['param_opcion']; }
 	if(isset($_POST['codigo'])){ $param['param_codigo'] = $_POST['codigo']; }
@@ -24,14 +28,29 @@
 	if(isset($_POST['param_banco'])){ $param['param_banco'] = $_POST['param_banco']; }
 	if(isset($_POST['param_nroOperacion'])){ $param['param_nroOperacion'] = $_POST['param_nroOperacion']; }
 	if(isset($_POST['param_fechaPago'])){ $param['param_fechaPago'] = $_POST['param_fechaPago']; }
+	if(isset($_POST['param_condicion'])){ $param['param_condicion'] = $_POST['param_condicion']; }
+
+
+	if(isset($_POST['param_descuento'])){ $param['param_descuento'] = $_POST['param_descuento']; }
+	if(isset($_POST['param_monto'])){ $param['param_monto'] = $_POST['param_monto']; }
+
+
 	if(isset($_FILES['Voucher']['name'])){ $param['param_archivo'] = $_FILES['Voucher']['name']; }
+
 	if(isset($_FILES['Voucher']['tmp_name'])){ $param['param_fileArchivo'] = $_FILES['Voucher']['tmp_name']; }
 	$param['ruta'] = '../../view/voucher/'.$param['param_archivo'];	
+
+	if(isset($_POST['param_evento'])){ $param['param_evento'] = $_POST['param_evento']; }
 
 	if (isset($_POST['codigoActividad'])) {
 	    $param['codigoActividad'] = explode(",",$_POST['codigoActividad']);
 	}
 
+
+
+
 	$Inscripcion = new Inscripcion_model();
 	echo $Inscripcion->gestionar($param);
  ?>
+
+ 

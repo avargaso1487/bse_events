@@ -13,7 +13,10 @@
 
         function gestionar($param) {
             $this->param = $param;
-            switch ($this->param['param_opcion']) {               
+            switch ($this->param['param_opcion']) {
+                case 'combo_evento':
+                    echo $this->combo_evento();
+                    break;               
                 case 'combo_tipoDocumentoPago':
                     echo $this->combo_tipoDocumentoPago();
                     break;
@@ -31,6 +34,12 @@
                     break; 
                 case 'registrar_inscripcion':
                     echo $this->registrar_inscripcion();
+                    break; 
+                case 'llenar_totas_actividades':
+                    echo $this->llenar_totas_actividades();
+                    break; 
+                case 'obtener_neto':
+                    echo $this->obtener_neto();
                     break; 
                 case "get":break; 
             }
@@ -54,9 +63,13 @@
             $consultaSql.="'".$this->param['param_fechaPago']."',";
             $consultaSql.="'".$this->param['ruta']."',";
             $consultaSql.="'".$this->param['param_tipoDocumentoPago']."',";
-            $consultaSql.="'".$this->param['param_paquete']."',";   
-            $consultaSql.="'".$codigo."')";           
-            echo $consultaSql;
+            $consultaSql.="'".$this->param['param_paquete']."',";               
+            $consultaSql.="'".$codigo."',";           
+            $consultaSql.="'".$this->param['param_evento']."',";            
+            $consultaSql.="'".$this->param['param_condicion']."',";
+            $consultaSql.="'".$this->param['param_monto']."',";
+            $consultaSql.="'".$this->param['param_descuento']."')";
+            //echo $consultaSql;            
             $this->result = mysqli_query($this->conexion,$consultaSql);    
         }
        
@@ -98,7 +111,7 @@
             $this->prepararConsultaGestionarCombos('opc_combo_paquetes');
             $this->cerrarAbrir();
             echo '
-                <select class="form-control" id="param_paquete" name="param_paquete">
+                <select class="form-control" id="param_paquete" name="param_paquete" onchange="activarActividades();">
                     <option value="" disabled selected style="display: none;">Seleccione Paquete</option>';
             while ($fila = mysqli_fetch_row($this->result)) {
                 echo'<option value="'.$fila[0].'">'.utf8_encode($fila[1]).'</option>';
@@ -111,7 +124,19 @@
             $this->cerrarAbrir();
             echo '
                 <select class="form-control" id="param_actividad" name="param_actividad" onchange="verActividad();">
-                    <option value="" disabled selected style="display: none;">Seleccione Paquete</option>';
+                    <option value="" disabled selected style="display: none;">Seleccione Actividades</option>';
+            while ($fila = mysqli_fetch_row($this->result)) {
+                echo'<option value="'.$fila[0].'">'.utf8_encode($fila[1]).'</option>';
+            }
+            echo '</select>';
+        } 
+
+        function combo_evento() {
+            $this->prepararConsultaGestionarCombos('opc_combo_evento');
+            $this->cerrarAbrir();
+            echo '
+                <select class="form-control" id="param_evento" name="param_evento" onchange="mostrarActividades();">>
+                    <option value="" disabled selected style="display: none;">Seleccione Evento</option>';
             while ($fila = mysqli_fetch_row($this->result)) {
                 echo'<option value="'.$fila[0].'">'.utf8_encode($fila[1]).'</option>';
             }
@@ -124,6 +149,26 @@
             echo json_encode($row);
         }    
         
+        function llenar_totas_actividades() {
+            $this->prepararConsultaGestionarCombos('opc_llenar_todas_actividades');
+            $this->cerrarAbrir();
+            $item = 0;
+            while($row = mysqli_fetch_row($this->result)){
+                $item++;
+                echo '<tr>
+                        <td style="text-align:center; font-size: 11px; height: 10px; width: 5%">'.$row[2].'</td>
+                        <td style="text-align:center;font-size: 11px; height: 10px; width: 20%;">'.html_entity_decode($row[0]).'</td>
+                        <td style="text-align:center;font-size: 11px; height: 10px; width: 10%;" class="text-center">'.$row[1].'</td>
+                        <td style="font-size: 11px; height: 10px; width: 10%;" class="text-center"> - </td>                       
+                    </tr>';
+            }
+        }
+
+        function obtener_neto() {
+            $this->prepararConsultaGestionarCombos('opc_obtener_neto');
+            $row = mysqli_fetch_row($this->result);
+            echo json_encode($row);
+        }
     }
 
 ?>

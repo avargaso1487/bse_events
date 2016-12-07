@@ -171,7 +171,7 @@ function eliminar(ponente){
 }
 
 function descargar(ruta){
-  //alert(ruta);
+  alert(ruta);
   open(ruta,'','top=50,left=50,width=1200,height=500') ; 
   
 }
