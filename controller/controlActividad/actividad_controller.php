@@ -49,7 +49,10 @@
 	        break;
 	    case 4:
 	        get_actividad($actividad,$param);
-	        break;	        
+	        break;
+	    case 5:
+	        update_actividad($actividad,$param);
+	        break;
 	    case 6:
 	        get_cbo_tipos_activ($tipo_actividad);
 	        break;
@@ -59,7 +62,20 @@
 	    case 8:
 	        get_cbo_ambientes($ambiente);
 	        break;
+	    case 9:
+	        eliminar_actividad($actividad,$param);
+	        break;
 
+	}
+	function eliminar_actividad($actividad,$param){
+		$rpta = $actividad->eliminar_actividad($param);
+		if($rpta == 1) echo 1;
+		else echo "No se pudo eliminar la actividad";
+	}
+	function update_actividad($actividad,$param){
+		$rpta = $actividad->update_actividad($param);
+		if($rpta == 1) echo 1;
+		else echo 0;
 	}
 	function get_cbo_tipos_activ($tipo_actividad){
 		$tiposActividad = $tipo_actividad->get_tipos_actividad();
@@ -97,24 +113,35 @@
 		$rpta = $actividad->get_actividad($param);
 		echo $rpta;
 	}
-
-
 	function listar_actividades($actividad, $param){
 		$actividades = $actividad->get_actividades($param);
 		$actividades = json_decode($actividades);
 
 		foreach ($actividades as $key => $actividad){
+			$actividad_2 = new Actividad_model();
+			$param['actividadID'] = $actividad->Acti_idActividad;
+			$participantes = $actividad_2->get_participantes($param);
+			
+
 			$mostrarEstado = "";
 			if($actividad->estado == 'A') $mostrarEstado = 'Activo';
 			else $mostrarEstado = 'Inactivo';
+			$fecha = $actividad->Acti_fecha;
+			$mostrarFecha = explode('-', $fecha);
+			$mostrarFecha = $mostrarFecha[2].'/'.$mostrarFecha[1].'/'.$mostrarFecha[0];
+			$datetime1 = new DateTime(date('Y').'-'.date('m').'-'.date('d'));
+			$datetime2 = new DateTime($actividad->Acti_fecha);
+			$interval = $datetime1->diff($datetime2);
+			$dias  = $interval->format('%R%a días');
 			echo "<tr>
 					<td>".$actividad->Acti_idActividad."</td>
 					<td>".$actividad->Acti_nombre."</td>
-					<td>".$actividad->Pon_idPonente."</td>
-					<td>".$actividad->Acti_fecha."</td>
+					<td>".$actividad->Pon_nombre.' '.$actividad->Pon_apellidos."</td>
+					<td>".$mostrarFecha."</td>
 					<td>".$actividad->Acti_horaInicio.' - '.$actividad->Acti_horaFin."</td>
 					<td>".$actividad->Acti_precio."</td>
 					<td>".$actividad->TipoActi_descripcion."</td>
+					<td>".$participantes."</td>
 					<td>".$mostrarEstado."</td>
 					<td >
 		              <div class='inline pos-rel dropup'>
@@ -126,22 +153,25 @@
 				                <li>
 			                    	<button class='btn btn-xs btn-success btn-block' onclick='verActividad(".$actividad->Acti_idActividad.");'>
 										<i class='ace-icon fa fa-search bigger-120'></i>
-										Ver
+										Ver actividad
 									</button>
-		                   		</li>
-		                   		<li>
-		                   			<button class='btn btn-xs btn-info btn-block' onclick='editarActividad(".$actividad->Acti_idActividad.");'>
-										<i class='ace-icon fa fa-pencil bigger-120'></i>
-										Editar
-									</button>
-								</li>
-								<li>
-									<button class='btn btn-xs btn-danger btn-block'>
-										<i class='ace-icon fa fa-trash-o bigger-120'></i>
-										Eliminar
-									</button>
-								</li>
-		                </ul>
+		                   		</li>";
+		                   	if ($dias >= 0) {
+			                   	echo 
+			                   		"<li>
+			                   			<button class='btn btn-xs btn-info btn-block' onclick='editarActividad(".$actividad->Acti_idActividad.");'>
+											<i class='ace-icon fa fa-pencil bigger-120'></i>
+											Editar
+										</button>
+									</li>
+									<li>
+										<button class='btn btn-xs btn-danger btn-block' onclick='eliminarActividad(".$actividad->Even_idEvento.",".$actividad->Acti_idActividad.");'>
+											<i class='ace-icon fa fa-trash-o bigger-120'></i>
+											Eliminar
+										</button>
+									</li>";
+							}
+		                echo "</ul>
 		              </div>
 					</td>
 				</tr>";

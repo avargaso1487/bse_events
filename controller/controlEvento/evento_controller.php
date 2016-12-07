@@ -18,12 +18,15 @@
 	if(isset($_POST['txtEventoID'])){ $param['eventoID'] = $_POST['txtEventoID'];}
 	if(isset($_POST['cboSucursal'])){ $param['sucursalID'] = $_POST['cboSucursal'];}
 	if(isset($_POST['txtNombre'])){ $param['nombre'] = $_POST['txtNombre'];}
-	if(isset($_POST['txtDescripcion'])){ $param['descripcion'] = $_POST['txtDescripcion'];}
 	if(isset($_POST['txtDuracion'])){ $param['duracion'] = $_POST['txtDuracion'];}
 	if(isset($_POST['txtFechaI'])){ $param['fechaI'] = $_POST['txtFechaI'];}
 	if(isset($_POST['txtFechaF'])){ $param['fechaF'] = $_POST['txtFechaF'];}
 	if(isset($_POST['txtPrecioT'])){ $param['precioT'] = $_POST['txtPrecioT'];}
+
 	if(isset($_POST['cboEstado'])){ $param['estado'] = $_POST['cboEstado'];}
+	if(isset($_POST['txtDescripcion'])){ $param['descripcion'] = $_POST['txtDescripcion'];}
+	if(isset($_POST['cboEstadoEven'])){ $param['estado'] = $_POST['cboEstadoEven'];}
+	if(isset($_POST['txtDescripcionEven'])){ $param['descripcion'] = $_POST['txtDescripcionEven'];}
 
 	switch ($_POST['opcion']) {
 	   	case 1:
@@ -35,10 +38,17 @@
 	   	case 3:
 	        listar_eventos($evento);
 	        break;
+	    case 4:
+	        update_evento($evento,$param);
+	        break;
 	    case 6:
 	        get_cbo_sucursal($sucursal);
 	        break;
 
+	}
+	function update_evento($evento,$param){
+		$rpta = $evento->update_evento($param);
+		echo $rpta;
 	}
 	function get_cbo_sucursal($sucursal){
 		$sucursales = $sucursal->get_sucursales();

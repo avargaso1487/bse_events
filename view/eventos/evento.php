@@ -61,66 +61,69 @@
 						</div><!-- /.page-header -->
 						<div class="row">
 							<div class="col-md-12">
-								<div class="Contenedor  widget-box">
-									<div class="table-header">
-										Datos generales del evento
-						      		</div>
-							      	<div class="widget-main row">
-							      		<div class="col-md-4 col-md-offset-1  form-group">
-											<label><strong> Sucursal  </strong></label>
-											<select disabled class="form-control input-sm" id="cboSucursal" name="cboSucursal">
-											</select>
-					      				</div>
-					      				<div class="col-md-6 form-group">
-											<label><strong> Nombre del evento  </strong></label>
-											<input disabled type="text" class="form-control input-sm" id="txtNombre" name="txtNombre">
-					      				</div>
-					      				<div class="col-md-2 col-md-offset-1 form-group">
-											<label><strong> Fecha inicio </strong></label>
-											<input disabled class="form-control input-sm" id="txtFechaI" name="txtFechaI" type="date">
-					      				</div>
-					      				<div class="col-md-2 form-group">
-											<label><strong> Fecha fin </strong></label>
-											<input disabled class="form-control input-sm" id="txtFechaF" name="txtFechaF" type="date">
-					      				</div>
-					      				<div class="col-md-2 form-group">
-											<label><strong> Duración </strong>(Días)</label>
-											<input disabled type="text" class="form-control input-sm" id="txtDuracion" name="txtDuracion" style="text-align: center">
-					      				</div>
-					      				<div class="col-md-2 form-group">
-											<label><strong> Precio del evento </strong>(S/.)</label>
-											<input disabled type="text" class="form-control input-sm" id="txtPrecioT" name="txtPrecioT">
-					      				</div>
-					      				<div class="col-md-2 form-group">
-											<label><strong> Estado </strong></label>
-											<select disabled class="form-control input-sm" id="cboEstadoEven" name="cboEstadoEven">
-												<option value="1"> Activo </option>
-												<option value="0"> Inactivo </option>
-											</select>
-					      				</div>
-					      				<div class="col-md-6 col-md-offset-1 form-group">
-											<label><strong> Descripción </strong></label>
-											<textarea disabled class="form-control input-sm" id="txtDescripcionEven" name="txtDescripcionEven"></textarea>
-					      				</div>					      				
-							      	</div>
-							      	<div class="form-actions center" style="margin-bottom:-0px;">
-										<button disabled type="button" id="btnActualizar"  class="btn btn-sm btn-success">
-											Actualizar
-										</button>
-										<button disabled type="button" id="btnCancelar" class="btn btn-sm btn-grey " onclick="habilitarEditor(false);">
-											Cancelar
-										</button>
-										<div class="widget-toolbar action-buttons" id="btnEditar">
-											<button type="button" class="btn btn-sm btn-primary" onclick="habilitarEditor(true);">
-												<a href="#" data-action="reload">
-													<i class="ace-icon fa fa-pencil white"></i>
-												</a>
-												Editar datos generales
+								<form id="frmEvento" action="evento.php" method="POST">
+									<div class="Contenedor  widget-box">
+										<div class="table-header">
+											Datos generales del evento
+							      		</div>
+								      	<div class="widget-main row">
+								      		<input type="text" hidden class="hidden" class="form-control input-sm" id="txtEventoID" name="txtEventoID" value="0">
+								      		<div class="col-md-4 col-md-offset-1  form-group">
+												<label><strong> Sucursal  </strong></label>
+												<select disabled class="form-control input-sm" id="cboSucursal" name="cboSucursal">
+												</select>
+						      				</div>
+						      				<div class="col-md-6 form-group">
+												<label><strong> Nombre del evento  </strong></label>
+												<input disabled type="text" class="form-control input-sm" id="txtNombre" name="txtNombre" style="text-transform: uppercase" >
+						      				</div>
+						      				<div class="col-md-2 col-md-offset-1 form-group">
+												<label><strong> Fecha inicio </strong></label>
+												<input disabled class="form-control input-sm" id="txtFechaI" name="txtFechaI" type="date" onfocus="this.oldvalue = this.value;" onchange="validarFechaI(this);this.oldvalue = this.value;">
+						      				</div>
+						      				<div class="col-md-2 form-group">
+												<label><strong> Fecha fin </strong></label>
+												<input disabled class="form-control input-sm" id="txtFechaF" name="txtFechaF" type="date" onfocus="this.oldvalue = this.value;" onchange="validarFechaF(this);this.oldvalue = this.value;">
+						      				</div>
+						      				<div class="col-md-2 form-group">
+												<label><strong> Duración </strong>(Días)</label>
+												<input disabled type="text" class="form-control input-sm" id="txtDuracion" name="txtDuracion" style="text-align: center">
+						      				</div>
+						      				<div class="col-md-2 form-group">
+												<label><strong> Precio del evento </strong>(S/.)</label>
+												<input disabled type="text" class="form-control input-sm" id="txtPrecioT" name="txtPrecioT">
+						      				</div>
+						      				<div class="col-md-2 form-group">
+												<label><strong> Estado </strong></label>
+												<select disabled class="form-control input-sm" id="cboEstadoEven" name="cboEstadoEven">
+													<option value="1"> Activo </option>
+													<option value="0"> Inactivo </option>
+												</select>
+						      				</div>
+						      				<div class="col-md-6 col-md-offset-1 form-group">
+												<label><strong> Descripción </strong></label>
+												<textarea disabled class="form-control input-sm" id="txtDescripcionEven" name="txtDescripcionEven"></textarea>
+						      				</div>					      				
+								      	</div>
+								      	<div class="form-actions center" style="margin-bottom:-0px; display:none" id="accionesEvento" >
+											<button disabled type="button" id="btnActualizarEvento"  name="btnActualizarEvento" class="btn btn-sm btn-success" onclick="actualizarEvento('<?= $eventoID; ?>')">
+												Actualizar
 											</button>
+											<button disabled type="button" id="btnCancelar" class="btn btn-sm btn-grey " onclick="habilitarEditor(false);cargar_datos_generales();">
+												Cancelar
+											</button>
+											<div class="widget-toolbar action-buttons" id="btnEditar">
+												<button type="button" class="btn btn-sm btn-primary" onclick="habilitarEditor(true);">
+													<a href="#" data-action="reload">
+														<i class="ace-icon fa fa-pencil white"></i>
+													</a>
+													Editar datos generales
+												</button>
+											</div>
 										</div>
 									</div>
-								</div>
-								<!-- Contenedor Datos generales del evento -->
+									<!-- Contenedor Datos generales del evento -->
+								</form>
 							</div>
 							<div class="col-md-12">
 
@@ -143,6 +146,7 @@
 									                <th>Hora Inicio - Fin</th>
 									                <th>Precio</th>
 									                <th>Tipo actividad</th>
+									                <th title="Número de inscritos">N° Ins.</th>
 									                <th>Estado</th>
 									                <th></th>
 									            </tr>
@@ -186,6 +190,7 @@
                        		<div id="mensaje"></div>
                             <form role="form" id="frmRegistroEgresados" class="form-horizontal" method="POST">
 		                        <div class="row">
+		                        	<input class="hidden" hidden  id="txtActividadID" name="txtActividadID">
 		                        	<div class="form-group">
 		                               <label class="col-md-2 col-md-offset-1 control-label">Tipo actividad</label>
 		                               <div class="col-md-7">
@@ -295,9 +300,96 @@
 <?php require('footer.php') ?>
 
 <script type="text/javascript">
+function validarFechaI (text) {	
+	if($('#txtFechaI').val() == ''){
+		alert("Seleccione una fecha válida");
+		$('#txtFechaI').val(text.oldvalue);
+		return false;
+	}	
+	// Fecha  inicial
+	var fechaI = $('#txtFechaI').val();
+	ArrayfechaI = fechaI.split("-");
+	fechaI = "" + ArrayfechaI[2] +'-'+ (ArrayfechaI[1]) +'-'+ ArrayfechaI[0] + "";
+	// Fecha final
+	var fechaF = $('#txtFechaF').val();
+	ArrayfechaF = fechaF.split("-");
+	fechaF = "" + ArrayfechaF[2] +'-'+ (ArrayfechaF[1]) +'-'+ ArrayfechaF[0] + "";
+	if(diferenciaFechasDMA(fechaI,fechaF) < 0){
+		alert("Fecha no válida.\nSeleccione una fecha anterior a la fecha final.");
+		$('#txtFechaI').val(text.oldvalue);
+		return false;
+	}
+	if(diferenciaFechasDMA(hoyDMA,fechaI) < 0){
+		alert("Fecha no válida.\nSeleccione una fecha posterior a hoy.");
+		$('#txtFechaI').val(text.oldvalue);
+		return false;
+	}
+	var Dias = GetDias(fechaI,fechaF)+1;
+	$('#txtDuracion').val(Dias);
+}
+function validarFechaF(text){
+	if($('#txtFechaF').val() == ''){
+		alert("Seleccione una fecha válida");
+		$('#txtFechaF').val(text.oldvalue);
+		return false;
+	}
+	var fechaI = $('#txtFechaI').val();
+	ArrayfechaI = fechaI.split("-");
+	fechaI = "" + ArrayfechaI[2] +'-'+ (ArrayfechaI[1]) +'-'+ ArrayfechaI[0] + "";
+	var fechaF = $('#txtFechaF').val();
+	ArrayfechaF = fechaF.split("-");
+	fechaF = "" + ArrayfechaF[2] +'-'+ (ArrayfechaF[1]) +'-'+ ArrayfechaF[0] + "";
+
+	if(diferenciaFechasDMA(fechaI,fechaF) < 0){
+		alert("Fecha no válida.\nSeleccione una fecha posterior a la fecha inicial.");
+		$('#txtFechaF').val(text.oldvalue);
+		return fale;
+	}
+	var Dias = GetDias(fechaI,fechaF)+1;
+	$('#txtDuracion').val(Dias);
+}
+function actualizarEvento(eventoID){
+	$('#btnActualizarEvento').prop("disabled", true);
+	var opcion = 4;  
+	valorNoValido('#cboSucursal',0);
+	inputMinimo('#txtNombre',2);
+	inputMinimo('#txtFechaI',1);
+	inputMinimo('#txtFechaF',1);
+	inputMinimo('#txtPrecioT',1);
+
+    if(document.getElementsByClassName("has-error").length > 0){
+      alert("Verifique los datos ingresados");
+      $('#btnActualizarEvento').prop("disabled", false);
+      return false;
+    }
+    var formData = new FormData($('#frmEvento')[0]);
+    formData.append("opcion",opcion);
+    $.ajax({
+      	url: '../../controller/controlEvento/evento_controller.php',
+      	type: "post",
+      	dataType: "html",
+      	data: formData,
+      	cache: false,
+	    contentType: false,
+      	processData: false,
+      	success: function(rpta){
+        	if(rpta > 0 ){
+        		alert("Modificación exitosa");
+        		habilitarEditor(false);
+        	}else{
+	        	alert("No se pudo modificar el evento:" + rpta);
+	        	cargar_datos_generales();
+        	}
+      	},
+      	error: function(rpta){
+        	alert("Error en la operación: \n"+rpta);
+        	$('#btnActualizarEvento').prop("disabled", false);
+      	}
+    });
+}
 function editarActividad(actividadID){
 	verActividad(actividadID);
-	$('#btnGuardarActiv').show();
+	$('#btnGuardarActiv').show('fast');
 	$('#btnGuardarActiv').html("Actualizar");
 }
 function verActividad(actividadID){
@@ -321,6 +413,7 @@ function verActividad(actividadID){
       		$('#txtHoraF').val(obj.actividad[0].Acti_horaFin);
       		$('#txtPrecio').val(obj.actividad[0].Acti_precio);
       		$('#cboEstado').val(obj.actividad[0].estado);
+      		$('#txtActividadID').val(obj.actividad[0].Acti_idActividad);
       	},
       	error: function(data){
                  
@@ -328,12 +421,14 @@ function verActividad(actividadID){
   	});
 }
 function habilitarEditor(opc){
-	$('#btnActualizar').prop("disabled", !opc);
+	$('#btnActualizarEvento').prop("disabled", !opc);
 	$('#btnCancelar').prop("disabled", !opc);
 	$('#cboSucursal').prop("disabled", !opc);
 	$('#txtNombre').prop("disabled", !opc);
 	$('#txtFechaI').prop("disabled", !opc);
 	$('#txtFechaF').prop("disabled", !opc);
+	$('#txtDuracion').prop("disabled", !opc);
+	$('#txtDuracion').prop("readonly", opc);
 	$('#txtPrecioT').prop("disabled", !opc);
 	$('#cboEstadoEven').prop("disabled", !opc);
 	$('#txtDescripcionEven').prop("disabled", !opc);
@@ -356,9 +451,13 @@ function limpiar_form_activ(){
 	$('#cboEstado').val("A");
 	$('#btnGuardarActiv').show('slow');
 	$('#btnGuardarActiv').html("Guardar");
+	$('#txtActividadID').val("0");
 }
 function guardar_actividad(){
-	var opcion = 1;
+	actividadID = $('#txtActividadID').val();
+	if(actividadID > 0) var opcion = 5;
+	else var opcion = 1;
+	
 	valorNoValido('#cboTipoActividad',0);
 	valorNoValido('#cboAmbiente',0);
 	inputMinimo('#txtActividad',2);
@@ -387,13 +486,15 @@ function guardar_actividad(){
         	cerrarModal('#modalActividad');
         	listar_actividades();
         	limpiar_form_activ();
-        	alert("Registro exitoso");
+        	if(actividadID > 0) alert("Modificación exitosa");
+			else alert("Registro exitoso");        	
         }else{
-        	alert("No se pudo registrar el evento");
+        	if(actividadID > 0) alert("No se pudo modificar la actividad: \n"+rpta);
+			else alert("No se pudo registrar la actividad: \n"+rpta);
         }
       },
       error: function(rpta){
-        alert("Error en el registro del protocolo: \n"+rpta);
+        alert("Error en la operacion: \n"+rpta);
       }
     });
 }
@@ -415,13 +516,26 @@ function cargar_datos_generales(){
       		$('#txtPrecioT').val(obj.evento[0].Even_precioTotal);
       		$('#txtDescripcionEven').val(obj.evento[0].Even_descripcion);
       		$('#cboEstadoEven').val(obj.evento[0].Even_estado);
-      		window.setTimeout($('#cboSucursal').val(obj.evento[0].Suc_idSucursal), 2000);      		
+      		$('#cboSucursal').val(obj.evento[0].Suc_idSucursal);
+      		$('#txtEventoID').val(<?= $eventoID; ?>);
+      		habilitarEditor(false);
+      		// Verificar si la fecha es pasada la de hoy
+      		var fechaFinal = obj.evento[0].Even_fechaFin;
+			ArrayfechaFinal = fechaFinal.split("-");
+			fechaFinal = "" + ArrayfechaFinal[2] +'-'+ (ArrayfechaFinal[1]) +'-'+ ArrayfechaFinal[0] + "";
+			if(diferenciaFechasDMA(hoyDMA,fechaFinal) < 0){
+				//No realizar acciones
+				return true;
+			}else{
+				$('#accionesEvento').show();
+			}
       	},
       	error: function(data){
                  
       	}
   	});
 }
+
 function cargarCboTiposActiv(){ 
   	var opcion = 6;
   	$.ajax({
@@ -495,6 +609,27 @@ function listar_actividades(){
       	}
   	});
 }
+function eliminarActividad(eventoID,actividadID){
+	r = confirm("¿Seguro que desea eliminar la actividad?\nRecuerde que no podrá revertir la operación.");
+  	if (!r) return false;
+	opcion = 9;
+	$.ajax({
+		type: 'POST',
+		data: 'opcion='+opcion+'&txtEventoID='+eventoID+'&txtActividadID='+actividadID,
+		url: '../../controller/controlActividad/actividad_controller.php',
+		success: function(rpta){
+			if(rpta==1){
+				alert("Eliminación exitosa");
+				listar_actividades();
+			}else{
+				alert("No se pudo eliminar la actividad:\n"+rpta);
+			}
+		},
+		error: function(rpta){
+			alert(rpta);
+		}
+	});
+}
 function validarFecha(fechita){
 	var fechaI = $('#txtFechaI').val();
 	var fechaF = $('#txtFechaF').val();
@@ -522,27 +657,7 @@ function validarFecha(fechita){
 		return;
 	}
 }
-function validarFechaI () {
-	if($('#txtFechaI').val() == ''){
-		alert("Seleccione una fecha válida");
-		$('#txtFechaF').val("");
-		$('#txtDuracion').val("");
-		$('#txtFechaF').prop("disabled", true);
-		return false;
-	}else{		
-		$('#txtFechaF').prop("disabled", false);
-	}
-	var fechaI = $('#txtFechaI').val();
-	ArrayfechaI = fechaI.split("-");
-	fechaI = "" + ArrayfechaI[2] +'-'+ (ArrayfechaI[1]) +'-'+ ArrayfechaI[0] + "";
-	if(diferenciaFechasDMA(hoyDMA,fechaI) < 0){
-		alert("Fecha no válida.\nSeleccione una fecha posterior a hoy.");
-		$('#txtFechaI').val("");
-		$('#txtFechaF').val("");
-		$('#txtDuracion').val("");
-		$('#txtFechaF').prop("disabled", true);
-	}
-}
+
 </script>
 <script type="text/javascript">
 	limpiar_form_activ();
