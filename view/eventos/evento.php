@@ -392,6 +392,12 @@ function editarActividad(actividadID){
 	$('#btnGuardarActiv').show('fast');
 	$('#btnGuardarActiv').html("Actualizar");
 }
+
+function tomarAsistencia(actividadID){
+	location.href='asistencia_actividad.php?actividadID='+actividadID;    	
+}
+
+
 function verActividad(actividadID){
 	abrirModal('#modalActividad');
 	limpiar_form_activ();

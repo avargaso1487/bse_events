@@ -155,6 +155,12 @@
 										<i class='ace-icon fa fa-search bigger-120'></i>
 										Ver actividad
 									</button>
+		                   		</li>
+		                   		<li>
+			                    	<button class='btn btn-xs btn-danger btn-block' onclick='tomarAsistencia(".$actividad->Acti_idActividad.");'>
+										<i class='ace-icon fa fa-search bigger-120'></i>
+										Asistencia
+									</button>
 		                   		</li>";
 		                   	if ($dias >= 0) {
 			                   	echo 
