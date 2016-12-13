@@ -4,7 +4,7 @@ window.onload = function(){
     mostrarDatosTabla();
     cargarGrupos();
     $('#cancelar').on('click', function(){                    
-      $('#modalOpciones').hide();  
+      $('#modalOpciones').hide();
       $('#exito').hide();
       $('#error').hide();
     }); 

@@ -151,7 +151,7 @@ class Usuario_model
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-list-alt"></i>
 							<span class="menu-text">
-								'.utf8_decode($datosGrupos[$i]['grupo']).'
+								'.($datosGrupos[$i]['grupo']).'
 							</span>
 
 							<b class="arrow fa fa-angle-down"></b>
@@ -172,7 +172,7 @@ class Usuario_model
 				echo '
 	                    <a href="'.$datosTareas[$j]['tareaRuta'].'">
 	                        <i class="menu-icon fa fa-caret-right"></i>
-	                        '.utf8_decode($datosTareas[$j]['tarea']).'
+	                        '.($datosTareas[$j]['tarea']).'
 	                    </a>
 	                    <b class="arrow"></b>                           
 	                </li>';

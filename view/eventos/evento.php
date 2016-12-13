@@ -9,8 +9,8 @@
 	else
 	{
 		date_default_timezone_set('America/Lima');
-		$grupo = "Gestión de eventos";
-		$tarea = "Listado de eventos";
+		$grupo = "Gestión de Eventos";
+		$tarea = "Listado de Eventos";
 		$link_tarea = "evento.php";
 		$titulo = "Evento: II full day de gestión de TI";
 	}

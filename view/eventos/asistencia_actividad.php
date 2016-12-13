@@ -156,7 +156,7 @@
 						</div><!-- /.col -->
 					</div>
 
-		        <input type="hidden" dissabled="true" value="" id="NombreGrupo">
+		        <input type="hidden" dissabled="true" value="Gestión de Eventos" id="NombreGrupo">
                 <input type="hidden" dissabled="true" value="" id="NombreTarea">   
 				</div><!-- /.page-content -->							
 				<div class="footer">

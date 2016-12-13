@@ -253,7 +253,7 @@
 			                        			
 								
 							</div>				
-							<input type="hidden" dissabled="true" value="Gestion de Eventos" id="NombreGrupo">
+							<input type="hidden" dissabled="true" value="Gestión de Eventos" id="NombreGrupo">
                             <input type="hidden" dissabled="true" value="Inscripciones" id="NombreTarea">			
 							<!-- FIN DE CONTENIDO DE PAGINA -->										               
 						</div><!-- /.col -->

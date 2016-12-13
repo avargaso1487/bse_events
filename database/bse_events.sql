@@ -2,11 +2,11 @@
 -- version 4.1.14
 -- http://www.phpmyadmin.net
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 14-11-2016 a las 06:09:30
--- Versión del servidor: 5.6.17
--- Versión de PHP: 5.5.12
-use bse_events;
+-- Host: 127.0.0.1
+-- Generation Time: Dec 13, 2016 at 03:13 AM
+-- Server version: 5.6.17
+-- PHP Version: 5.5.12
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -17,32 +17,98 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Base de datos: `bse_events`
+-- Database: `bse_events`
 --
 
 DELIMITER $$
 --
--- Procedimientos
+-- Procedures
 --
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_combos`(IN `ve_opcion` VARCHAR(300), IN `ve_codigo` INT)
     NO SQL
 BEGIN
-IF ve_opcion='opc_combo_tipoDocumentoPago' THEN
-  select TipDocPago_idTipoDocumentoPago, TipDocPago_descripcion from tipodocumentopago;
-END IF;
-IF ve_opcion='opc_combo_paquetes' THEN
-  select Paq_idPaquete, Paq_descripcion from paquete order by Paq_descripcion asc;
-END IF;
-IF ve_opcion='opc_combo_actividades' THEN
-  select Acti_idActividad, Acti_nombre from actividad order by Acti_nombre asc;
-END IF;
-IF ve_opcion='opc_datos_actividad' THEN
-  select Acti_idActividad, Acti_nombre from actividad where Acti_idActividad = ve_codigo;
-END IF;
-IF ve_opcion='opc_datos_participante' THEN
-  select pa.Par_idParticipante,CONCAT(UPPER(pe.Per_apellidos), ', ', UPPER(pe.Per_nombres)) from participante pa inner join persona pe on pe.Per_idPersona = pa.Per_idPersona where pa.Par_idParticipante = ve_codigo;
-END IF;
-end$$
+    IF ve_opcion='opc_combo_tipoDocumentoPago' THEN
+      select TipDocPago_idTipoDocumentoPago, TipDocPago_descripcion from tipodocumentopago;
+    END IF;
+    IF ve_opcion='opc_combo_paquetes' THEN
+      select Paq_idPaquete, Paq_descripcion from paquete order by Paq_descripcion asc;
+    END IF;
+    IF ve_opcion='opc_combo_actividades' THEN
+      select Acti_idActividad, Acti_nombre from actividad where Even_idEvento = ve_codigo and estado = 'A' order by Acti_nombre asc;
+    END IF;
+    IF ve_opcion='opc_datos_actividad' THEN
+      select Acti_idActividad, Acti_nombre, Acti_precio from actividad where Acti_idActividad = ve_codigo;
+    END IF;
+    IF ve_opcion='opc_datos_participante' THEN
+      select pa.Par_idParticipante,CONCAT(UPPER(pe.Per_apellidos), ', ', UPPER(pe.Per_nombres)) from participante pa inner join persona pe on pe.Per_idPersona = pa.Per_idPersona where pa.Par_idParticipante = ve_codigo;
+    END IF;
+    IF ve_opcion='opc_combo_evento' THEN
+      select Even_idEvento, Even_nombre from evento where Even_estado = 1;
+    END IF;
+    IF ve_opcion='opc_llenar_todas_actividades' THEN
+      select Acti_nombre, Acti_precio, Acti_idActividad from actividad where Even_idEvento = ve_codigo and estado = 'A' order by Acti_nombre;
+    END IF;
+    IF ve_opcion='opc_obtener_neto' THEN
+      select sum(Acti_precio) from actividad where Even_idEvento = ve_codigo;
+    END IF;
+        
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_control_ambiente`(IN `opcion` VARCHAR(200), IN `codigo` INT, IN `descripcion` varchar(50), 
+IN `capacidad` int, in `tipoAmbiente` int,in `locala` int )
+BEGIN
+if opcion = 'opc_listar' then            
+select A.Amb_idAmbiente,A.Amb_descripcion,A.Amb_capacidad,TA.TipAm_descripcion,TA.TipAm_idTipoAmbiente,
+L.Loc_idLocal,L.Loc_descripcion,
+case when A.Amb_estado=1 then 'Activo' 
+when A.Amb_estado=0 then 'Inactivo'  end as Amb_estado  from ambiente A inner join
+tipoambiente TA on A.TipAm_idTipoAmbiente=TA.TipAm_idTipoAmbiente inner join
+locala L on A.Loc_idLocal=L.Loc_idLocal;
+end if;  
+
+if opcion = 'opc_grabar' then    
+       
+insert into ambiente(Amb_descripcion,Amb_capacidad,Amb_estado,TipAm_idTipoAmbiente,Loc_idLocal)
+values (descripcion,capacidad,1,tipoAmbiente,locala);
+end if; 
+
+if opcion = 'opc_comboLocal' then            
+select Loc_idLocal,Loc_descripcion  from locala;
+end if; 
+
+if opcion = 'opc_comboTipo' then            
+select TipAm_idTipoAmbiente,TipAm_descripcion  from tipoambiente ;
+end if; 
+
+if opcion = 'opc_buscar' then            
+select A.Amb_idAmbiente,A.Amb_descripcion,A.Amb_capacidad,TA.TipAm_descripcion,TA.TipAm_idTipoAmbiente,
+L.Loc_idLocal,L.Loc_descripcion, A.Amb_estado 
+from ambiente A inner join
+tipoambiente TA on A.TipAm_idTipoAmbiente=TA.TipAm_idTipoAmbiente inner join
+locala L on A.Loc_idLocal=L.Loc_idLocal
+where A.Amb_idAmbiente=codigo;
+end if; 
+
+if opcion = 'opc_actualizar' then            
+update ambiente set Amb_descripcion=descripcion,Amb_capacidad=capacidad,TipAm_idTipoAmbiente=tipoAmbiente,
+Loc_idLocal=locala
+where Amb_idAmbiente=codigo;
+
+end if; 
+
+if opcion = 'opc_eliminar' then
+set @estado=(select Amb_estado from ambiente where Amb_idAmbiente=codigo); 
+if @estado='1' then          
+update ambiente set Amb_estado='0'
+where Amb_idAmbiente=codigo;
+
+else 
+update ambiente set Amb_estado='1'
+where Amb_idAmbiente=codigo;
+end if;
+end if; 
+
+END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_control_grupo`(IN `ve_opcion` VARCHAR(50), IN `ve_grupoId` INT, IN `ve_grupo` VARCHAR(50), IN `ve_grupoDescripcion` VARCHAR(200), IN `ve_grupoOrden` INT, IN `ve_grupoEstado` BOOLEAN)
     NO SQL
@@ -102,57 +168,42 @@ END IF;
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_control_ambiente`(IN `opcion` VARCHAR(200), IN `codigo` INT, IN `descripcion` varchar(50), 
-IN `capacidad` int, in `tipoAmbiente` int,in `locala` int )
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_control_local`(IN `opcion` VARCHAR(200), IN `id` int, IN `descripcion` varchar(50),
+IN `direccion` varchar(100))
 BEGIN
 if opcion = 'opc_listar' then            
-select A.Amb_idAmbiente,A.Amb_descripcion,A.Amb_capacidad,TA.TipAm_descripcion,TA.TipAm_idTipoAmbiente,
-L.Loc_idLocal,L.Loc_descripcion,
-case when A.Amb_estado=1 then 'Activo' 
-when A.Amb_estado=0 then 'Inactivo'  end as Amb_estado  from ambiente A inner join
-tipoambiente TA on A.TipAm_idTipoAmbiente=TA.TipAm_idTipoAmbiente inner join
-locala L on A.Loc_idLocal=L.Loc_idLocal;
+select L.Loc_idLocal,L.Loc_descripcion,L.Loc_direccion, case when L.Loc_estado=1 then 'Activo' 
+when L.Loc_estado=0 then 'Inactivo'  end as Loc_estado
+from locala L;
 end if;  
 
+
 if opcion = 'opc_grabar' then    
-       
-insert into ambiente(Amb_descripcion,Amb_capacidad,Amb_estado,TipAm_idTipoAmbiente,Loc_idLocal)
-values (descripcion,capacidad,1,tipoAmbiente,locala);
+insert into locala(Loc_descripcion,Loc_direccion,Loc_estado)
+values (descripcion,direccion,1);
 end if; 
 
-if opcion = 'opc_comboLocal' then            
-select Loc_idLocal,Loc_descripcion  from locala;
-end if; 
-
-if opcion = 'opc_comboTipo' then            
-select TipAm_idTipoAmbiente,TipAm_descripcion  from tipoambiente ;
-end if; 
 
 if opcion = 'opc_buscar' then            
-select A.Amb_idAmbiente,A.Amb_descripcion,A.Amb_capacidad,TA.TipAm_descripcion,TA.TipAm_idTipoAmbiente,
-L.Loc_idLocal,L.Loc_descripcion, A.Amb_estado 
-from ambiente A inner join
-tipoambiente TA on A.TipAm_idTipoAmbiente=TA.TipAm_idTipoAmbiente inner join
-locala L on A.Loc_idLocal=L.Loc_idLocal
-where A.Amb_idAmbiente=codigo;
+select L.Loc_idLocal,L.Loc_descripcion,L.Loc_direccion,L.Loc_estado
+from locala L
+where  L.Loc_idLocal=id;
 end if; 
 
 if opcion = 'opc_actualizar' then            
-update ambiente set Amb_descripcion=descripcion,Amb_capacidad=capacidad,TipAm_idTipoAmbiente=tipoAmbiente,
-Loc_idLocal=locala
-where Amb_idAmbiente=codigo;
-
+update locala set Loc_descripcion=descripcion,Loc_direccion=direccion
+where Loc_idLocal=id;
 end if; 
 
 if opcion = 'opc_eliminar' then
-set @estado=(select Amb_estado from ambiente where Amb_idAmbiente=codigo); 
+set @estado=(select Loc_estado from locala where Loc_idLocal=id); 
 if @estado='1' then          
-update ambiente set Amb_estado='0'
-where Amb_idAmbiente=codigo;
+update locala set Loc_estado='0'
+where Loc_idLocal=id;
 
 else 
-update ambiente set Amb_estado='1'
-where Amb_idAmbiente=codigo;
+update locala set Loc_estado='1'
+where Loc_idLocal=id;
 end if;
 end if; 
 
@@ -184,7 +235,6 @@ IF ve_opcion = 'opc_mostrartareas' THEN
 END IF;
 
 END$$
-
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_control_opcion`(IN `ve_opcion` VARCHAR(50), IN `ve_tareaId` INT, IN `ve_grupoId` INT, IN `ve_tarea` VARCHAR(50), IN `ve_tareaDescripcion` VARCHAR(200), IN `ve_tareaOrden` INT, IN `ve_tareaUrl` VARCHAR(100), IN `ve_tareaEstado` BOOLEAN)
     NO SQL
@@ -247,7 +297,6 @@ END IF;
 
 END$$
 
-
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_control_permiso`(IN `ve_opcion` VARCHAR(50), IN `ve_permisoId` INT, IN `ve_usuarioRol` INT, IN `ve_tareaId` INT, IN `ve_permisoEstado` BOOLEAN)
     NO SQL
 BEGIN
@@ -262,7 +311,7 @@ IF ve_opcion='opc_listar' then
     inner join tarea t on t.Tar_idTarea = p.Tar_idTarea
     inner join grupo g on g.Gru_idGrupo = t.Gru_idGrupo
 where p.Rol_idRol = ve_usuarioRol and t.Tar_estado = 1
-order by g.Gru_orden desc;
+order by g.Gru_orden asc;
 END IF;
 
 IF ve_opcion = 'opc_contar_tareas' THEN
@@ -298,7 +347,6 @@ IF ve_opcion='opc_listarDetalleFaltantes' then
 END IF;
 
 END$$
-
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_control_personal`(IN `ve_opcion` VARCHAR(50), IN `ve_colaboradorId` INT, IN `ve_colaboradorCodigo` VARCHAR(15), IN `ve_colaboradorEmpresa` INT, IN `ve_colaboradorSucursal` INT, IN `ve_colaboradorNombre` VARCHAR(100), IN `ve_colaboradorApellido` VARCHAR(100), IN `ve_colaboradorDNI` CHAR(8), IN `ve_colaboradorDireccion` VARCHAR(100), IN `ve_colaboradorNacimiento` DATE, IN `ve_colaboradorFijo` VARCHAR(15), IN `ve_colaboradorMovil` VARCHAR(15), IN `ve_colaboradorMail` VARCHAR(100), IN `ve_colaboradorIngreso` DATE, IN `ve_colaboradorEstado` BOOLEAN)
     NO SQL
@@ -466,6 +514,45 @@ END IF;
 
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_control_tipoambiente`(IN `opcion` VARCHAR(200), IN `id` int, IN `descripcion` varchar(50))
+BEGIN
+if opcion = 'opc_listar' then            
+select TA.TipAm_idTipoAmbiente, TA.TipAm_descripcion,case when TA.TipAm_estado=1 then 'Activo' 
+when TA.TipAm_estado=0 then 'Inactivo'  end as TipAm_estado
+from tipoambiente TA;
+end if;  
+
+
+if opcion = 'opc_grabar' then    
+insert into tipoambiente(TipAm_idTipoAmbiente,TipAm_descripcion,TipAm_estado)
+values (id,descripcion,1);
+end if; 
+
+
+if opcion = 'opc_buscar' then            
+select TA.TipAm_idTipoAmbiente, TA.TipAm_descripcion,TA.TipAm_estado
+from tipoambiente TA
+where  TA.TipAm_idTipoAmbiente=id;
+end if; 
+
+if opcion = 'opc_actualizar' then            
+update tipoambiente set TipAm_descripcion=descripcion
+where TipAm_idTipoAmbiente=id;
+end if; 
+
+if opcion = 'opc_eliminar' then
+set @estado=(select TipAm_estado from tipoambiente where TipAm_idTipoAmbiente=id); 
+if @estado='1' then          
+update tipoambiente set TipAm_estado='0'
+where TipAm_idTipoAmbiente=id;
+
+else 
+update tipoambiente set TipAm_estado='1'
+where TipAm_idTipoAmbiente=id;
+end if;
+end if; 
+
+END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_control_usuario`(IN `ve_opcion` VARCHAR(50), IN `ve_usuario` VARCHAR(50), IN `ve_password` VARCHAR(50))
     NO SQL
@@ -492,7 +579,6 @@ IF ve_opcion='opc_login_listar' THEN
         where u.Usu_login = ve_usuario and u.Usu_pass = ve_password;
 END IF;
 end$$
-
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_control_usuarioview`(IN `ve_opcion` VARCHAR(50), IN `ve_personaId` INT, IN `ve_usuarioLogin` VARCHAR(20), IN `ve_usuarioPass` CHAR(32), IN `ve_usuarioSucursal` INT, IN `ve_usuarioRol` INT, IN `ve_usuarioEstado` BOOLEAN)
     NO SQL
@@ -566,20 +652,154 @@ END IF;
 
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_control_venta`(IN `opcion` VARCHAR(200), IN `serie` varchar(10), 
+IN `numero` int, 
+IN `tipo` int, in `estado` int,in `evento` int,in `participante` int, in `monto` decimal(10,2),in `descuento` decimal(10,2), 
+in `neto` decimal(10,2))
+BEGIN
+
+if opcion = 'opc_listar' then            
+select concat(D.DocPago_serieDocumentoPago,'-',D.DocPago_numeroDocumentoPago) as NumeroDocumento,
+ concat(PS.Per_nombres,' ',PS.Per_apellidos) as NombreParticipante,
+ TD.TipDocPago_descripcion, D.DocPago_fecha,D.DocPago_neto,
+case when D.DocPago_estado=1 then 'Cancelada' 
+when D.DocPago_estado=0 then 'Pendiente'  end as DocPago_estado  from documentopago D inner join
+tipodocumentopago TD on  D.TipDocPago_idTipoDocumentoPago=TD.TipDocPago_idTipoDocumentoPago
+inner join Participante P on D.Par_idParticipante=P.Par_idParticipante
+inner join Persona PS on P.Per_idPersona=PS.Per_idPersona;
+end if; 
 
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_gestionar_inscripcion`(IN `ve_opcion` VARCHAR(200), IN `ve_participante` INT, IN `ve_banco` VARCHAR(300), IN `ve_nroOperacion` VARCHAR(300), IN `ve_fechaPago` DATE, IN `ve_ruta` VARCHAR(300), IN `ve_tipoPago` INT, IN `ve_paquete` INT, IN `ve_actividad` INT)
+if opcion = 'opc_listarEvento' then            
+select E.Even_idEvento, E.Even_nombre
+from Evento E;
+end if; 
+
+if opcion = 'opc_evento' then            
+select E.Even_idEvento, E.Even_nombre
+from Evento E where E.Even_idEvento=evento;
+end if; 
+
+if opcion = 'opc_listarParticipante' then            
+select  P.Par_idParticipante,concat(PS.Per_nombres,' ',PS.Per_apellidos) as NombreParticipante,PS.Per_dni
+from  Participante P inner join Persona PS on P.Per_idPersona=PS.Per_idPersona
+inner join inscripciones I on P.Par_idParticipante=I.Par_idParticipante
+where I.Even_idEvento=evento;
+end if; 
+
+if opcion = 'opc_participante' then            
+select  P.Par_idParticipante,concat(PS.Per_nombres,' ',PS.Per_apellidos) as NombreParticipante
+from  Participante P inner join Persona PS on P.Per_idPersona=PS.Per_idPersona 
+where P.Par_idParticipante=participante;
+end if; 
+
+if opcion = 'opc_condicion' then            
+select PA.Paq_descripcion, case when I.Ins_condicion='N' then 'Normal' when I.Ins_condicion='B' then 'Becado'
+when I.Ins_condicion='D' then 'Descuento' end as Ins_condicion
+from  Participante P inner join Persona PS on P.Per_idPersona=PS.Per_idPersona
+inner join inscripciones I on P.Par_idParticipante=I.Par_idParticipante
+inner join paquete PA on I.Paq_idPaquete=PA.Paq_idPaquete
+where I.Even_idEvento=evento and P.Par_idParticipante=participante;
+end if; 
+
+if opcion = 'opc_detalle' then 
+SET @PAQUETE = (SELECT Paq_idPaquete AS paquete FROM inscripciones where Par_idParticipante=participante and Even_idEvento=evento);
+SET @INSCRIPCION = (SELECT Ins_idInscripcion AS inscripcion FROM inscripciones where Par_idParticipante=participante and Even_idEvento=evento);
+if @PAQUETE=1 then
+select  I.Even_idEvento as id, E.Even_nombre as descripcion ,E.Even_precioTotal as precio
+from inscripciones I inner join evento E on I.Even_idEvento=E.Even_idEvento
+where I.Ins_idInscripcion=@INSCRIPCION;
+end if; 
+
+if @PAQUETE=2 then
+select  A.Acti_idActividad as id,A.Acti_nombre as descripcion ,A.Acti_precio as precio
+from inscripcion_actividad IA inner join actividad A on IA.Acti_idActividad=A.Acti_idActividad
+where IA.Ins_idInscripcion=@INSCRIPCION;
+end if; 
+end if;
+
+if opcion = 'opc_total' then            
+SET @PAQUETE = (SELECT Paq_idPaquete AS paquete FROM inscripciones where Par_idParticipante=participante and Even_idEvento=evento);
+SET @INSCRIPCION = (SELECT Ins_idInscripcion AS inscripcion FROM inscripciones where Par_idParticipante=participante and Even_idEvento=evento);
+if @PAQUETE=1 then
+select  E.Even_precioTotal as precio,I.Ins_descuento as descuento, E.Even_precioTotal-(E.Even_precioTotal*I.Ins_descuento/100) as neto
+from inscripciones I inner join evento E on I.Even_idEvento=E.Even_idEvento
+where I.Ins_idInscripcion=@INSCRIPCION;
+end if; 
+
+if @PAQUETE=2 then
+select  sum(A.Acti_precio) as precio, I.Ins_descuento as descuento,sum(A.Acti_precio)-(sum(A.Acti_precio)*I.Ins_descuento/100)as neto
+from inscripcion_actividad IA inner join actividad A on IA.Acti_idActividad=A.Acti_idActividad
+inner join inscripciones I on IA.Ins_idInscripcion=I.Ins_idInscripcion
+where IA.Ins_idInscripcion=@INSCRIPCION;
+end if; 
+end if; 
+
+if opcion = 'opc_grabar' then 
+SET @DOCUMENTO = (SELECT TipDocPago_idTipoDocumentoPago AS tipodoc FROM inscripciones where Par_idParticipante=participante and Even_idEvento=evento);           
+insert into documentopago(DocPago_serieDocumentoPago,DocPago_numeroDocumentoPago,TipDocPago_idTipoDocumentoPago,DocPago_estado,
+Par_idParticipante,DocPago_fecha, DocPago_montoTotal,DocPago_descuento,DocPago_neto)
+values (serie,numero,@DOCUMENTO,1,participante,curdate(),monto, descuento, neto);
+
+
+
+set @serie=serie;
+set @numero=numero;
+set @monto=monto;
+SET @PAQUETE = (SELECT Paq_idPaquete AS paquete FROM inscripciones where Par_idParticipante=participante and Even_idEvento=evento);
+SET @INSCRIPCION = (SELECT Ins_idInscripcion AS inscripcion FROM inscripciones where Par_idParticipante=participante and Even_idEvento=evento);
+if @PAQUETE=1 then
+insert into detalledocumento(DocPago_serieDocumentoPago,DocPago_numeroDocumentoPago,DetaDoc_precioPago)
+values(serie,numero,monto);
+end if; 
+
+if @PAQUETE=2 then
+
+INSERT INTO detalledocumento (DocPago_serieDocumentoPago,DocPago_numeroDocumentoPago,Acti_idActividad,DetaDoc_precioPago) 
+SELECT @serie,@numero, A.Acti_idActividad ,A.Acti_precio FROM 
+inscripcion_actividad IA inner join actividad A on IA.Acti_idActividad=A.Acti_idActividad
+ where IA.Ins_idInscripcion=@INSCRIPCION;
+end if; 
+end if; 
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_gestionar_inscripcion`(IN `ve_opcion` VARCHAR(200), IN `ve_participante` INT, IN `ve_banco` VARCHAR(300), IN `ve_nroOperacion` VARCHAR(300), IN `ve_fechaPago` DATE, IN `ve_ruta` VARCHAR(300), IN `ve_tipoPago` INT, IN `ve_paquete` INT, IN `ve_actividad` INT, IN `ve_evento` INT, IN `ve_condicion` VARCHAR(300), IN `ve_montoTotal` VARCHAR(100), IN `ve_descuento` VARCHAR(100))
     NO SQL
 BEGIN
 IF ve_opcion='opc_nueva_inscripcion' THEN
-  insert into inscripciones (Par_idParticipante,Ins_banco,  Ins_numeroOperacion, Ins_fechaPago, Ins_imagenVoucher, TipDocPago_idTipoDocumentoPago,Paq_idPaquete) values (ve_participante, ve_banco, ve_nroOperacion, ve_fechaPago, ve_ruta, ve_tipoPago, ve_paquete);
+  insert into inscripciones (Par_idParticipante,Ins_banco,  Ins_numeroOperacion, Ins_fechaPago, Ins_imagenVoucher, TipDocPago_idTipoDocumentoPago,Paq_idPaquete, Even_idEvento, Ins_condicion, Ins_montoTotal, Ins_descuento) values (ve_participante, ve_banco, ve_nroOperacion, ve_fechaPago, ve_ruta, ve_tipoPago, ve_paquete, ve_evento, ve_condicion, ve_montoTotal, ve_descuento);
 END IF;
 IF ve_opcion='opc_grabar_inscripcion_actividad' THEN
   SET @INCRIPCION = (SELECT MAX(Ins_idInscripcion) AS id FROM inscripciones);
   insert into inscripcion_actividad (Ins_idInscripcion, Acti_idActividad) values (@INCRIPCION, ve_actividad);
 END IF;
+END$$
 
-end$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_gestion_asistencia`(IN `ve_opcion` VARCHAR(300), IN `ve_actividad` INT, IN `ve_participante` INT)
+    NO SQL
+BEGIN
+    IF ve_opcion='opc_mostrar_participantes' THEN
+      select P.Par_idParticipante,CONCAT(PE.Per_apellidos,' ',PE.Per_nombres) as nombres, P.Par_nivel, P.Par_carreraProfesional, PE.Per_dni, IA.Ins_parametro from inscripcion_actividad IA
+    INNER JOIN inscripciones I ON I.Ins_idInscripcion = IA.Ins_idInscripcion
+    INNER JOIN participante P ON P.Par_idParticipante = I.Par_idParticipante
+    INNER JOIN persona PE ON PE.Per_idPersona = P.Per_idPersona
+where IA.Acti_idActividad = ve_actividad
+ORDER BY CONCAT(PE.Per_nombres,' ',PE.Per_apellidos) asc;
+    END IF;
+    IF ve_opcion='opc_registrar_asistencia' THEN
+        INSERT INTO asistencia_actividad (Par_idParticipante, Acti_idActividad, ASIAC_estado) VALUES (ve_participante, ve_actividad, 1);
+        UPDATE inscripcion_actividad AS IA
+INNER JOIN actividad AS A ON A.Acti_idActividad = IA.Acti_idActividad
+INNER JOIN inscripciones I ON I.Ins_idInscripcion = IA.Ins_idInscripcion
+INNER JOIN participante P ON P.Par_idParticipante = I.Par_idParticipante
+SET IA.Ins_parametro = 0
+WHERE IA.Acti_idActividad = ve_actividad and P.Par_idParticipante = ve_participante;
+    END IF;
+    IF ve_opcion='opc_mostrar_nombre' THEN
+        select Acti_nombre from actividad where Acti_idActividad = ve_actividad;
+    END IF;
+END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_gestion_empresa`(IN `ve_opcion` VARCHAR(100), IN `ve_razonSocial` VARCHAR(200), IN `ve_direccion` VARCHAR(200), IN `ve_ruc` VARCHAR(11), IN `ve_codigo` INT)
     NO SQL
@@ -614,7 +834,6 @@ IF ve_opcion = 'opc_listar_empresa_cbo' THEN
         order by Emp_razonSocial ASC;
 END IF;
 end$$
-
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_gestion_participante`(IN `opcion` VARCHAR(50), IN `nombre` VARCHAR(250), IN `apellido` VARCHAR(250), IN `dni` CHAR(8), IN `direccion` TEXT, IN `fechaNacimiento` DATE, IN `telefonoFijo` VARCHAR(100), IN `telefonoMovil` VARCHAR(100), IN `email` VARCHAR(250), IN `nivel` VARCHAR(30), IN `profesion` VARCHAR(250), IN `centroTrabajo` TEXT, IN `codigoParticipante` INT)
     NO SQL
@@ -722,15 +941,33 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `actividad`
+-- Table structure for table `actividad`
 --
 
-
+CREATE TABLE IF NOT EXISTS `actividad` (
+  `Acti_idActividad` int(11) NOT NULL AUTO_INCREMENT,
+  `Even_idEvento` int(11) NOT NULL,
+  `Pon_idPonente` int(11) DEFAULT NULL,
+  `Acti_nombre` varchar(200) NOT NULL,
+  `Acti_descripcion` varchar(500) NOT NULL,
+  `Acti_precio` decimal(9,2) DEFAULT NULL,
+  `Amb_idAmbiente` int(11) DEFAULT NULL,
+  `Acti_fecha` varchar(11) DEFAULT NULL,
+  `Acti_horaInicio` varchar(10) DEFAULT NULL,
+  `Acti_horaFin` varchar(10) DEFAULT NULL,
+  `TipoActi_idTipoActividad` int(11) NOT NULL,
+  `estado` char(1) NOT NULL,
+  PRIMARY KEY (`Acti_idActividad`),
+  KEY `Even_idEvento` (`Even_idEvento`),
+  KEY `Pon_idPonente` (`Pon_idPonente`),
+  KEY `Amb_idAmbiente` (`Amb_idAmbiente`),
+  KEY `TipoActi_idTipoActividad` (`TipoActi_idTipoActividad`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `ambiente`
+-- Table structure for table `ambiente`
 --
 
 CREATE TABLE IF NOT EXISTS `ambiente` (
@@ -748,7 +985,23 @@ CREATE TABLE IF NOT EXISTS `ambiente` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `certificacion`
+-- Table structure for table `asistencia_actividad`
+--
+
+CREATE TABLE IF NOT EXISTS `asistencia_actividad` (
+  `ASIAC_id` int(11) NOT NULL AUTO_INCREMENT,
+  `Par_idParticipante` int(11) NOT NULL,
+  `Acti_idActividad` int(11) NOT NULL,
+  `ASIAC_estado` char(1) NOT NULL,
+  PRIMARY KEY (`ASIAC_id`),
+  KEY `Par_idParticipante` (`Par_idParticipante`),
+  KEY `Acti_idActividad` (`Acti_idActividad`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `certificacion`
 --
 
 CREATE TABLE IF NOT EXISTS `certificacion` (
@@ -765,7 +1018,42 @@ CREATE TABLE IF NOT EXISTS `certificacion` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `empresa`
+-- Table structure for table `detalledocumento`
+--
+
+CREATE TABLE IF NOT EXISTS `detalledocumento` (
+  `DetaDoc_correlativoDetalleDocumento` int(11) NOT NULL AUTO_INCREMENT,
+  `DocPago_serieDocumentoPago` varchar(10) NOT NULL,
+  `DocPago_numeroDocumentoPago` int(11) NOT NULL,
+  `Acti_idActividad` int(11) DEFAULT NULL,
+  `DetaDoc_precioPago` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`DetaDoc_correlativoDetalleDocumento`),
+  KEY `DocPago_serieDocumentoPago` (`DocPago_serieDocumentoPago`,`DocPago_numeroDocumentoPago`),
+  KEY `Acti_idActividad` (`Acti_idActividad`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `documentopago`
+--
+
+CREATE TABLE IF NOT EXISTS `documentopago` (
+  `DocPago_serieDocumentoPago` varchar(10) NOT NULL,
+  `DocPago_numeroDocumentoPago` int(11) NOT NULL,
+  `TipDocPago_idTipoDocumentoPago` int(11) NOT NULL,
+  `DocPago_estado` int(11) NOT NULL,
+  `Par_idParticipante` int(11) NOT NULL,
+  `DocPago_fecha` datetime NOT NULL,
+  PRIMARY KEY (`DocPago_serieDocumentoPago`,`DocPago_numeroDocumentoPago`),
+  KEY `TipDocPago_idTipoDocumentoPago` (`TipDocPago_idTipoDocumentoPago`),
+  KEY `Par_idParticipante` (`Par_idParticipante`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `empresa`
 --
 
 CREATE TABLE IF NOT EXISTS `empresa` (
@@ -778,7 +1066,7 @@ CREATE TABLE IF NOT EXISTS `empresa` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
--- Volcado de datos para la tabla `empresa`
+-- Dumping data for table `empresa`
 --
 
 INSERT INTO `empresa` (`Emp_idEmpresa`, `Emp_RUC`, `Emp_razonSocial`, `Emp_direccion`, `Emp_estado`) VALUES
@@ -787,7 +1075,7 @@ INSERT INTO `empresa` (`Emp_idEmpresa`, `Emp_RUC`, `Emp_razonSocial`, `Emp_direc
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `especializacion`
+-- Table structure for table `especializacion`
 --
 
 CREATE TABLE IF NOT EXISTS `especializacion` (
@@ -804,7 +1092,7 @@ CREATE TABLE IF NOT EXISTS `especializacion` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `evento`
+-- Table structure for table `evento`
 --
 
 CREATE TABLE IF NOT EXISTS `evento` (
@@ -818,12 +1106,12 @@ CREATE TABLE IF NOT EXISTS `evento` (
   `Even_precioTotal` double NOT NULL,
   `Even_estado` char(1) NOT NULL,
   PRIMARY KEY (`Even_idEvento`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `grupo`
+-- Table structure for table `grupo`
 --
 
 CREATE TABLE IF NOT EXISTS `grupo` (
@@ -836,86 +1124,78 @@ CREATE TABLE IF NOT EXISTS `grupo` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
--- Volcado de datos para la tabla `grupo`
+-- Dumping data for table `grupo`
 --
 
 INSERT INTO `grupo` (`Gru_idGrupo`, `Gru_nombre`, `Gru_descripcion`, `Gru_orden`, `Gru_estado`) VALUES
-(1, 'ParÃ¡metros', 'Modulo de parametros generales del sistema', 1, 1),
+(1, 'Parámetros', 'Modulo de parametros generales del sistema', 1, 1),
 (2, 'Acceso y Seguridad', 'Modulo para el control de accesos y seguridad del sistema', 2, 1),
-(3, 'AuditorÃ­a', 'Modulo para la realizacion de la auditoria del sistema', 3, 1),
+(3, 'Auditoría', 'Modulo para la realizacion de la auditoria del sistema', 3, 1),
 (4, 'Mantenedores', 'Modulo para las tablas maestras del sistema', 4, 1),
-(5, 'Gestion de Eventos', 'Modulo para la gestion de eventos realizados por BSE', 5, 1),
+(5, 'Gestión de Eventos', 'Modulo para la gestion de eventos realizados por BSE', 5, 1),
 (6, 'Facturacion', 'Modulo para la realizacion de las facturaciones de cada evento', 6, 1),
 (7, 'Reportes', 'Modulo para la generacion de los reportes necesarios para la toma de decisiones.', 7, 0);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `inscripciones`
+-- Table structure for table `inscripciones`
 --
 
 CREATE TABLE IF NOT EXISTS `inscripciones` (
   `Ins_idInscripcion` int(11) NOT NULL AUTO_INCREMENT,
   `Par_idParticipante` int(11) NOT NULL,
+  `Even_idEvento` int(11) NOT NULL,
   `Ins_banco` varchar(50) NOT NULL,
   `Ins_numeroOperacion` varchar(50) NOT NULL,
   `Ins_fechaPago` date DEFAULT NULL,
   `Ins_imagenVoucher` varchar(100) NOT NULL,
   `TipDocPago_idTipoDocumentoPago` int(11) NOT NULL,
   `Paq_idPaquete` int(11) NOT NULL,
+  `Ins_descuento` varchar(100) NOT NULL,
+  `Ins_MontoTotal` varchar(100) NOT NULL,
+  `Ins_condicion` char(1) NOT NULL,
   PRIMARY KEY (`Ins_idInscripcion`),
   KEY `Par_idParticipante` (`Par_idParticipante`),
+  KEY `Even_idEvento` (`Even_idEvento`),
   KEY `TipDocPago_idTipoDocumentoPago` (`TipDocPago_idTipoDocumentoPago`),
   KEY `Paq_idPaquete` (`Paq_idPaquete`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
-
---
--- Volcado de datos para la tabla `inscripciones`
---
-
-INSERT INTO `inscripciones` (`Ins_idInscripcion`, `Par_idParticipante`, `Ins_banco`, `Ins_numeroOperacion`, `Ins_fechaPago`, `Ins_imagenVoucher`, `TipDocPago_idTipoDocumentoPago`, `Paq_idPaquete`) VALUES
-(1, 1, 'BCP', '243253', '2016-09-09', '../../view/voucher/11695965_820992201303491_8569793140075028118_n.jpg', 2, 1);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `inscripcion_actividad`
+-- Table structure for table `inscripcion_actividad`
 --
 
 CREATE TABLE IF NOT EXISTS `inscripcion_actividad` (
   `InsAct_idInscripcionActividad` int(11) NOT NULL AUTO_INCREMENT,
   `Ins_idInscripcion` int(11) NOT NULL,
   `Acti_idActividad` int(11) NOT NULL,
+  `Ins_parametro` smallint(5) unsigned NOT NULL,
   PRIMARY KEY (`InsAct_idInscripcionActividad`),
   KEY `Ins_idInscripcion` (`Ins_idInscripcion`),
   KEY `Acti_idActividad` (`Acti_idActividad`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
-
---
--- Volcado de datos para la tabla `inscripcion_actividad`
---
-
-INSERT INTO `inscripcion_actividad` (`InsAct_idInscripcionActividad`, `Ins_idInscripcion`, `Acti_idActividad`) VALUES
-(1, 1, 1),
-(2, 1, 2);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `locala`
+-- Table structure for table `locala`
 --
 
 CREATE TABLE IF NOT EXISTS `locala` (
   `Loc_idLocal` int(11) NOT NULL AUTO_INCREMENT,
   `Loc_descripcion` varchar(50) DEFAULT NULL,
   `Loc_direccion` varchar(50) DEFAULT NULL,
+  `Loc_estado` int(11) DEFAULT NULL,
   PRIMARY KEY (`Loc_idLocal`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `modulo`
+-- Table structure for table `modulo`
 --
 
 CREATE TABLE IF NOT EXISTS `modulo` (
@@ -923,25 +1203,25 @@ CREATE TABLE IF NOT EXISTS `modulo` (
   `Mod_descripcion` varchar(50) NOT NULL,
   `Mod_estado` tinyint(1) NOT NULL,
   PRIMARY KEY (`Mod_idModulo`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
--- Volcado de datos para la tabla `modulo`
+-- Dumping data for table `modulo`
 --
 
 INSERT INTO `modulo` (`Mod_idModulo`, `Mod_descripcion`, `Mod_estado`) VALUES
-(1, 'ParÃ¡metros', 1),
+(1, 'Parámetros', 1),
 (2, 'Acceso y Seguridad', 1),
-(3, 'AuditorÃ­a', 1),
+(3, 'Auditoría', 1),
 (4, 'Mantenedores', 1),
-(5, 'Gestion de Eventos', 1),
+(5, 'Gestión de Eventos', 1),
 (6, 'Facturacion', 1),
 (7, 'Reportes', 0);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `paquete`
+-- Table structure for table `paquete`
 --
 
 CREATE TABLE IF NOT EXISTS `paquete` (
@@ -951,7 +1231,7 @@ CREATE TABLE IF NOT EXISTS `paquete` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
--- Volcado de datos para la tabla `paquete`
+-- Dumping data for table `paquete`
 --
 
 INSERT INTO `paquete` (`Paq_idPaquete`, `Paq_descripcion`) VALUES
@@ -961,7 +1241,7 @@ INSERT INTO `paquete` (`Paq_idPaquete`, `Paq_descripcion`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `participante`
+-- Table structure for table `participante`
 --
 
 CREATE TABLE IF NOT EXISTS `participante` (
@@ -975,7 +1255,7 @@ CREATE TABLE IF NOT EXISTS `participante` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
--- Volcado de datos para la tabla `participante`
+-- Dumping data for table `participante`
 --
 
 INSERT INTO `participante` (`Par_idParticipante`, `Per_idPersona`, `Par_nivel`, `Par_carreraProfesional`, `Par_centroTrabajo`) VALUES
@@ -986,7 +1266,7 @@ INSERT INTO `participante` (`Par_idParticipante`, `Per_idPersona`, `Par_nivel`, 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `permiso`
+-- Table structure for table `permiso`
 --
 
 CREATE TABLE IF NOT EXISTS `permiso` (
@@ -997,11 +1277,11 @@ CREATE TABLE IF NOT EXISTS `permiso` (
   PRIMARY KEY (`Pso_idPermiso`),
   KEY `Rol_idRol` (`Rol_idRol`),
   KEY `Tar_idTarea` (`Tar_idTarea`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
 
 --
--- Volcado de datos para la tabla `permiso`
--- retornar
+-- Dumping data for table `permiso`
+--
 
 INSERT INTO `permiso` (`Pso_idPermiso`, `Rol_idRol`, `Tar_idTarea`, `Pso_estado`) VALUES
 (1, 1, 1, 1),
@@ -1018,12 +1298,16 @@ INSERT INTO `permiso` (`Pso_idPermiso`, `Rol_idRol`, `Tar_idTarea`, `Pso_estado`
 (12, 1, 12, 1),
 (13, 1, 13, 1),
 (14, 1, 14, 1),
-(15, 1, 15, 1);
+(15, 1, 15, 1),
+(16, 1, 16, 1),
+(17, 1, 17, 1),
+(18, 1, 18, 1),
+(19, 1, 19, 1);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `persona`
+-- Table structure for table `persona`
 --
 
 CREATE TABLE IF NOT EXISTS `persona` (
@@ -1041,7 +1325,7 @@ CREATE TABLE IF NOT EXISTS `persona` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
--- Volcado de datos para la tabla `persona`
+-- Dumping data for table `persona`
 --
 
 INSERT INTO `persona` (`Per_idPersona`, `Per_nombres`, `Per_apellidos`, `Per_dni`, `Per_direccion`, `Per_fechaNacimiento`, `Per_telefonoFijo`, `Per_telefonoMovil`, `Per_email`, `Per_estado`) VALUES
@@ -1053,7 +1337,7 @@ INSERT INTO `persona` (`Per_idPersona`, `Per_nombres`, `Per_apellidos`, `Per_dni
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `personal`
+-- Table structure for table `personal`
 --
 
 CREATE TABLE IF NOT EXISTS `personal` (
@@ -1068,7 +1352,7 @@ CREATE TABLE IF NOT EXISTS `personal` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Volcado de datos para la tabla `personal`
+-- Dumping data for table `personal`
 --
 
 INSERT INTO `personal` (`Per_idPersona`, `Pers_codigo`, `Pers_fechaIngreso`, `Pers_fechaSalida`, `Suc_idSucursal`, `Pers_estado`) VALUES
@@ -1077,7 +1361,7 @@ INSERT INTO `personal` (`Per_idPersona`, `Pers_codigo`, `Pers_fechaIngreso`, `Pe
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `ponente`
+-- Table structure for table `ponente`
 --
 
 CREATE TABLE IF NOT EXISTS `ponente` (
@@ -1103,7 +1387,7 @@ CREATE TABLE IF NOT EXISTS `ponente` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
--- Volcado de datos para la tabla `ponente`
+-- Dumping data for table `ponente`
 --
 
 INSERT INTO `ponente` (`Pon_idPonente`, `Pon_nombre`, `Pon_apellidos`, `TipoDocId_idTipoDocumentoIdentidad`, `Pon_numeroDocumentoIdentidad`, `Pon_direccion`, `Pon_fijo`, `Pon_email`, `Pon_celular`, `Pon_carreraProfesional`, `Pon_fechaNacimiento`, `Pon_nacionalidad`, `Pon_estadoLaboral`, `Pon_hojaVida`, `Pon_centroTrabajoActual`, `Pon_cv`, `Pon_estado`) VALUES
@@ -1112,7 +1396,7 @@ INSERT INTO `ponente` (`Pon_idPonente`, `Pon_nombre`, `Pon_apellidos`, `TipoDocI
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `rol`
+-- Table structure for table `rol`
 --
 
 CREATE TABLE IF NOT EXISTS `rol` (
@@ -1124,7 +1408,7 @@ CREATE TABLE IF NOT EXISTS `rol` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
--- Volcado de datos para la tabla `rol`
+-- Dumping data for table `rol`
 --
 
 INSERT INTO `rol` (`Rol_idRol`, `Rol_nombre`, `Rol_descripcion`, `Rol_estado`) VALUES
@@ -1133,7 +1417,7 @@ INSERT INTO `rol` (`Rol_idRol`, `Rol_nombre`, `Rol_descripcion`, `Rol_estado`) V
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `rol_usuario`
+-- Table structure for table `rol_usuario`
 --
 
 CREATE TABLE IF NOT EXISTS `rol_usuario` (
@@ -1147,7 +1431,7 @@ CREATE TABLE IF NOT EXISTS `rol_usuario` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
--- Volcado de datos para la tabla `rol_usuario`
+-- Dumping data for table `rol_usuario`
 --
 
 INSERT INTO `rol_usuario` (`RolUs_idRolUsuario`, `Rol_idRol`, `Per_idPersona`, `RolUs_estado`) VALUES
@@ -1156,7 +1440,7 @@ INSERT INTO `rol_usuario` (`RolUs_idRolUsuario`, `Rol_idRol`, `Per_idPersona`, `
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `sucursal`
+-- Table structure for table `sucursal`
 --
 
 CREATE TABLE IF NOT EXISTS `sucursal` (
@@ -1170,7 +1454,7 @@ CREATE TABLE IF NOT EXISTS `sucursal` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
--- Volcado de datos para la tabla `sucursal`
+-- Dumping data for table `sucursal`
 --
 
 INSERT INTO `sucursal` (`Suc_idSucursal`, `Suc_nombre`, `Suc_direccion`, `Suc_estado`, `Emp_idEmpresa`) VALUES
@@ -1179,7 +1463,7 @@ INSERT INTO `sucursal` (`Suc_idSucursal`, `Suc_nombre`, `Suc_direccion`, `Suc_es
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tarea`
+-- Table structure for table `tarea`
 --
 
 CREATE TABLE IF NOT EXISTS `tarea` (
@@ -1194,10 +1478,10 @@ CREATE TABLE IF NOT EXISTS `tarea` (
   PRIMARY KEY (`Tar_idTarea`),
   KEY `Mod_idModulo` (`Mod_idModulo`),
   KEY `Gru_idGrupo` (`Gru_idGrupo`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
 
 --
--- Volcado de datos para la tabla `tarea`
+-- Dumping data for table `tarea`
 --
 
 INSERT INTO `tarea` (`Tar_idTarea`, `Mod_idModulo`, `Gru_idGrupo`, `Tar_nombre`, `Tar_descripcion`, `Tar_orden`, `Tar_url`, `Tar_estado`) VALUES
@@ -1209,30 +1493,63 @@ INSERT INTO `tarea` (`Tar_idTarea`, `Mod_idModulo`, `Gru_idGrupo`, `Tar_nombre`,
 (6, 2, 4, 'Empresas', 'Gestion de Empresas', 2, '../Mantenedores/empresa_view.php', 1),
 (7, 2, 4, 'Sucursales', 'Gestión de Sucursales', 3, '../Mantenedores/sucursal_view.php', 1),
 (8, 2, 4, 'Ambientes', 'Mantenedor de Ambientes', 4, '../Mantenedores/ambiente_view.php', 1),
-(9, 3, 5, 'Listado de eventos', 'Listado de eventos', 1, '../eventos/lista_eventos.php', 1),
-(10, 3, 5, 'Nuevo evento', 'Nuevo evento', 1, '../eventos/registrar_evento.php', 1),
+(9, 5, 5, 'Listado de Eventos', 'Listado de eventos', 1, '../eventos/lista_eventos.php', 1),
+(10, 5, 5, 'Nuevo Evento', 'Nuevo evento', 1, '../eventos/registrar_evento.php', 1),
 (11, 2, 4, 'Participantes', 'Gestion de Participantes', 5, '../Mantenedores/participante_view.php', 1),
 (12, 3, 5, 'Inscripciones', 'Inscripciones de los participantes', 3, '../Evento/Inscripcion_view.php', 1),
 (13, 2, 2, 'Personal', 'Mantenedor para el personal de trabajo', 1, '../AccesoSeguridad/personal_view.php', 1),
 (14, 2, 2, 'Usuarios', 'Control de Usuarios del sistema', 2, '../AccesoSeguridad/usuario_view.php', 1),
-(15, 2, 2, 'Permisos', 'Vista para la gestiÃ³n de los permisos para cada rol', 3, '../AccesoSeguridad/permiso_view.php', 1);
+(15, 2, 2, 'Permisos', 'Vista para la gestión de los permisos para cada rol', 3, '../AccesoSeguridad/permiso_view.php', 1),
+(16, 6, 6, 'Listado de Ventas', 'Listado de ventas', 1, '../Facturacion/ventas_view.php', 1),
+(17, 6, 6, 'Registro de Ventas', 'Registro de ventas', 2, '../Facturacion/nuevaVenta_view.php', 1),
+(18, 2, 4, 'Tipo Ambiente', 'Mantenedor de tipo ambiente', 6, '../Mantenedores/tipoambiente_view.php', 1),
+(19, 2, 4, 'Local', 'Mantenedor de local', 7, '../Mantenedores/local_view.php', 1);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tipoambiente`
+-- Table structure for table `tipoactividad`
+--
+
+CREATE TABLE IF NOT EXISTS `tipoactividad` (
+  `TipoActi_idTipoActividad` int(11) NOT NULL AUTO_INCREMENT,
+  `TipoActi_descripcion` varchar(200) NOT NULL,
+  PRIMARY KEY (`TipoActi_idTipoActividad`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `tipoactividad`
+--
+
+INSERT INTO `tipoactividad` (`TipoActi_idTipoActividad`, `TipoActi_descripcion`) VALUES
+(1, 'PONENCIA'),
+(2, 'TALLER');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tipoambiente`
 --
 
 CREATE TABLE IF NOT EXISTS `tipoambiente` (
   `TipAm_idTipoAmbiente` int(11) NOT NULL AUTO_INCREMENT,
   `TipAm_descripcion` varchar(50) DEFAULT NULL,
+  `TipAm_estado` int(11) DEFAULT NULL,
   PRIMARY KEY (`TipAm_idTipoAmbiente`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `tipoambiente`
+--
+
+INSERT INTO `tipoambiente` (`TipAm_idTipoAmbiente`, `TipAm_descripcion`, `TipAm_estado`) VALUES
+(1, 'Auditorio', 1),
+(2, 'Laboratorio', 1);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tipodocumentoidentidad`
+-- Table structure for table `tipodocumentoidentidad`
 --
 
 CREATE TABLE IF NOT EXISTS `tipodocumentoidentidad` (
@@ -1242,7 +1559,7 @@ CREATE TABLE IF NOT EXISTS `tipodocumentoidentidad` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
--- Volcado de datos para la tabla `tipodocumentoidentidad`
+-- Dumping data for table `tipodocumentoidentidad`
 --
 
 INSERT INTO `tipodocumentoidentidad` (`TipoDocId_idTipoDocumentoIdentidad`, `TipoDocId_descripcion`) VALUES
@@ -1253,7 +1570,7 @@ INSERT INTO `tipodocumentoidentidad` (`TipoDocId_idTipoDocumentoIdentidad`, `Tip
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tipodocumentopago`
+-- Table structure for table `tipodocumentopago`
 --
 
 CREATE TABLE IF NOT EXISTS `tipodocumentopago` (
@@ -1263,7 +1580,7 @@ CREATE TABLE IF NOT EXISTS `tipodocumentopago` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
--- Volcado de datos para la tabla `tipodocumentopago`
+-- Dumping data for table `tipodocumentopago`
 --
 
 INSERT INTO `tipodocumentopago` (`TipDocPago_idTipoDocumentoPago`, `TipDocPago_descripcion`) VALUES
@@ -1273,7 +1590,7 @@ INSERT INTO `tipodocumentopago` (`TipDocPago_idTipoDocumentoPago`, `TipDocPago_d
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `usuario`
+-- Table structure for table `usuario`
 --
 
 CREATE TABLE IF NOT EXISTS `usuario` (
@@ -1287,129 +1604,130 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   PRIMARY KEY (`Per_idPersona`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
-create table if not exists TipoActividad(
-  TipoActi_idTipoActividad int not null AUTO_INCREMENT,
-  TipoActi_descripcion varchar(200) not null,
-  primary key(TipoActi_idTipoActividad)
-);
-create table if not exists actividad(
-  Acti_idActividad int(11) not null AUTO_INCREMENT,
-  Even_idEvento int not null, 
-  Pon_idPonente int null,
-  Acti_nombre varchar(200) not null,
-  Acti_descripcion varchar(500) not null,
-  Acti_precio decimal(9,2) null,
-  Amb_idAmbiente int(11) null,
-  Acti_fecha varchar(11) null,
-  Acti_horaInicio varchar(10) null,
-  Acti_horaFin varchar(10) null,
-  TipoActi_idTipoActividad int not null,
-  estado char(1) not null,
-  primary key(Acti_idActividad),
-  foreign key(Even_idEvento) references evento(Even_idEvento),
-  foreign key(Pon_idPonente) references ponente(Pon_idPonente),
-  foreign key(Amb_idAmbiente) references ambiente(Amb_idAmbiente),
-  foreign key(TipoActi_idTipoActividad) references TipoActividad(TipoActi_idTipoActividad)
-);
-
-insert into TipoActividad(TipoActi_idTipoActividad,TipoActi_descripcion) values 
-  (1,'PONENCIA'),
-  (2,'TALLER');
-
-
 --
--- Volcado de datos para la tabla `usuario`
+-- Dumping data for table `usuario`
 --
 
-INSERT INTO `usuario` (`Per_idPersona`, `Usu_login`, `Usu_pass`, `Usu_estado`, `Usu_fechaCese`, `Suc_idSucursal`) VALUES
-(1, 'amds', '202cb962ac59075b964b07152d234b70', 1, NULL, 1);
+INSERT INTO `usuario` (`Per_idPersona`, `Usu_login`, `Usu_pass`, `Usu_estado`, `Usu_fechaCreacion`, `Usu_fechaCese`, `Suc_idSucursal`) VALUES
+(1, 'amds', '202cb962ac59075b964b07152d234b70', 1, '0000-00-00', NULL, 1);
 
 --
--- Restricciones para tablas volcadas
+-- Constraints for dumped tables
 --
 
 --
--- Filtros para la tabla `ambiente`
+-- Constraints for table `actividad`
+--
+ALTER TABLE `actividad`
+  ADD CONSTRAINT `actividad_ibfk_1` FOREIGN KEY (`Even_idEvento`) REFERENCES `evento` (`Even_idEvento`),
+  ADD CONSTRAINT `actividad_ibfk_2` FOREIGN KEY (`Pon_idPonente`) REFERENCES `ponente` (`Pon_idPonente`),
+  ADD CONSTRAINT `actividad_ibfk_3` FOREIGN KEY (`Amb_idAmbiente`) REFERENCES `ambiente` (`Amb_idAmbiente`),
+  ADD CONSTRAINT `actividad_ibfk_4` FOREIGN KEY (`TipoActi_idTipoActividad`) REFERENCES `tipoactividad` (`TipoActi_idTipoActividad`);
+
+--
+-- Constraints for table `ambiente`
 --
 ALTER TABLE `ambiente`
   ADD CONSTRAINT `ambiente_ibfk_1` FOREIGN KEY (`TipAm_idTipoAmbiente`) REFERENCES `tipoambiente` (`TipAm_idTipoAmbiente`),
   ADD CONSTRAINT `ambiente_ibfk_2` FOREIGN KEY (`Loc_idLocal`) REFERENCES `locala` (`Loc_idLocal`);
 
 --
--- Filtros para la tabla `certificacion`
+-- Constraints for table `asistencia_actividad`
+--
+ALTER TABLE `asistencia_actividad`
+  ADD CONSTRAINT `asistencia_actividad_ibfk_1` FOREIGN KEY (`Par_idParticipante`) REFERENCES `participante` (`Par_idParticipante`),
+  ADD CONSTRAINT `asistencia_actividad_ibfk_2` FOREIGN KEY (`Acti_idActividad`) REFERENCES `actividad` (`Acti_idActividad`);
+
+--
+-- Constraints for table `certificacion`
 --
 ALTER TABLE `certificacion`
   ADD CONSTRAINT `certificacion_ibfk_1` FOREIGN KEY (`Pon_idPonente`) REFERENCES `ponente` (`Pon_idPonente`);
 
 --
--- Filtros para la tabla `especializacion`
+-- Constraints for table `detalledocumento`
+--
+ALTER TABLE `detalledocumento`
+  ADD CONSTRAINT `detalledocumento_ibfk_1` FOREIGN KEY (`DocPago_serieDocumentoPago`, `DocPago_numeroDocumentoPago`) REFERENCES `documentopago` (`DocPago_serieDocumentoPago`, `DocPago_numeroDocumentoPago`),
+  ADD CONSTRAINT `detalledocumento_ibfk_2` FOREIGN KEY (`Acti_idActividad`) REFERENCES `actividad` (`Acti_idActividad`);
+
+--
+-- Constraints for table `documentopago`
+--
+ALTER TABLE `documentopago`
+  ADD CONSTRAINT `documentopago_ibfk_1` FOREIGN KEY (`TipDocPago_idTipoDocumentoPago`) REFERENCES `tipodocumentopago` (`TipDocPago_idTipoDocumentoPago`),
+  ADD CONSTRAINT `documentopago_ibfk_2` FOREIGN KEY (`Par_idParticipante`) REFERENCES `participante` (`Par_idParticipante`);
+
+--
+-- Constraints for table `especializacion`
 --
 ALTER TABLE `especializacion`
   ADD CONSTRAINT `especializacion_ibfk_1` FOREIGN KEY (`Pon_idPonente`) REFERENCES `ponente` (`Pon_idPonente`);
 
 --
--- Filtros para la tabla `inscripciones`
+-- Constraints for table `inscripciones`
 --
 ALTER TABLE `inscripciones`
   ADD CONSTRAINT `inscripciones_ibfk_1` FOREIGN KEY (`Par_idParticipante`) REFERENCES `participante` (`Par_idParticipante`),
-  ADD CONSTRAINT `inscripciones_ibfk_2` FOREIGN KEY (`TipDocPago_idTipoDocumentoPago`) REFERENCES `tipodocumentopago` (`TipDocPago_idTipoDocumentoPago`),
-  ADD CONSTRAINT `inscripciones_ibfk_3` FOREIGN KEY (`Paq_idPaquete`) REFERENCES `paquete` (`Paq_idPaquete`);
+  ADD CONSTRAINT `inscripciones_ibfk_2` FOREIGN KEY (`Even_idEvento`) REFERENCES `evento` (`Even_idEvento`),
+  ADD CONSTRAINT `inscripciones_ibfk_3` FOREIGN KEY (`TipDocPago_idTipoDocumentoPago`) REFERENCES `tipodocumentopago` (`TipDocPago_idTipoDocumentoPago`),
+  ADD CONSTRAINT `inscripciones_ibfk_4` FOREIGN KEY (`Paq_idPaquete`) REFERENCES `paquete` (`Paq_idPaquete`);
 
 --
--- Filtros para la tabla `inscripcion_actividad`
+-- Constraints for table `inscripcion_actividad`
 --
--- ALTER TABLE `inscripcion_actividad`
-  -- ADD CONSTRAINT `inscripcion_actividad_ibfk_1` FOREIGN KEY (`Ins_idInscripcion`) REFERENCES `inscripciones` (`Ins_idInscripcion`),
-  -- ADD CONSTRAINT `inscripcion_actividad_ibfk_2` FOREIGN KEY (`Acti_idActividad`) REFERENCES `actividad` (`Acti_idActividad`);
+ALTER TABLE `inscripcion_actividad`
+  ADD CONSTRAINT `inscripcion_actividad_ibfk_1` FOREIGN KEY (`Ins_idInscripcion`) REFERENCES `inscripciones` (`Ins_idInscripcion`),
+  ADD CONSTRAINT `inscripcion_actividad_ibfk_2` FOREIGN KEY (`Acti_idActividad`) REFERENCES `actividad` (`Acti_idActividad`);
 
 --
--- Filtros para la tabla `participante`
+-- Constraints for table `participante`
 --
 ALTER TABLE `participante`
   ADD CONSTRAINT `participante_ibfk_1` FOREIGN KEY (`Per_idPersona`) REFERENCES `persona` (`Per_idPersona`);
 
 --
--- Filtros para la tabla `permiso`
+-- Constraints for table `permiso`
 --
 ALTER TABLE `permiso`
   ADD CONSTRAINT `permiso_ibfk_1` FOREIGN KEY (`Rol_idRol`) REFERENCES `rol` (`Rol_idRol`),
   ADD CONSTRAINT `permiso_ibfk_2` FOREIGN KEY (`Tar_idTarea`) REFERENCES `tarea` (`Tar_idTarea`);
 
 --
--- Filtros para la tabla `personal`
+-- Constraints for table `personal`
 --
 ALTER TABLE `personal`
   ADD CONSTRAINT `personal_ibfk_1` FOREIGN KEY (`Per_idPersona`) REFERENCES `persona` (`Per_idPersona`),
   ADD CONSTRAINT `personal_ibfk_2` FOREIGN KEY (`Suc_idSucursal`) REFERENCES `sucursal` (`Suc_idSucursal`);
 
 --
--- Filtros para la tabla `ponente`
+-- Constraints for table `ponente`
 --
 ALTER TABLE `ponente`
   ADD CONSTRAINT `ponente_ibfk_1` FOREIGN KEY (`TipoDocId_idTipoDocumentoIdentidad`) REFERENCES `tipodocumentoidentidad` (`TipoDocId_idTipoDocumentoIdentidad`);
 
 --
--- Filtros para la tabla `rol_usuario`
+-- Constraints for table `rol_usuario`
 --
 ALTER TABLE `rol_usuario`
   ADD CONSTRAINT `rol_usuario_ibfk_1` FOREIGN KEY (`Rol_idRol`) REFERENCES `rol` (`Rol_idRol`),
   ADD CONSTRAINT `rol_usuario_ibfk_2` FOREIGN KEY (`Per_idPersona`) REFERENCES `usuario` (`Per_idPersona`);
 
 --
--- Filtros para la tabla `sucursal`
+-- Constraints for table `sucursal`
 --
 ALTER TABLE `sucursal`
   ADD CONSTRAINT `sucursal_ibfk_1` FOREIGN KEY (`Emp_idEmpresa`) REFERENCES `empresa` (`Emp_idEmpresa`);
 
 --
--- Filtros para la tabla `tarea`
+-- Constraints for table `tarea`
 --
 ALTER TABLE `tarea`
   ADD CONSTRAINT `tarea_ibfk_1` FOREIGN KEY (`Mod_idModulo`) REFERENCES `modulo` (`Mod_idModulo`),
   ADD CONSTRAINT `tarea_ibfk_2` FOREIGN KEY (`Gru_idGrupo`) REFERENCES `grupo` (`Gru_idGrupo`);
 
 --
--- Filtros para la tabla `usuario`
+-- Constraints for table `usuario`
 --
 ALTER TABLE `usuario`
   ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`Per_idPersona`) REFERENCES `personal` (`Per_idPersona`);
