@@ -26,7 +26,11 @@ $(function() {
 
     $('#register_pedido').on('click', function(){
        //alert('Listo para realizar el registro');
-      
+      if (document.getElementById('participantes').value=='' || document.getElementById('param_serie').value==''||document.getElementById('param_numero').value=='') 
+        {
+            alert('Falta ingresar datos');
+        }
+        else{
        var param_opcion = 'registrar';
        var param_serie = document.getElementById('param_serie').value;
        var param_numero = document.getElementById('param_numero').value;
@@ -77,7 +81,9 @@ $(function() {
         }
 
       } 
+  }
     });
+
 
 });
 
@@ -251,6 +257,13 @@ function mostrarMonto(evento,participante){
     }); 
 }
 function mostrarDetalle(evento,participante){
+     
+    if(participante=='')
+    {
+        alert('Seleccione evento y participante');
+    }
+    else
+    {
      $.ajax({
         type:'POST',
         data: {param_opcion:'mostrarDetalle',param_evento:evento,param_participante:participante},
@@ -265,7 +278,27 @@ function mostrarDetalle(evento,participante){
                                                                     
         }
     });
+ }
 }
+
+function validarEvento(evento)
+{
+    if(evento=='')
+    {
+        alert("Seleccione evento");
+    }
+    else
+        {
+          $('#verParticipante').modal({
+            show:true,
+            backdrop:'static',
+          });
+          listarParticipantes(document.getElementById('codigoEvento').value);
+      }
+}
+
+
+
 function seleccionDobleProducto(e){
     if ($('#tablaParticipantes tbody tr td').length == 1){
        return false;

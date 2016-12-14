@@ -159,7 +159,7 @@
 	                                    <div class="input-group col-sm-6">
 	                                        <input class="form-control" type="text" name="param_participanteDescrip" id="participanteDescrip"  placeholder="Busque participante" disabled/>
 	                                        <span class="input-group-btn">
-	                                            <a id="buscarParticipante" class="btn btn-sm btn-default" href="#verParticipante" data-toggle='modal' onclick="listarParticipantes(codigoEvento.value);">
+	                                            <a id="buscarParticipante" class="btn btn-sm btn-default"  data-toggle='modal' onclick="validarEvento(codigoEvento.value);">
 	                                                <i class="ace-icon fa fa-search bigger-110"></i>    
 	                                            </a>                                     
 	                                        </span>
