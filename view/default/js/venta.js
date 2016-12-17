@@ -15,12 +15,20 @@ $('#tablaParticipantes').DataTable();
 $('#tablaActividades').DataTable(); 
 listarFactura();
 listarEvento();
-//listarParticipantes(getElementById('codigoEvento'));
 mostrarMenu();  
 agregarDetalleFactura();
-   
+$('#param_fechaInicio').datetimepicker({
+      pickTime: false,
+      format: 'YYYY-MM-DD',
+      language: 'es'
 });
 
+$('#param_fechaFin').datetimepicker({
+      pickTime: false,
+      format: 'YYYY-MM-DD',
+      language: 'es'
+});
+});
 $(function() {
    
 
@@ -321,7 +329,34 @@ function seleccionDobleProducto(e){
     document.getElementById('addRow').disabled = false; 
 }
 
-
+function imprimir(fechaInicio,fechaFin){ 
+  
+    $.ajax({
+        type: 'POST',        
+        data:'param_fechaInicio='+fechaInicio+'&param_fechaFin='+fechaFin,
+        url: 'anchoF.php', 
+        success: function(data){
+            alert("Archivo generado exitosamente");
+            //open()
+            //window.open("file://///wamp/www/bse_events/Reportes");
+        },
+        error: function(data){
+                   
+        }
+    });}
+function imprimir2(fechaInicio,fechaFin){ 
+  
+    $.ajax({
+        type: 'POST',        
+        data:'param_fechaInicio='+fechaInicio+'&param_fechaFin='+fechaFin,
+        url: 'textoD.php', 
+        success: function(data){
+            alert("Archivo generado exitosamente");
+        },
+        error: function(data){
+                   
+        }
+    });}
 function agregarDetalleFactura() {
     var counter = 1;
     var t = $('#tablaDetallesFactura').DataTable();

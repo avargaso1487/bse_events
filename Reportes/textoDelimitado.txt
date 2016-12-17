@@ -1,0 +1,4 @@
+Tipo Pago 1|0001|000013|12345678|Erick  Alfaro Gómez |
+Tipo Pago 1|0001|000034|17246598|Juan Pérez Pérez|
+Tipo Pago 1|0001|000089|12345678|Erick  Alfaro Gómez |
+Tipo Pago 1|0001|000123|12345678|Erick  Alfaro Gómez |
