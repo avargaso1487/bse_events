@@ -21,7 +21,17 @@ agregarDetalleFactura();
 
 });
 
+$('#param_fechaInicio').datetimepicker({
+      pickTime: false,
+      format: 'YYYY-MM-DD',
+      language: 'es'
+});
 
+$('#param_fechaFin').datetimepicker({
+      pickTime: false,
+      format: 'YYYY-MM-DD',
+      language: 'es'
+});
 
 $(function() {
    
@@ -347,11 +357,18 @@ function imprimir2(fechaInicio,fechaFin){
         url: 'textoD.php', 
         success: function(data){
             alert("Archivo generado exitosamente");
+            document.getElementById('archivo').style.display = 'block';
         },
         error: function(data){
                    
         }
     });}
+
+  function ocultar()
+  {
+    document.getElementById('archivo').style.display='none';
+    window.location.reload();  
+  }
 function agregarDetalleFactura() {
     var counter = 1;
     var t = $('#tablaDetallesFactura').DataTable();

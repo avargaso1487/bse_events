@@ -154,6 +154,10 @@
 									<input value="GENERAR REPORTE" class="btn btn-sm btn-success" onclick="imprimir(param_fechaInicio.value,param_fechaFin.value);">
                                          
                                     </input> 
+                                    <div hidden=true id="archivo">
+                                    <a href="anchofijo.txt" download="Reporte ancho fijo" onclick="ocultar();">Descargar Reporte
+								</a>
+								</div>
 								</div><br>
 		                                           
 		                            <br><br><br><br>
@@ -241,7 +245,7 @@
 		<script src="../default/assets/js/ace.min.js"></script>
 		
 
-		<script src="../default/js/venta.js"></script>
+		<script src="../default/js/reporte.js"></script>
 		<script type="text/javascript">		        
 	        function solonumeros(e) {
 	            key = e.keyCode || e.which;

@@ -19,7 +19,7 @@ tipodocumentopago TD on  D.TipDocPago_idTipoDocumentoPago=TD.TipDocPago_idTipoDo
 inner join Participante P on D.Par_idParticipante=P.Par_idParticipante
 inner join Persona PS on P.Per_idPersona=PS.Per_idPersona
 where D.DocPago_fecha>='".$fechaInicio."'and D.DocPago_fecha<='".$fechaFin."'
-INTO OUTFILE '../../../../../wamp/www/bse_events/Reportes/textoDelimitado.txt' FIELDS TERMINATED BY'\n'";
+INTO OUTFILE '../../../../../wamp/www/bse_events/view/Reportes/textoDelimitado.txt' FIELDS TERMINATED BY'\n'";
 echo $genera;
 $query=mysqli_query($conexion,$genera);
 //$handle=fopen("textoDelimitado.txt", "w+");
