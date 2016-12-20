@@ -1,4 +1,1 @@
-Tipo Pago 1 0001 000123 12345678 Erick  Alfaro Gómez                                                              2016-12-07
-Tipo Pago 1 0001 000034 17246598 Juan Pérez Pérez                                                                 2016-12-07
-Tipo Pago 1 0001 000089 12345678 Erick  Alfaro Gómez                                                              2016-12-12
-Tipo Pago 1 0001 000013 12345678 Erick  Alfaro Gómez                                                              2016-12-13
+BO 0001 000001 56497810 José Carlos Sánchez Fernández                                                    2016-12-20

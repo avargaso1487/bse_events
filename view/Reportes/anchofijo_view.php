@@ -125,7 +125,7 @@
 					<div class="page-content">
 						<div class="page-header">
 							<h1>
-								Ventas Registradas	
+								Reporte ancho fijo	
 							</h1>
 						</div><!-- /.page-header -->
 

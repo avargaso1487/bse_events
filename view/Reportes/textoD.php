@@ -6,13 +6,13 @@ $conexion = mysqli_connect("localhost","root","","bse_events");
 mysqli_set_charset($conexion, "utf8");
 $fechaInicio=$_POST["param_fechaInicio"];
 $fechaFin=$_POST["param_fechaFin"];
-$nombre_fichero = '../../../../../wamp/www/bse_events/Reportes/textoDelimitado.txt';
+$nombre_fichero = '../../../../../wamp/www/bse_events/view/Reportes/textoDelimitado.txt';
 if (file_exists($nombre_fichero)) 
 {
-unlink('../../../../../wamp/www/bse_events/Reportes/textoDelimitado.txt');
+unlink('../../../../../wamp/www/bse_events/view/Reportes/textoDelimitado.txt');
 }
 //$handle=fopen("datos.txt", "w+");
-$genera="select concat(TD.TipDocPago_descripcion,'|',LPAD(D.DocPago_serieDocumentoPago,4,'0'),'|',LPAD(D.DocPago_numeroDocumentoPago,6,'0'),'|',PS.Per_dni,'|',
+$genera="select concat(TD.abreviatura,'|',LPAD(D.DocPago_serieDocumentoPago,4,'0'),'|',LPAD(D.DocPago_numeroDocumentoPago,6,'0'),'|',PS.Per_dni,'|',
 PS.Per_nombres,' ',PS.Per_apellidos,'|') as NombreParticipante 
 from documentopago D inner join
 tipodocumentopago TD on  D.TipDocPago_idTipoDocumentoPago=TD.TipDocPago_idTipoDocumentoPago
