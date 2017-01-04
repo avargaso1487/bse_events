@@ -256,6 +256,7 @@ function cargarCboSucursales(){
       	url: '../../controller/controlEvento/evento_controller.php',
       	success: function(data){
       		$('#cboSucursal').html(data);
+      		$('#cboSucursal').val("1");
       	},
       	error: function(data){
                  
