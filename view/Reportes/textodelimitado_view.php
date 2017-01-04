@@ -154,6 +154,9 @@
 									<input value="GENERAR REPORTE" class="btn btn-sm btn-success" onclick="imprimir2(param_fechaInicio.value,param_fechaFin.value);">
                                          
                                     </input> 
+                                    <div hidden=true id="tama">
+                                         
+                                    </div>
                                     <div hidden=true id="archivo">
                                     <a href="textodelimitado.txt" download="Reporte texto delimitado" onclick="ocultar();">Descargar Reporte
 								</a>

@@ -22,6 +22,8 @@ where D.DocPago_fecha>='".$fechaInicio."'and D.DocPago_fecha<='".$fechaFin."'
 INTO OUTFILE '../../../../../wamp/www/bse_events/view/Reportes/textoDelimitado.txt' FIELDS TERMINATED BY'\n'";
 echo $genera;
 $query=mysqli_query($conexion,$genera);
+$tama=filesize($nombre_fichero);
+echo '<input id="valor" value='.$tama.'></input>'
 //$handle=fopen("textoDelimitado.txt", "w+");
 //fwrite($handle, $query);
 

@@ -146,6 +146,7 @@
                                     <div class="input-group col-sm-2">
                                         <input class="form-control date" value="<?php echo date('Y-m-d'); ?>" id="param_fechaFin" name="param_fechaFin" type="text">
                                     </div>
+
                                 </div>
 		                    
                             
@@ -153,10 +154,15 @@
                             <div class="col-md-offset-5">
 									<input value="GENERAR REPORTE" class="btn btn-sm btn-success" onclick="imprimir(param_fechaInicio.value,param_fechaFin.value);">
                                          
-                                    </input> 
+                                    </input>
+                                    <div hidden=true id="tama">
+                                         
+                                    </div>
                                     <div hidden=true id="archivo">
                                     <a href="anchofijo.txt" download="Reporte ancho fijo" onclick="ocultar();">Descargar Reporte
+
 								</a>
+
 								</div>
 								</div><br>
 		                                           

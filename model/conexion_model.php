@@ -5,7 +5,7 @@ class Conexion_Model{
 
     public static function getConexion() {
     
-    $conexion = mysqli_connect("localhost","root","123456","bse_events");
+    $conexion = mysqli_connect("localhost","root","","bse_events");
     mysqli_set_charset($conexion, "utf8");
     return $conexion;
     }
