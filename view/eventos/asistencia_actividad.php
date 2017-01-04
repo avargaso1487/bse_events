@@ -129,6 +129,16 @@
 							</h1>
 						</div><!-- /.page-header -->
 						<div class="row">
+							<div class="col-md-3"></div> 	
+							<div class="col-md-3">
+                               <strong style="font-size: 16px">Fecha:</strong> <span id="fecha" style="font-size: 16px"></span>      	                               
+                            </div> 	
+                            <div class="col-md-4">
+                              <strong style="font-size: 16px">Hora:</strong> <span id="hora" style="font-size: 16px"></span>                                               
+                            </div>
+                            <div class="col-md-2"></div> 	 	
+						</div><br><!-- /.page-header -->
+						<div class="row">
 							<input type="hidden" value="<?php echo $actividadID ?>" name = 'param_actividadID' id = 'param_actividadID'>
 							<div class="col-md-10 col-md-offset-1">	
 								<div class="table-header">

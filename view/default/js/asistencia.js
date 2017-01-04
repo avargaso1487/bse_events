@@ -61,7 +61,9 @@ function mostrarNombre()
         success:function(data){                              
             objeto=JSON.parse(data);
            
-            $('#nombre').html(objeto[0]);        
+            $('#nombre').html(objeto[0]);   
+            $('#fecha').html(objeto[1]);
+            $('#hora').html(objeto[2]);     
         }
     });
     //alert(participante);
