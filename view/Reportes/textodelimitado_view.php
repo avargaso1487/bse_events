@@ -170,8 +170,8 @@
 		                    		                                        
 							</div>						
 
-								<input type="hidden" dissabled="true" value="FACTURACIÓN" id="NombreGrupo">
-                                <input type="hidden" dissabled="true" value="Ventas" id="NombreTarea">
+								<input type="hidden" dissabled="true" value="Reportes" id="NombreGrupo">
+                                <input type="hidden" dissabled="true" value="Reporte Texto Delimitado" id="NombreTarea">
 
 							</div><!-- /.col -->
 						</div><!-- /.row -->

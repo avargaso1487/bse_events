@@ -174,10 +174,13 @@ function cargarRoles()
 }
 
 function mostrarMenu()
-{
+{  
+  var grupo = document.getElementById('NombreGrupo').value;
+  var tarea = document.getElementById('NombreTarea').value;
+  
   $.ajax({
         type:'POST',
-        data: {opcion:'mostrarMenu'},        
+        data: 'opcion=mostrarMenu&grupo='+grupo+'&tarea='+tarea,        
         url: "../../controller/controlusuario/usuario.php",
         success:function(data){                            
             $('#permisos').html(data);                

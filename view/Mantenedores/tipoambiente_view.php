@@ -247,7 +247,7 @@
 
 							</div>				
 							<input type="hidden" dissabled="true" value="Mantenedores" id="NombreGrupo">
-                            <input type="hidden" dissabled="true" value="Tipo Ambientes" id="NombreTarea">			
+                            <input type="hidden" dissabled="true" value="Tipo Ambiente" id="NombreTarea">			
 							<!-- FIN DE CONTENIDO DE PAGINA -->										               
 						</div><!-- /.col -->
 					</div>

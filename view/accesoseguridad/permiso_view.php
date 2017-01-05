@@ -155,7 +155,7 @@
 								</div>
 							</div>				
 							<input type="hidden" dissabled="true" value="Acceso y Seguridad" id="NombreGrupo">
-                            <input type="hidden" dissabled="true" value="Permisos" id="NombreTarea">			
+                            <input type="hidden" dissabled="true" value="Permisos" id="NombreTarea">		
 							<!-- FIN DE CONTENIDO DE PAGINA -->										               
 						</div><!-- /.col -->
 					</div>		            
