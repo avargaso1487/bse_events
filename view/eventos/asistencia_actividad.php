@@ -140,11 +140,15 @@
 						</div><br><!-- /.page-header -->
 						<div class="row">
 							<input type="hidden" value="<?php echo $actividadID ?>" name = 'param_actividadID' id = 'param_actividadID'>
+							<input id="fechaHoy" name="fechaHoy" type="hidden">
+							<input id="horaHoyInicio" name="fechaHoy" type="hidden">
+							<input id="horaHoyFin" name="fechaHoy" type="hidden">
 							<div class="col-md-10 col-md-offset-1">	
 								<div class="table-header">
 									PERSONAS INSCRITAS EN EL EVENTO
 								</div>
 								<div>
+
 									<table id="tablaAsistencia" class="table table-striped table-bordered">
 										<thead>											
 								            <tr>
