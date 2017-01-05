@@ -15,7 +15,7 @@
 <head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title>Reportes-Texto delimitado</title>
+		<title>Reportes-Ancho fijo</title>
 
 		<meta name="description" content="" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -128,7 +128,69 @@
 								Reporte ancho fijo	
 							</h1>
 						</div><!-- /.page-header -->
-
+						<div class="widget-header widget-header-flat col-md-8 col-md-offset-2">                                
+                                        <h4 class="widget-title" style="font-size:18px;">CAMPOS DE REPORTE</h4>
+                                    </div><br><br><br>
+                                    <div class="col-md-7 col-md-offset-3">	
+		                            <div class="col-md-3">		                               
+		                               	<label class="middle col-md-12">
+		                                
+	                                        <input class="ace" type="checkbox" name="param_paquete" id="tipo" checked="true" />	                                        
+	                                    	<span class="lbl">
+	                                    		TIPO DE DOCUMENTO
+	                                    	</span>
+	                                    </label>                                    	                              
+		                            </div>
+		                            <div class="col-md-3">		                               
+		                               	<label class="middle col-md-12">
+		                                
+	                                        <input class="ace" type="checkbox" name="param_paquete" id="serie" checked="true" />	                                        
+	                                    	<span class="lbl">
+	                                    		SERIE 
+	                                    	</span>
+	                                    </label>                                    	                              
+		                            </div>
+		                            <div class="col-md-3">		                               
+		                               	<label class="middle col-md-12">
+		                                
+	                                        <input class="ace" type="checkbox" name="param_paquete" id="numero" checked="true"/>	                                        
+	                                    	<span class="lbl">
+	                                    		NÚMERO
+	                                    	</span>
+	                                    </label>                                    	                              
+		                            </div>
+		                            <div class="col-md-3">		                               
+		                               	<label class="middle col-md-12">
+		                                
+	                                        <input class="ace" type="checkbox" name="param_paquete" id="dni" checked="true"/>	                                        
+	                                    	<span class="lbl">
+	                                    		DNI
+	                                    	</span>
+	                                    </label>                                    	                              
+		                            </div>
+		                            <div class="col-md-3">		                               
+		                               	<label class="middle col-md-12">
+		                                
+	                                        <input class="ace" type="checkbox" name="param_paquete" id="nombre"checked="true" />	                                        
+	                                    	<span class="lbl">
+	                                    		NOMBRE COMPLETO
+	                                    	</span>
+	                                    </label>                                    	                              
+		                            </div>
+		                            <div class="col-md-3">		                               
+		                               	<label class="middle col-md-12">
+		                                
+	                                        <input class="ace" type="checkbox" name="param_paquete" id="fecha"checked="true" />	                                        
+	                                    	<span class="lbl">
+	                                    		FECHA
+	                                    	</span>
+	                                    </label> 
+	                                    <br><br><br>                                    	                              
+		                            </div>
+                                	</div>
+		                <div class="widget-header widget-header-flat col-md-8 col-md-offset-2">                                
+                                        <h4 class="widget-title" style="font-size:18px;">GENERACIÓN DE REPORTE</h4>
+                                    </div><br><br><br> <br><br><br> <br>  <br>     
 						<div class="row">
 							<div class="col-md-12">
 								

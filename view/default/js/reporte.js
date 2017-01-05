@@ -335,9 +335,70 @@ function seleccionDobleProducto(e){
 
 function imprimir(fechaInicio,fechaFin){ 
   
+
+
+
+  if(document.getElementById('tipo').checked==true)
+    {
+      var tipo="TD.abreviatura";
+    }
+  else
+    {
+      var tipo="";
+    };
+
+  if(document.getElementById('serie').checked==true)
+    {
+      var serie="LPAD(D.DocPago_serieDocumentoPago,4,'0')";
+    }
+  else
+    {
+      var serie="";
+    };
+    
+  if(document.getElementById('numero').checked==true)
+    {
+      var numero="LPAD(D.DocPago_numeroDocumentoPago,6,'0')";
+    }
+  else
+    {
+      var numero="";
+    }; 
+
+
+  if(document.getElementById('dni').checked==true)
+    {
+      var dni="PS.Per_dni";
+    }
+  else
+    {
+      var dni="";
+    };
+
+  if(document.getElementById('nombre').checked==true)
+    {
+      var nombre="RPAD(concat(PS.Per_nombres,' ',PS.Per_apellidos),80,' ')";
+    }
+  else
+    {
+      var nombre="";
+    };
+    
+  if(document.getElementById('fecha').checked==true)
+    {
+      var fecha="date(D.DocPago_fecha)";
+    }
+  else
+    {
+      var fecha="";
+    };    
+  
     $.ajax({
         type: 'POST',        
-        data:'param_fechaInicio='+fechaInicio+'&param_fechaFin='+fechaFin,
+        data:'param_fechaInicio='+fechaInicio+'&param_fechaFin='+fechaFin+
+        '&tipo='+tipo+'&serie='+serie+
+        '&numero='+numero+'&dni='+dni+
+        '&nombre='+nombre+'&fecha='+fecha,
         //dataType: "json",
         url: 'anchoF.php', 
         success: function(data){
@@ -361,9 +422,69 @@ function imprimir(fechaInicio,fechaFin){
     });}
 function imprimir2(fechaInicio,fechaFin){ 
   
+
+  if(document.getElementById('tipo').checked==true)
+    {
+      var tipo="TD.abreviatura";
+    }
+  else
+    {
+      var tipo="";
+    };
+
+  if(document.getElementById('serie').checked==true)
+    {
+      var serie="LPAD(D.DocPago_serieDocumentoPago,4,'0')";
+    }
+  else
+    {
+      var serie="";
+    };
+    
+  if(document.getElementById('numero').checked==true)
+    {
+      var numero="LPAD(D.DocPago_numeroDocumentoPago,6,'0')";
+    }
+  else
+    {
+      var numero="";
+    }; 
+
+
+  if(document.getElementById('dni').checked==true)
+    {
+      var dni="PS.Per_dni";
+    }
+  else
+    {
+      var dni="";
+    };
+
+  if(document.getElementById('nombre').checked==true)
+    {
+      var nombre="RPAD(concat(PS.Per_nombres,' ',PS.Per_apellidos),80,' ')";
+    }
+  else
+    {
+      var nombre="";
+    };
+    
+  if(document.getElementById('fecha').checked==true)
+    {
+      var fecha="date(D.DocPago_fecha)";
+    }
+  else
+    {
+      var fecha="";
+    };    
+  
+  
     $.ajax({
         type: 'POST',        
-        data:'param_fechaInicio='+fechaInicio+'&param_fechaFin='+fechaFin,
+        data:'param_fechaInicio='+fechaInicio+'&param_fechaFin='+fechaFin+
+        '&tipo='+tipo+'&serie='+serie+
+        '&numero='+numero+'&dni='+dni+
+        '&nombre='+nombre+'&fecha='+fecha,
         url: 'textoD.php', 
         success: function(data){
           
