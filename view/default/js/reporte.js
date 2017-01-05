@@ -338,12 +338,22 @@ function imprimir(fechaInicio,fechaFin){
     $.ajax({
         type: 'POST',        
         data:'param_fechaInicio='+fechaInicio+'&param_fechaFin='+fechaFin,
+        //dataType: "json",
         url: 'anchoF.php', 
         success: function(data){
-            alert("Archivo generado exitosamente");
-            document.getElementById('archivo').style.display = 'block';
-            //open()
-            //window.open("file://///wamp/www/bse_events/Reportes");
+          //objeto=JSON.parse(data);
+          //$("#tama").val(objeto[0]);
+          $('#tama').html(data);
+          if (document.getElementById('valor').value!=0) 
+            {
+              alert("Archivo generado exitosamente");
+              document.getElementById('archivo').style.display = 'block';
+            }
+          else 
+          {
+            alert("Datos insuficiente para generación de reporte");
+            document.getElementById('archivo').style.display='none';
+          }
         },
         error: function(data){
                    
@@ -356,8 +366,17 @@ function imprimir2(fechaInicio,fechaFin){
         data:'param_fechaInicio='+fechaInicio+'&param_fechaFin='+fechaFin,
         url: 'textoD.php', 
         success: function(data){
-            alert("Archivo generado exitosamente");
-            document.getElementById('archivo').style.display = 'block';
+          
+            $('#tama').html(data);
+          if (document.getElementById('valor').value!=0) 
+            {
+              alert("Archivo generado exitosamente");
+              document.getElementById('archivo').style.display = 'block';
+            }
+          else {
+            alert("Datos insuficiente para generación de reporte");
+          document.getElementById('archivo').style.display='none';
+            }
         },
         error: function(data){
                    

@@ -1,1 +1,4 @@
-BO|0001|000001|56497810|José Carlos Sánchez Fernández|
+BO|0001|000009|56497810|José Carlos Sánchez Fernández|
+BO|0001|000034|56497810|José Carlos Sánchez Fernández|
+BO|0001|000078|17246598|Juan Pérez Pérez|
+FA|0001|000038|12345678|Erick  Alfaro Gómez |

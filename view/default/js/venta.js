@@ -31,8 +31,16 @@ $(function() {
       if (document.getElementById('participantes').value=='' || document.getElementById('param_serie').value==''||document.getElementById('param_numero').value=='') 
         {
             alert('Falta ingresar datos');
+
         }
         else{
+            if (document.getElementById('estado').value!='') 
+                {
+                    alert('La factura para este participante ya ha sido generada.');
+                }
+
+                else{
+
        var param_opcion = 'registrar';
        var param_serie = document.getElementById('param_serie').value;
        var param_numero = document.getElementById('param_numero').value;
@@ -61,10 +69,12 @@ $(function() {
                     document.getElementById('param_numero').value = '';
                     document.getElementById('codigoEvento').value = '';
                     document.getElementById('participantes').value = '';
+                    document.getElementById('paquete').value = '';
+                    document.getElementById('condicion').value = '';
                     document.getElementById('total').value = '';
                     document.getElementById('descuento').value = '';
                     document.getElementById('neto').value = '';
-                    
+                    document.getElementById('estado').value = '';
                         location.href='ventas_view.php';
                     
                     table
@@ -84,6 +94,7 @@ $(function() {
 
       } 
   }
+}
     });
 
 
@@ -190,7 +201,12 @@ function seleccionarEvento(codigo){
           $('#verevento').modal('hide');
           $("#codigoEvento").val(objeto[0]);
           $("#evento").val(objeto[1]);
-          
+          document.getElementById('paquete').value = '';
+        document.getElementById('condicion').value = '';
+        document.getElementById('total').value = '';
+        document.getElementById('descuento').value = '';
+        document.getElementById('neto').value = '';
+        document.getElementById('estado').value = '';
          
 
       },
@@ -212,7 +228,12 @@ function seleccionarParticipante(codigo){
           $('#verParticipante').modal('hide');
           $("#participantes").val(objeto[0]);
           $("#participanteDescrip").val(objeto[1]);
-         
+        document.getElementById('paquete').value = '';
+        document.getElementById('condicion').value = '';
+        document.getElementById('total').value = '';
+        document.getElementById('descuento').value = '';
+        document.getElementById('neto').value = '';
+        document.getElementById('estado').value = '';
 
       },
       error: function(data){
@@ -251,6 +272,24 @@ function mostrarMonto(evento,participante){
           $("#total").val(objeto[0]);
           $("#descuento").val(objeto[1]);
           $("#neto").val(objeto[2]);
+
+      },
+      error: function(data){
+                 
+      }
+    }); 
+}
+
+function estado(evento,participante){
+    var param_opcion = 'estado';    
+    $.ajax({
+      type: 'POST',        
+      data:'param_opcion='+param_opcion+'&param_evento=' +evento+'&param_participante=' +participante,
+      url: '../../controller/controlFacturacion/venta_controller.php',
+      success: function(data){
+          objeto=JSON.parse(data);
+          $("#estado").val(objeto[0]);
+          
 
       },
       error: function(data){

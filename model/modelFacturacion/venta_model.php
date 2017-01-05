@@ -50,6 +50,9 @@ class Ventas_Model {
                 break;
             case 'mostrar_monto':
                 echo $this->mostrar_monto();
+                break;
+            case 'estado':
+                echo $this->estado();
                 break; 
             case "get":break;
         }
@@ -386,6 +389,14 @@ class Ventas_Model {
             echo json_encode($row);
             //echo $row[2];                 
         }
+
+    function estado() {
+            $this->prepararConsultaVenta('opc_estado');            
+            $row = mysqli_fetch_row($this->result);
+            echo json_encode($row);
+            //echo $row[2];                 
+        }
+
      function grabar() {
         $this->prepararConsultaVenta('opc_grabar');
         if($this->result)

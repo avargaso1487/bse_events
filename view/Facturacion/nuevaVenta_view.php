@@ -167,10 +167,13 @@
 	                                    <div class="col-md-2">
 	                                        <input class="form-control"  name="param_participante" id="participantes" type="hidden"  />
 	                                    </div>
+	                                    <div class="col-md-2">
+	                                        <input class="form-control"  name="param_estado" id="estado"  type="hidden" />
+	                                    </div>
 		                    </div>
 
                             <div class="col-md-offset-5">
-									<a id="buscar" class="btn btn-sm btn-success" onclick="cargarDatos(codigoEvento.value,participantes.value);mostrarDetalle(codigoEvento.value,participantes.value);mostrarMonto(codigoEvento.value,participantes.value);">
+									<a id="buscar" class="btn btn-sm btn-success" onclick="cargarDatos(codigoEvento.value,participantes.value);mostrarDetalle(codigoEvento.value,participantes.value);mostrarMonto(codigoEvento.value,participantes.value);estado(codigoEvento.value,participantes.value);">
                                         <i ></i> REALIZAR BÚSQUEDA  
                                     </a> 
 								</div><br>
