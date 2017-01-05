@@ -1,0 +1,7 @@
+<<<<<<< HEAD
+=======
+0001|56497810|José Carlos Sánchez Fernández|2017-01-04|
+0001|56497810|José Carlos Sánchez Fernández|2017-01-04|
+0001|17246598|Juan Pérez Pérez|2017-01-04|
+0001|12345678|Erick  Alfaro Gómez |2017-01-04|
+>>>>>>> 3177db4447485799951e4009ed89006dbf8136df

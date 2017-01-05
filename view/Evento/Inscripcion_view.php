@@ -125,11 +125,11 @@
 						</div><!-- /.page-header -->
 						<div class="row">
 							<div class="col-md-12">	
-								<div id="mensaje2"></div>							
+															
 								<form id="frmParticipantes" class="form-horizontal">
 			                        <div class="row">
 			                            <div class="form-group">		                               
-			                               <label for="socio" class="col-md-4 control-label">Participante:</label>
+			                               <label for="socio" class="col-md-4 control-label">Participante: <span style="color:red;" id="obligatorio">*</span></label>
 			                               <div class="col-md-4 input-group">
 		                                        <input class="form-control" type="text" name="param_participante" id="param_participante" placeholder="Seleccionar Participante" disabled="disabled" />
 		                                        <span class="input-group-btn">
@@ -141,7 +141,7 @@
 			                            </div>
 			                            <input class="form-control" type="hidden" name="param_participanteID" id="param_participanteID"/>
 			                            <div class="form-group">
-			                               <label for="socio" class="col-md-2 control-label">Evento:</label>
+			                               <label for="socio" class="col-md-2 control-label">Evento: <span style="color:red;">*</span></label>
 			                               <div class="col-md-4" id="evento">
 			                                   
 			                               </div>	
@@ -154,7 +154,7 @@
 													                               	                               
 			                            </div> 
 			                            <div class="form-group">
-			                               <label for="socio" class="col-md-2 control-label">Paquete:</label>
+			                               <label for="socio" class="col-md-2 control-label">Paquete: <span style="color:red;">*</span></label>
 			                               <div class="col-md-3" id="paquete">
 			                                   
 			                               </div>	
@@ -164,17 +164,23 @@
 			                               </div>			                               	                               
 			                            </div> 		                          			                            
                                 		<div class="form-group">                                       
-                                   			<label for="socio" class="col-md-2 control-label" >Banco:</label>
+                                   			<label for="socio" class="col-md-2 control-label" >Banco: <span style="color:red;">*</span></label>
                                    			<div class="col-md-4">
-                                       			<input class="form-control" placeholder="Ingrese Banco" id="param_banco" name="param_banco" type="text" autofocus="">
+                                   				<select class="form-control" id="param_banco" name="param_banco">
+                    								<option value="" disabled selected style="display: none;">Seleccione Banco</option>
+                    								<option value="BCP">BCP</option>
+                    								<option value="Interbank">INTERBANK</option>
+                    								<option value="BBVA">BBVA</option>
+                    								<option value="Scotiabank">SCOTIABANK</option>
+                    							</select>                                       			
                                    			</div>
-                                   			<label for="socio" class="col-md-2 control-label">N° de Operación:</label>
+                                   			<label for="socio" class="col-md-2 control-label">N° de Operación: <span style="color:red;">*</span></label>
                                    			<div class="col-md-2">
                                        			<input class="form-control" placeholder="N° de Operación" id="param_nroOperacion" name="param_nroOperacion" type="text" autofocus="" onkeypress="return solonumeros(event)">
                                    			</div>                              
                                 		</div>
                                 		<div class="form-group"> 
-                                			<label for="socio" class="col-md-2 control-label">Adjuntar Voucher:</label>
+                                			<label for="socio" class="col-md-2 control-label">Adjuntar Voucher: <span style="color:red;">*</span></label>
                                    			<div class="col-md-4">
                                         		<input id="Voucher" name="Voucher" type="file">
                                    			</div>                                       
@@ -204,6 +210,7 @@
 			                                    </div>	
 
 				                            </div> 
+
 				                            <input class="form-control" id="param_opcion" name="param_opcion" type="hidden" value="registrar_inscripcion">
 				                            <input class="form-control" id="param_actividadID" name="param_actividadID" type="hidden">
 				                            <input class="form-control" id="param_nombreActividad" name="param_nombreActividad" type="hidden">
@@ -240,11 +247,13 @@
 			                               	<div class="col-md-1">
 			                               		<input class="form-control" id="param_monto" name="param_monto" type="text" disabled="disabled">	                                   		
 		                               		</div>
-
+											<div id="mensaje2" class="col-md-offset-1 col-md-10">
+												<span style="color:red;">(*) Los campos son obligatorios</span>
+											</div>    
 	                              
 	                                                	                              
 		                            	</div>	
-		                            	                           
+		                            	                       
 		                        		<div class="modal-footer">		                            		
 		                            		<button type="button" class="btn btn-primary" id="register_inscripcion">Registrar</button> 
 		                            		<button type="button" class="btn btn-primary" id="cancel_inscripcion">Cancelar</button>            

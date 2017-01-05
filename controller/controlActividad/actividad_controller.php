@@ -23,6 +23,8 @@
 	$param['horaF'] = "";
 	$param['estado'] = "";
 	$param['tipoActividadID'] = "";
+	$param['localID'] = "";
+
 
 	if(isset($_POST['txtActividadID'])){ $param['actividadID'] = $_POST['txtActividadID'];}
 	if(isset($_POST['txtEventoID'])){ $param['eventoID'] = $_POST['txtEventoID'];}
@@ -36,6 +38,7 @@
 	if(isset($_POST['txtHoraF'])){ $param['horaF'] = $_POST['txtHoraF'];}
 	if(isset($_POST['cboEstado'])){ $param['estado'] = $_POST['cboEstado'];}
 	if(isset($_POST['cboTipoActividad'])){ $param['tipoActividadID'] = $_POST['cboTipoActividad'];}
+	if(isset($_POST['cboLocal'])){ $param['localID'] = $_POST['cboLocal'];}
 
 	switch ($_POST['opcion']) {
 	   	case 1:
@@ -60,7 +63,7 @@
 	        get_cbo_ponentes($ponente);
 	        break;
 	    case 8:
-	        get_cbo_ambientes($ambiente);
+	        get_cbo_ambientes($ambiente,$param);
 	        break;
 	    case 9:
 	        eliminar_actividad($actividad,$param);
@@ -90,13 +93,13 @@
 		$ponentes = json_decode($ponentes);
 		echo "<option value='0'>-- Seleccionar ponente --</option>";
 		foreach ($ponentes as $key => $ponente){
-			echo "<option value=".$ponente->Pon_idPonente.">".$ponente->Pon_nombre."</option>";
+			echo "<option value=".$ponente->Pon_idPonente.">".$ponente->Pon_nombre.' '.$ponente->Pon_apellidos."</option>";
 		}
 	}
-	function get_cbo_ambientes($ambiente){
-		$ambientes = $ambiente->get_ambientes();
+	function get_cbo_ambientes($ambiente,$param){
+		$ambientes = $ambiente->get_ambientes($param);
 		$ambientes = json_decode($ambientes);
-		echo "<option value='0'>-- Seleccionar ponente --</option>";
+		echo "<option value='0'>-- Seleccionar ambiente --</option>";
 		foreach ($ambientes as $key => $ambiente){
 			echo "<option value=".$ambiente->Amb_idAmbiente.">".$ambiente->Amb_descripcion."</option>";
 		}

@@ -36,7 +36,24 @@ class Local_Model {
             case "actualizar":
                 echo $this->actualizar();
                 break;
+            case "combo_locales":
+                echo $this->combo_locales();
+                break;
             case "get":break;
+        }
+    }
+    function combo_locales(){
+        $sql = "SELECT
+                Loc_idLocal,
+                Loc_descripcion
+                FROM locala
+                ";
+        $res = mysqli_query($this->conexion,$sql) or die (mysqli_error($this->conexion));
+        $data = mysqli_fetch_all($res, MYSQLI_ASSOC);
+        $locales = json_decode(json_encode($data));
+        echo "<option value='0'>-- Seleccionar local --</option>";
+        foreach ($locales as $key => $local){
+            echo "<option value=".$local->Loc_idLocal.">".$local->Loc_descripcion."</option>";
         }
     }
     private function getArrayAmbiente() {

@@ -17,6 +17,9 @@
                 case 'mostrar_participante':
                     echo $this->mostrar_participante();
                     break;               
+                case 'mostrar_participante_final':
+                    echo $this->mostrar_participante_final();
+                    break; 
                 case 'registro_asistencia':
                     echo $this->registro_asistencia();
                     break; 
@@ -54,6 +57,29 @@
                         <td style="text-align:center;font-size: 11px; height: 10px; width: 9%;" class="text-center">'.html_entity_decode($row[3]).'</td>';
                         if ($row[5] == '1') {
                             echo '<td style="font-size: 11px; height: 10px; width: 8%;" class="text-center"><input type="radio" name="form-field-radio" id="param_condicion" class="ace" onclick="registrarAsistencia('.$row[0].')"><span class="lbl"></span></td>';
+                        } else {
+                            echo '<td style="text-align:center;font-size: 11px; height: 10px; width: 9%;" class="text-center">A</td>';
+                        }
+                        echo '
+                                            
+                    </tr>';
+            }
+        }
+
+        function mostrar_participante_final() {
+            $this->prepararConsultaGestionarAsistencia('opc_mostrar_participantes');
+            $this->cerrarAbrir();
+            $item = 0;
+            while($row = mysqli_fetch_row($this->result)){
+                $item++;
+                echo '<tr>
+                        <td style="text-align:center; font-size: 11px; height: 10px; width: 5%">'.$item.'</td>
+                        <td style="text-align:left;font-size: 11px; height: 10px; width: 15%;">'.html_entity_decode($row[1]).'</td>
+                        <td style="text-align:center;font-size: 11px; height: 10px; width: 9%;" class="text-center">'.html_entity_decode($row[4]).'</td>
+                        <td style="text-align:center;font-size: 11px; height: 10px; width: 9%;" class="text-center">'.html_entity_decode($row[2]).'</td>
+                        <td style="text-align:center;font-size: 11px; height: 10px; width: 9%;" class="text-center">'.html_entity_decode($row[3]).'</td>';
+                        if ($row[5] == '1') {
+                            echo '<td style="text-align:center;font-size: 11px; height: 10px; width: 9%;" class="text-center">F</td>';
                         } else {
                             echo '<td style="text-align:center;font-size: 11px; height: 10px; width: 9%;" class="text-center">A</td>';
                         }

@@ -125,9 +125,12 @@
                     a.Acti_horaFin,
                     a.TipoActi_idTipoActividad,
                     a.estado,
-                    ta.TipoActi_descripcion
+                    ta.TipoActi_descripcion,
+                    l.Loc_idLocal
                     FROM actividad a
                     INNER JOIN tipoActividad ta ON ta.TipoActi_idTipoActividad = a.TipoActi_idTipoActividad
+                    INNER JOIN ambiente b ON b.Amb_idAmbiente = a.Amb_idAmbiente
+                    INNER JOIN locala l ON l.Loc_idLocal = b.Loc_idLocal
                     WHERE a.Acti_idActividad = '$param[actividadID]'
                     ";
             $res = mysqli_query($this->conexion,$sql) or die (mysqli_error($this->conexion));

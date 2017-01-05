@@ -6,7 +6,7 @@
 -- Generation Time: Dec 13, 2016 at 03:13 AM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
-
+use bse_events;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -982,6 +982,9 @@ CREATE TABLE IF NOT EXISTS `ambiente` (
   KEY `Loc_idLocal` (`Loc_idLocal`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+insert into ambiente(Amb_idAmbiente, Amb_descripcion, Amb_capacidad, Amb_estado, TipAm_idTipoAmbiente, Loc_idLocal) values
+  (1,'Ambiente 1','200',1,'1',1);
+
 -- --------------------------------------------------------
 
 --
@@ -1105,6 +1108,7 @@ CREATE TABLE IF NOT EXISTS `evento` (
   `Even_fechaFin` date NOT NULL,
   `Even_precioTotal` double NOT NULL,
   `Even_estado` char(1) NOT NULL,
+  `Even_simultaneo` char(2) NULL, 
   PRIMARY KEY (`Even_idEvento`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
@@ -1192,6 +1196,8 @@ CREATE TABLE IF NOT EXISTS `locala` (
   PRIMARY KEY (`Loc_idLocal`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+insert into locala(Loc_idLocal, Loc_descripcion, Loc_direccion, Loc_estado) values
+  (1,'Primer local','Direccion',1);
 -- --------------------------------------------------------
 
 --

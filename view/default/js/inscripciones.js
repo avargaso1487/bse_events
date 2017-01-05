@@ -12,7 +12,8 @@ window.onload = function(){
     }); 
     //$('#tablaProveedorLinea').dataTable(); 
     montoActividadesTotal = 0;
-    agregarActividad(); 
+    agregarActividad();     
+    $("#mensaje2").css("display", "none"); 
 }
 
 $(function() {
@@ -35,6 +36,7 @@ $(function() {
       var table = $('#tablaDetalleActividades').DataTable();
       if (param_participanteID == '' || param_paquete == '' || param_banco == '' || param_nroOperacion == '' || Voucher == '') {
       	alert('Ingrese todos los campos requeridos');
+        $("#mensaje2").css("display", "block");        
       } else {
 
         if (param_paquete == '1') {

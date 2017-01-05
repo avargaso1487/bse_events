@@ -102,6 +102,15 @@
 												<label><strong> Descripción </strong></label>
 												<textarea class="form-control" id="txtDescripcion" name="txtDescripcion"></textarea>
 						      				</div>
+						      				<div class="col-md-5 form-group">
+						      					<br>
+												<span class="help-inline col-xs-12 col-sm-7">
+													<label class="middle">
+														<input class="ace" type="checkbox" id="rbParalelo" name="rbParalelo" value="SI">
+														<span class="lbl"><strong> Permite actividades en paralelo</strong></span>
+													</label>
+												</span>
+						      				</div>
 								      	</div>
 								      	<div class="form-actions center"style="margin-bottom:-0px;">
 											<button type="button"  id="btnGuardar" class="btn btn-sm btn-success" onclick="guardarEvento();">
@@ -247,6 +256,7 @@ function bloquearControles(opc){
 	$('#txtPrecioT').prop("disabled", true);
 	$('#cboSucursal').prop("disabled", true);
 	$('#cboEstado').prop("disabled", true);
+	$('#rbParalelo').prop("disabled", true);
 }
 function cargarCboSucursales(){
 	var opcion = 6;
@@ -256,6 +266,7 @@ function cargarCboSucursales(){
       	url: '../../controller/controlEvento/evento_controller.php',
       	success: function(data){
       		$('#cboSucursal').html(data);
+      		$('#cboSucursal').val("1");
       	},
       	error: function(data){
                  
