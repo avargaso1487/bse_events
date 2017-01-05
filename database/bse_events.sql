@@ -982,6 +982,7 @@ CREATE TABLE IF NOT EXISTS `ambiente` (
   KEY `Loc_idLocal` (`Loc_idLocal`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+
 -- --------------------------------------------------------
 
 --
@@ -1105,6 +1106,7 @@ CREATE TABLE IF NOT EXISTS `evento` (
   `Even_fechaFin` date NOT NULL,
   `Even_precioTotal` double NOT NULL,
   `Even_estado` char(1) NOT NULL,
+  `Even_simultaneo` char(2) NULL,  --SI, NO
   PRIMARY KEY (`Even_idEvento`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 

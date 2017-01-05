@@ -194,7 +194,7 @@
 		                        	<div class="form-group">
 		                               <label class="col-md-2 col-md-offset-1 control-label">Tipo actividad</label>
 		                               <div class="col-md-7">
-		                                   <select class="form-control input-sm" id="cboTipoActividad" name="cboTipoActividad"  autofocus="">
+		                                   <select class="form-control input-sm" id="cboTipoActividad" name="cboTipoActividad"  autofocus="" style="text-transform: uppercase">
 		                                   </select>
 		                               </div>
 		                            </div>
@@ -213,15 +213,23 @@
 		                            <div class="form-group">
 		                               <label class="col-md-2 col-md-offset-1 control-label">Ponente</label>
 		                               <div class="col-md-7">
-		                                   <select class="form-control input-sm" id="cboPonente" name="cboPonente">
+		                                   <select class="form-control input-sm" id="cboPonente" name="cboPonente" style="text-transform:uppercase;" >
 		                                   		<option value="0">-- Seleccionar --</option>
 		                                   </select>
 		                               </div>
 		                            </div>
 		                            <div class="form-group">
+		                               <label class="col-md-2  col-md-offset-1  control-label">Local</label>
+		                               	<div class="col-md-7">
+		                                   	<select class="form-control input-sm" id="cboLocal" name="cboLocal" style="text-transform: uppercase">
+		                                   		<option value="0">-- Seleccionar --</option>
+		                                   	</select>
+		                               	</div>
+		                            </div>
+		                            <div class="form-group">
 		                               <label class="col-md-2  col-md-offset-1  control-label">Ambiente</label>
 		                               <div class="col-md-7">
-		                                   <select class="form-control input-sm" id="cboAmbiente" name="cboAmbiente">
+		                                   <select class="form-control input-sm" id="cboAmbiente" name="cboAmbiente" style="text-transform: uppercase">
 		                                   		<option value="0">-- Seleccionar --</option>
 		                                   </select>
 		                               </div>

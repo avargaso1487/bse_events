@@ -90,7 +90,7 @@
 		$ponentes = json_decode($ponentes);
 		echo "<option value='0'>-- Seleccionar ponente --</option>";
 		foreach ($ponentes as $key => $ponente){
-			echo "<option value=".$ponente->Pon_idPonente.">".$ponente->Pon_nombre."</option>";
+			echo "<option value=".$ponente->Pon_idPonente.">".$ponente->Pon_nombre.' '.$ponente->Pon_apellidos."</option>";
 		}
 	}
 	function get_cbo_ambientes($ambiente){
