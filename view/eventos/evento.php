@@ -103,7 +103,16 @@
 						      				<div class="col-md-6 col-md-offset-1 form-group">
 												<label><strong> Descripción </strong></label>
 												<textarea disabled class="form-control input-sm" id="txtDescripcionEven" name="txtDescripcionEven"></textarea>
-						      				</div>					      				
+						      				</div>
+						      				<div class="col-md-5 form-group">
+						      					<br>
+												<span class="help-inline col-xs-12 col-sm-7">
+													<label class="middle">
+														<input class="ace" type="checkbox" id="rbParalelo" name="rbParalelo" value="SI">
+														<span class="lbl"><strong> Permite actividades en paralelo</strong></span>
+													</label>
+												</span>
+						      				</div>						      				
 								      	</div>
 								      	<div class="form-actions center" style="margin-bottom:-0px; display:none" id="accionesEvento" >
 											<button disabled type="button" id="btnActualizarEvento"  name="btnActualizarEvento" class="btn btn-sm btn-success" onclick="actualizarEvento('<?= $eventoID; ?>')">
@@ -445,6 +454,7 @@ function habilitarEditor(opc){
 	$('#txtDuracion').prop("readonly", opc);
 	$('#txtPrecioT').prop("disabled", !opc);
 	$('#cboEstadoEven').prop("disabled", !opc);
+	$('#rbParalelo').prop("disabled", !opc);
 	$('#txtDescripcionEven').prop("disabled", !opc);
 	if(opc){
 		$('#btnEditar').hide("slow");
@@ -532,6 +542,10 @@ function cargar_datos_generales(){
       		$('#cboEstadoEven').val(obj.evento[0].Even_estado);
       		$('#cboSucursal').val(obj.evento[0].Suc_idSucursal);
       		$('#txtEventoID').val(<?= $eventoID; ?>);
+      		if(obj.evento[0].Even_simultaneo == 'SI'){
+      			document.getElementById("rbParalelo").checked = true;
+      		}
+      		
       		habilitarEditor(false);
       		// Verificar si la fecha es pasada la de hoy
       		var fechaFinal = obj.evento[0].Even_fechaFin;

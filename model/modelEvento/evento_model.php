@@ -19,7 +19,8 @@
                     Even_fechaFin = '".$param['fechaF']."',
                     Even_duracion = '".$param['duracion']."',
                     Even_precioTotal = '".$param['precioT']."',
-                    Even_estado = '".$param['estado']."'
+                    Even_estado = '".$param['estado']."',
+                    Even_simultaneo = '".$param['simultaneo']."'
                     WHERE Even_idEvento = '".$param['eventoID']."'
                     ";
             $res = mysqli_query($this->conexion,$sql) or die (mysqli_error($this->conexion));
@@ -35,7 +36,8 @@
                     Even_fechaFin,
                     Even_duracion,
                     Even_precioTotal,
-                    Even_estado
+                    Even_estado,
+                    Even_simultaneo
                     ) VALUES(
                     '".$param['sucursalID']."',
                     '".strtoupper($param['nombre'])."',
@@ -44,7 +46,8 @@
                     '".$param['fechaF']."',
                     '".$param['duracion']."',
                     '".$param['precioT']."',
-                    '".$param['estado']."'
+                    '".$param['estado']."',
+                    '".$param['simultaneo']."'
                     )";
             $res = mysqli_query($this->conexion,$sql) or die (mysqli_error($this->conexion));
             if(!$res) return  0;
@@ -60,7 +63,8 @@
                     e.Even_fechaInicio,
                     e.Even_fechaFin,
                     e.Even_precioTotal,
-                    e.Even_estado
+                    e.Even_estado,
+                    e.Even_simultaneo
                     FROM evento e
                     WHERE e.Even_idEvento = '$param[eventoID]'
                     ";

@@ -14,6 +14,7 @@
 	$param['fechaF'] = "";
 	$param['precioT'] = "";
 	$param['estado'] = "";
+	$param['simultaneo'] = "NO";
 
 	if(isset($_POST['txtEventoID'])){ $param['eventoID'] = $_POST['txtEventoID'];}
 	if(isset($_POST['cboSucursal'])){ $param['sucursalID'] = $_POST['cboSucursal'];}
@@ -27,6 +28,9 @@
 	if(isset($_POST['txtDescripcion'])){ $param['descripcion'] = $_POST['txtDescripcion'];}
 	if(isset($_POST['cboEstadoEven'])){ $param['estado'] = $_POST['cboEstadoEven'];}
 	if(isset($_POST['txtDescripcionEven'])){ $param['descripcion'] = $_POST['txtDescripcionEven'];}
+	if(isset($_POST['rbParalelo'])){
+		if($_POST['rbParalelo']) $param['simultaneo'] = 'SI';		
+	}
 
 	switch ($_POST['opcion']) {
 	   	case 1:
