@@ -223,15 +223,15 @@
 		                               <label class="col-md-2 col-md-offset-1 control-label">Ponente</label>
 		                               <div class="col-md-7">
 		                                   <select class="form-control input-sm" id="cboPonente" name="cboPonente" style="text-transform:uppercase;" >
-		                                   		<option value="0">-- Seleccionar --</option>
+		                                   		<option value="0">-- Seleccionar ponente--</option>
 		                                   </select>
 		                               </div>
 		                            </div>
 		                            <div class="form-group">
 		                               <label class="col-md-2  col-md-offset-1  control-label">Local</label>
 		                               	<div class="col-md-7">
-		                                   	<select class="form-control input-sm" id="cboLocal" name="cboLocal" style="text-transform: uppercase">
-		                                   		<option value="0">-- Seleccionar --</option>
+		                                   	<select class="form-control input-sm" id="cboLocal" name="cboLocal" style="text-transform: uppercase" onchange="cargarCboAmbientes();">
+		                                   		<option value="0">-- Seleccionar local --</option>
 		                                   	</select>
 		                               	</div>
 		                            </div>
@@ -239,7 +239,7 @@
 		                               <label class="col-md-2  col-md-offset-1  control-label">Ambiente</label>
 		                               <div class="col-md-7">
 		                                   <select class="form-control input-sm" id="cboAmbiente" name="cboAmbiente" style="text-transform: uppercase">
-		                                   		<option value="0">-- Seleccionar --</option>
+		                                   		<option value="0">-- Seleccionar ambiente--</option>
 		                                   </select>
 		                               </div>
 		                            </div>
@@ -606,14 +606,30 @@ function cargarCboPonente(){
       	}
   	});
 }
-function cargarCboAmbientes(){ 
+function cargarCboAmbientes(){
+	var localID = $('#cboLocal').val();
   	var opcion = 8;
   	$.ajax({
       	type: 'POST',        
-      	data:'opcion='+opcion,
+      	data:'opcion='+opcion+'&cboLocal='+localID,
       	url: '../../controller/controlActividad/actividad_controller.php',
       	success: function(data){
+      		alert(data);
       		$('#cboAmbiente').html(data);
+      	},
+      	error: function(data){
+                 
+      	}
+  	});
+}
+function cargarCboLocales(){ 
+  	var opcion = 'combo_locales';
+  	$.ajax({
+      	type: 'POST',        
+      	data:'param_opcion='+opcion,
+      	url: '../../controller/controlMantenedores/local_controller.php',
+      	success: function(data){
+      		$('#cboLocal').html(data);
       	},
       	error: function(data){
                  
@@ -691,7 +707,8 @@ function validarFecha(fechita){
 	limpiar_form_activ();
 	cargarCboTiposActiv();
 	cargarCboPonente();
-	cargarCboAmbientes();
+	cargarCboLocales();
+	
 	listar_actividades();
 	cargarCboSucursales();
 	$(".timepicker").timepicker({
