@@ -473,7 +473,8 @@ function verActividad(actividadID){
       		$('#txtActividad').val(obj.actividad[0].Acti_nombre);
       		$('#txtDescripcion').val(obj.actividad[0].Acti_descripcion);
       		$('#cboPonente').val(obj.actividad[0].Pon_idPonente);
-      		$('#cboAmbiente').val(obj.actividad[0].Amb_idAmbiente);
+      		$('#cboLocal').val(obj.actividad[0].Loc_idLocal);
+      		
       		$('#txtFecha').val(obj.actividad[0].Acti_fecha);
       		$('#txtHoraI').val(obj.actividad[0].Acti_horaInicio);
       		$('#txtHoraF').val(obj.actividad[0].Acti_horaFin);
@@ -481,6 +482,9 @@ function verActividad(actividadID){
       		$('#txtPrecio').val(obj.actividad[0].Acti_precio);
       		$('#cboEstado').val(obj.actividad[0].estado);
       		$('#txtActividadID').val(obj.actividad[0].Acti_idActividad);
+			cargarCboAmbientes();
+			ambienteID = obj.actividad[0].Amb_idAmbiente
+			setTimeout("$('#cboAmbiente').val(ambienteID)",500);      		
       	},
       	error: function(data){
                  
