@@ -246,7 +246,7 @@
 		                            <div class="form-group">
 		                               <label class="col-md-2  col-md-offset-1  control-label">Fecha</label>
 		                               <div class="col-md-4">
-		                                   <input class="form-control" id="txtFecha" name="txtFecha" type="date" onblur="validarFecha(this.value)">
+		                                   <input class="form-control" id="txtFecha" name="txtFecha" type="date" onblur="validarFecha(this.value);">
 		                               </div>
 		                            </div>
 		                            <div class="form-group">
@@ -254,7 +254,7 @@
 		                               <div class="col-md-3">
 		                                   <div class="bootstrap-timepicker">
 								                  <div class="input-group">
-								                    <input type="text" class="form-control timepicker" id="txtHoraI" name="txtHoraI"  onchange="habilitarHoraF(); recorrerTabla();">
+								                    <input type="text" class="form-control timepicker" id="txtHoraI" name="txtHoraI"  onchange="habilitarHoraF();recorrerTabla();" disabled >
 
 								                    <div class="input-group-addon">
 								                      <i class="fa fa-clock-o"></i>
@@ -266,7 +266,7 @@
 		                                <div class="col-md-3">
 		                                   <div class="bootstrap-timepicker">
 								                  <div class="input-group">
-								                    <input type="text" class="form-control timepicker" id="txtHoraF" name="txtHoraF"  onchange="validarHoraF();" disabled>
+								                    <input type="text" class="form-control timepicker" id="txtHoraF" name="txtHoraF"  onchange="validarHoraF();recorrerTabla()" disabled>
 
 								                    <div class="input-group-addon">
 								                      <i class="fa fa-clock-o"></i>
@@ -275,6 +275,11 @@
 								                  <!-- /.input group -->
 								            </div>
 		                               </div>
+		                               <label class="col-md-3  control-label" style="color:red;text-align:left;display:none;" id="cruce_horas" >
+		                               		<div id="">
+		                               			<strong>Hay cruce de horario</strong>
+		                               		</div>
+		                               </label>
 		                            </div>
 		                            <div class="form-group">
 		                               <label class="col-md-2  col-md-offset-1  control-label">Precio</label>
@@ -330,7 +335,7 @@ function habilitarHoraF(){
 		validarHoraF();
 	}
 }
-function validarHoraF(){	
+function validarHoraF(){
 	horarioI = $('#txtHoraI').val();
 	horaI = "";
 	minI = "";
@@ -477,6 +482,7 @@ function verActividad(actividadID){
       		
       		$('#txtFecha').val(obj.actividad[0].Acti_fecha);
       		$('#txtHoraI').val(obj.actividad[0].Acti_horaInicio);
+      		$('#txtHoraI').attr('disabled',false);
       		$('#txtHoraF').val(obj.actividad[0].Acti_horaFin);
       		$('#txtHoraF').attr('disabled',false);
       		$('#txtPrecio').val(obj.actividad[0].Acti_precio);
@@ -626,78 +632,78 @@ function cargar_datos_generales(){
       	}
   	});
 }
-
-function cargarCboTiposActiv(){ 
-  	var opcion = 6;
-  	$.ajax({
-      	type: 'POST',        
-      	data:'opcion='+opcion,
-      	url: '../../controller/controlActividad/actividad_controller.php',
-      	success: function(data){
-      		$('#cboTipoActividad').html(data);
-      	},
-      	error: function(data){
-                 
-      	}
-  	});
-}
-function cargarCboSucursales(){
-	var opcion = 6;
-  	$.ajax({
-      	type: 'POST',        
-      	data:'opcion='+opcion,
-      	url: '../../controller/controlEvento/evento_controller.php',
-      	success: function(data){
-      		$('#cboSucursal').html(data);
-      	},
-      	error: function(data){
-                 
-      	}
-  	});
-}
-function cargarCboPonente(){ 
-  	var opcion = 7;
-  	$.ajax({
-      	type: 'POST',        
-      	data:'opcion='+opcion,
-      	url: '../../controller/controlActividad/actividad_controller.php',
-      	success: function(data){
-      		$('#cboPonente').html(data);
-      	},
-      	error: function(data){
-                 
-      	}
-  	});
-}
-function cargarCboAmbientes(){
-	var localID = $('#cboLocal').val();
-  	var opcion = 8;
-  	$.ajax({
-      	type: 'POST',        
-      	data:'opcion='+opcion+'&cboLocal='+localID,
-      	url: '../../controller/controlActividad/actividad_controller.php',
-      	success: function(data){
-      		$('#cboAmbiente').html(data);
-      	},
-      	error: function(data){
-                 
-      	}
-  	});
-}
-function cargarCboLocales(){ 
-  	var opcion = 'combo_locales';
-  	$.ajax({
-      	type: 'POST',        
-      	data:'param_opcion='+opcion,
-      	url: '../../controller/controlMantenedores/local_controller.php',
-      	success: function(data){
-      		$('#cboLocal').html(data);
-      	},
-      	error: function(data){
-                 
-      	}
-  	});
-}
+// Cargar combos
+	function cargarCboTiposActiv(){ 
+	  	var opcion = 6;
+	  	$.ajax({
+	      	type: 'POST',        
+	      	data:'opcion='+opcion,
+	      	url: '../../controller/controlActividad/actividad_controller.php',
+	      	success: function(data){
+	      		$('#cboTipoActividad').html(data);
+	      	},
+	      	error: function(data){
+	                 
+	      	}
+	  	});
+	}
+	function cargarCboSucursales(){
+		var opcion = 6;
+	  	$.ajax({
+	      	type: 'POST',        
+	      	data:'opcion='+opcion,
+	      	url: '../../controller/controlEvento/evento_controller.php',
+	      	success: function(data){
+	      		$('#cboSucursal').html(data);
+	      	},
+	      	error: function(data){
+	                 
+	      	}
+	  	});
+	}
+	function cargarCboPonente(){ 
+	  	var opcion = 7;
+	  	$.ajax({
+	      	type: 'POST',        
+	      	data:'opcion='+opcion,
+	      	url: '../../controller/controlActividad/actividad_controller.php',
+	      	success: function(data){
+	      		$('#cboPonente').html(data);
+	      	},
+	      	error: function(data){
+	                 
+	      	}
+	  	});
+	}
+	function cargarCboAmbientes(){
+		var localID = $('#cboLocal').val();
+	  	var opcion = 8;
+	  	$.ajax({
+	      	type: 'POST',        
+	      	data:'opcion='+opcion+'&cboLocal='+localID,
+	      	url: '../../controller/controlActividad/actividad_controller.php',
+	      	success: function(data){
+	      		$('#cboAmbiente').html(data);
+	      	},
+	      	error: function(data){
+	                 
+	      	}
+	  	});
+	}
+	function cargarCboLocales(){ 
+	  	var opcion = 'combo_locales';
+	  	$.ajax({
+	      	type: 'POST',        
+	      	data:'param_opcion='+opcion,
+	      	url: '../../controller/controlMantenedores/local_controller.php',
+	      	success: function(data){
+	      		$('#cboLocal').html(data);
+	      	},
+	      	error: function(data){
+	                 
+	      	}
+	  	});
+	}
 function listar_actividades(){
   	var opcion = 3;
   	$.ajax({
@@ -753,6 +759,11 @@ function validarFecha(fechita){
 		mensaje = mensaje + "" + fechaI;
 		alert(mensaje);
 		$('#txtFecha').val("");
+		$('#txtHoraI').attr('disabled',true);
+		$('#txtHoraF').attr('disabled',true);
+		$('#txtHoraF').parent().removeClass('has-error');
+		$('#txtHoraI').val("");
+		$('#txtHoraF').val("");
 		return;
 	}
 	if(diferenciaFechasDMA(fechita,fechaF) < 0){
@@ -760,32 +771,105 @@ function validarFecha(fechita){
 		mensaje = mensaje + "" + fechaF;
 		alert(mensaje);
 		$('#txtFecha').val("");
+		$('#txtHoraI').attr('disabled',true);
+		$('#txtHoraF').attr('disabled',true);
+		$('#txtHoraF').parent().removeClass('has-error');
+		$('#txtHoraI').val("");
+		$('#txtHoraF').val("");
 		return;
 	}
+	$('#txtHoraI').attr('disabled',false);
 }
 function recorrerTabla(){
-	return;
-	var horasInicio = 0;
-	var horasFin = 0;
+	var fecha = $('#txtFecha').val();
+	var horaI = $('#txtHoraI').val();	
+	if(fecha == "" || horaI == ""){
+		return;
+	}
+	arrayFecha = fecha.split("-");
+	fecha = "" + arrayFecha[2] +'/'+ (arrayFecha[1]) +'/'+ arrayFecha[0] + "";
+
+	var arrayFecha  = new Array();
 	var arrayInicio = new Array();
 	var arrayFin 	= new Array();
 
   	$("#tabla_actividades tbody tr").each(function (index) {
-        var horario = "";var temp;
+        var horarioTemp = "";var temp;var fechaTemp = "";
         $(this).children("td").each(function (index2) {
             switch (index2) {
-                case 4: horario = $(this).text();
+            	case 3: fechaTemp = $(this).text();
+                        break;
+                case 4: horarioTemp = $(this).text();
                         break;
             }
-            temp = horario.split(" - ");
+            temp = horarioTemp.split(" - ");
             
             $(this).css("background-color", "#ECF8E0");
         })
-        arrayInicio[horasInicio++] = temp[0];
-        arrayFin[horasFin++] = temp[1];
+        arrayInicio[arrayInicio.length] = temp[0];
+        arrayFin[arrayFin.length] = temp[1];
+        arrayFecha[arrayFecha.length] = fechaTemp;
     })
-    alert(arrayInicio[1]);
-    alert(arrayFin[1]);
+    for (var i = 0; i < arrayFecha.length ; i++) {
+    	if(arrayFecha[i] == fecha){
+    		Array_horarioI = arrayInicio[i];
+			Array_horaI = "";
+			Array_minI = "";
+			Array_tipoI = "";
+			Array_tempI = Array_horarioI.split(':');
+			Array_horaI = Array_tempI[0];  Array_tempI = Array_tempI[1].split(' ');
+			Array_minI = Array_tempI[0];
+			Array_tipoI = Array_tempI[1];
+
+			Array_horarioF = arrayFin[i];
+			Array_horaF = "";
+			Array_minF = "";
+			Array_tipoF = "";
+			Array_tempF = Array_horarioF.split(':');
+			Array_horaF = Array_tempF[0];  Array_tempF = Array_tempF[1].split(' ');
+			Array_minF = Array_tempF[0];
+			Array_tipoF = Array_tempF[1];
+
+
+    		horarioI = $('#txtHoraI').val();
+			horaI = "";
+			minI = "";
+			tipoI = "";
+			tempI = horarioI.split(':');
+			horaI = tempI[0];  tempI = tempI[1].split(' ');
+			minI = tempI[0];
+			tipoI = tempI[1];
+
+
+			if(Array_tipoI == Array_tipoF && Array_tipoI == tipoI){
+				if( parseInt(horaI) >= parseInt(Array_horaI) && parseInt(horaI) < parseInt(Array_horaF)){
+					$('#cruce_horas').show();
+					return;
+				}
+			}
+			horarioF = $('#txtHoraF').val();
+			if(horarioF == ""){
+				$('#cruce_horas').hide();
+				return;
+			}
+			horaF = "";
+			minF = "";
+			tipoF = "";
+			tempF = horarioF.split(':');
+			horaF = tempF[0];  tempF = tempF[1].split(' ');
+			minF = tempF[0];
+			tipoF = tempF[1];
+
+			if(Array_tipoI == Array_tipoF && Array_tipoI == tipoF){
+				if( parseInt(horaF) > parseInt(Array_horaI) && parseInt(horaF) <= parseInt(Array_horaF)){
+					$('#cruce_horas').show();
+					return;
+				}
+			}
+			$('#cruce_horas').hide();
+			
+    	}
+    };
 }
 </script>
 <script type="text/javascript">
