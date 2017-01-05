@@ -254,7 +254,7 @@
 		                               <div class="col-md-3">
 		                                   <div class="bootstrap-timepicker">
 								                  <div class="input-group">
-								                    <input type="text" class="form-control timepicker" id="txtHoraI" name="txtHoraI" value="">
+								                    <input type="text" class="form-control timepicker" id="txtHoraI" name="txtHoraI"  onchange="habilitarHoraF(); recorrerTabla();">
 
 								                    <div class="input-group-addon">
 								                      <i class="fa fa-clock-o"></i>
@@ -266,7 +266,7 @@
 		                                <div class="col-md-3">
 		                                   <div class="bootstrap-timepicker">
 								                  <div class="input-group">
-								                    <input type="text" class="form-control timepicker" id="txtHoraF" name="txtHoraF" value="">
+								                    <input type="text" class="form-control timepicker" id="txtHoraF" name="txtHoraF"  onchange="validarHoraF();" disabled>
 
 								                    <div class="input-group-addon">
 								                      <i class="fa fa-clock-o"></i>
@@ -317,6 +317,50 @@
 <?php require('footer.php') ?>
 
 <script type="text/javascript">
+function habilitarHoraF(){
+	horarioI = $('#txtHoraI').val();
+	if(horarioI == ""){
+		$('#txtHoraF').attr('disabled',true);
+		$('#txtHoraF').parent().removeClass('has-error');
+	}else{
+		$('#txtHoraF').attr('disabled',false);
+	}
+	horarioF = $('#txtHoraF').val();
+	if(horarioF!=""){
+		validarHoraF();
+	}
+}
+function validarHoraF(){	
+	horarioI = $('#txtHoraI').val();
+	horaI = "";
+	minI = "";
+	tipoI = "";
+	tempI = horarioI.split(':');
+	horaI = tempI[0];
+	tempI = tempI[1].split(' ');
+	minI = tempI[0];
+	tipoI = tempI[1];
+
+	horarioF = $('#txtHoraF').val();
+	horaF = "";
+	minF = "";
+	tipoF = "";
+	tempF = horarioF.split(':');
+	horaF = tempF[0];
+	tempF = tempF[1].split(' ');
+	minF = tempF[0];
+	tipoF = tempF[1];
+	if(tipoI == 'PM' && tipoF == 'AM' ) $('#txtHoraF').parent().addClass('has-error');
+	else if(tipoI == 'AM' && tipoF == 'PM' ) $('#txtHoraF').parent().removeClass('has-error');
+		 else if( tipoI == tipoF )
+				if( parseInt(horaI) > parseInt(horaF) ) $('#txtHoraF').parent().addClass('has-error'); 
+				else if( parseInt(horaI) < parseInt(horaF) ) $('#txtHoraF').parent().removeClass('has-error');
+					else if( parseInt(horaI) == parseInt(horaF) )
+						if( parseInt(minI) >= parseInt(minF) ) $('#txtHoraF').parent().addClass('has-error'); 
+						else $('#txtHoraF').parent().removeClass('has-error');
+	 // $(element).parent().addClass('has-error');
+	// else $(element).parent().removeClass('has-error');
+}
 function validarFechaI (text) {	
 	if($('#txtFechaI').val() == ''){
 		alert("Seleccione una fecha válida");
@@ -409,7 +453,6 @@ function editarActividad(actividadID){
 	$('#btnGuardarActiv').show('fast');
 	$('#btnGuardarActiv').html("Actualizar");
 }
-
 function tomarAsistencia(actividadID){
 	location.href='asistencia_actividad.php?actividadID='+actividadID;    	
 }
@@ -434,6 +477,7 @@ function verActividad(actividadID){
       		$('#txtFecha').val(obj.actividad[0].Acti_fecha);
       		$('#txtHoraI').val(obj.actividad[0].Acti_horaInicio);
       		$('#txtHoraF').val(obj.actividad[0].Acti_horaFin);
+      		$('#txtHoraF').attr('disabled',false);
       		$('#txtPrecio').val(obj.actividad[0].Acti_precio);
       		$('#cboEstado').val(obj.actividad[0].estado);
       		$('#txtActividadID').val(obj.actividad[0].Acti_idActividad);
@@ -464,20 +508,35 @@ function habilitarEditor(opc){
 }
 function limpiar_form_activ(){
 	$('#cboTipoActividad').val("0");
+	$('#cboTipoActividad').parent().removeClass('has-error');
 	$('#txtActividad').val("");
+	$('#txtActividad').parent().removeClass('has-error');
 	$('#txtDescripcion').val("");
+	$('#txtDescripcion').parent().removeClass('has-error');
 	$('#cboPonente').val("0");
+	$('#cboPonente').parent().removeClass('has-error');
 	$('#cboAmbiente').val("0");
+	$('#cboAmbiente').parent().removeClass('has-error');
 	$('#txtFecha').val("");
+	$('#txtFecha').parent().removeClass('has-error');
 	$('#txtHoraI').val("");
+	$('#txtHoraI').parent().removeClass('has-error');
 	$('#txtHoraF').val("");
+	$('#txtHoraF').parent().removeClass('has-error');
+	$('#txtHoraF').attr('disabled',true)
 	$('#txtPrecio').val("");
+	$('#txtPrecio').parent().removeClass('has-error');
 	$('#cboEstado').val("A");
+	$('#cboEstado').parent().removeClass('has-error');
 	$('#btnGuardarActiv').show('slow');
 	$('#btnGuardarActiv').html("Guardar");
 	$('#txtActividadID').val("0");
 }
 function guardar_actividad(){
+	if(document.getElementsByClassName("has-error").length > 0){
+      	alert("Verifique los datos ingresados");
+      	return false;
+    }
 	actividadID = $('#txtActividadID').val();
 	if(actividadID > 0) var opcion = 5;
 	else var opcion = 1;
@@ -614,7 +673,6 @@ function cargarCboAmbientes(){
       	data:'opcion='+opcion+'&cboLocal='+localID,
       	url: '../../controller/controlActividad/actividad_controller.php',
       	success: function(data){
-      		alert(data);
       		$('#cboAmbiente').html(data);
       	},
       	error: function(data){
@@ -636,7 +694,7 @@ function cargarCboLocales(){
       	}
   	});
 }
-function listar_actividades(){ 
+function listar_actividades(){
   	var opcion = 3;
   	$.ajax({
       	type: 'POST',
@@ -701,7 +759,30 @@ function validarFecha(fechita){
 		return;
 	}
 }
+function recorrerTabla(){
+	return;
+	var horasInicio = 0;
+	var horasFin = 0;
+	var arrayInicio = new Array();
+	var arrayFin 	= new Array();
 
+  	$("#tabla_actividades tbody tr").each(function (index) {
+        var horario = "";var temp;
+        $(this).children("td").each(function (index2) {
+            switch (index2) {
+                case 4: horario = $(this).text();
+                        break;
+            }
+            temp = horario.split(" - ");
+            
+            $(this).css("background-color", "#ECF8E0");
+        })
+        arrayInicio[horasInicio++] = temp[0];
+        arrayFin[horasFin++] = temp[1];
+    })
+    alert(arrayInicio[1]);
+    alert(arrayFin[1]);
+}
 </script>
 <script type="text/javascript">
 	limpiar_form_activ();
