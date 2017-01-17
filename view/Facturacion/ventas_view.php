@@ -142,12 +142,15 @@
 											<thead>
 												<tr>
 													
-													<th style="text-align: center; font-size: 11px; height: 10px; width:10%">Número Documento</th>
+													<th style="text-align: center; font-size: 11px; height: 10px; width:8%">Número Documento</th>
 													<th style="text-align: center; font-size: 11px; height: 10px; width:10%">Participante</th>
-													<th style="text-align: center; font-size: 11px; height: 10px; width:6%">Tipo de Documento</th>
+													<th style="text-align: center; font-size: 11px; height: 10px; width:5%">Tipo de Documento</th>
 													<th style="text-align: center; font-size: 11px; height: 10px; width:6%">Fecha</th>
-													<th style="text-align: center; font-size: 11px; height: 10px; width:6%">Monto</th>
-													<th style="text-align: center; font-size: 11px; height: 10px; width:6%">Estado</th>
+													<th style="text-align: center; font-size: 11px; height: 10px; width:5%">Monto</th>
+													<th style="text-align: center; font-size: 11px; height: 10px; width:10%">Evento</th>
+													<th style="visibility: hidden" >prueba1</th>
+													<th style="visibility: hidden">prueba2</th>
+													<th style="text-align: center; font-size: 11px; height: 10px; width:10%">Operación</th>
 													<!-- <th style="text-align: center; font-size: 11px; height: 10px; width:6%">Operaciones</th> -->
 													
 
@@ -166,11 +169,11 @@
 								<br><br>
 									<div class="col-md-8 col-md-offset-2" id="detalle_servicio">
 								
-								<!-- <div class="table-header">
+								<div class="table-header">
 									DETALLE DE VENTA &nbsp;&nbsp;									
 								</div>
 								<div>
-									<table id="tablaDetalleServicio" class="table table-striped table-bordered">
+									<table id="tablaDetalleFactura" class="table table-striped table-bordered">
 										<thead>											
 								            <tr>								              
 								                <th style="text-align: center; font-size: 11px; height: 10px; width: 10%;">Codigo</th>
@@ -178,10 +181,10 @@
 								                <th style="text-align: center; font-size: 11px; height: 10px; width: 10%;">Importe</th>	
 								            </tr>							         
 										</thead>
-										<tbody id="cuerpoDetalleVenta">																	
+										<tbody id="cuerpoDetalleFactura">																	
 										</tbody>
 									</table>
-								</div><br><br> -->
+								</div><br><br>
 							</div>
 
 								<input type="hidden" dissabled="true" value="FACTURACIÓN" id="NombreGrupo">

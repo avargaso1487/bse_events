@@ -1,7 +1,5 @@
-<<<<<<< HEAD
-=======
-0001 000034 56497810 2017-01-04
-0001 000078 17246598 2017-01-04
-0001 000038 12345678 2017-01-04
-0001 000009 56497810 2017-01-04
->>>>>>> 3177db4447485799951e4009ed89006dbf8136df
+BO 0001 000034 56497810 José Carlos Sánchez Fernández                                          2017-01-04 EVENTO 1             
+BO 0001 000078 17246598 Juan Pérez Pérez                                                       2017-01-04 EVENTO 2             
+FA 0001 000038 12345678 Erick  Alfaro Gómez                                                    2017-01-04 EVENTO 2             
+BO 0001 000009 56497810 José Carlos Sánchez Fernández                                          2017-01-04 EVENTO 2             
+BO 0001 000087 70196343 vanessa rodriguez portal                                               2017-01-16 EVENTO 2             

@@ -391,6 +391,25 @@ function imprimir(fechaInicio,fechaFin){
   else
     {
       var fecha="";
+    };   
+
+  if(document.getElementById('evento').checked==true)
+    {
+      var evento="date(D.DocPago_fecha)";
+    }
+  else
+    {
+      var evento="";
+    };   
+
+
+  if(document.getElementById('monto').checked==true)
+    {
+      var monto="date(D.DocPago_fecha)";
+    }
+  else
+    {
+      var monto="";
     };    
   
     $.ajax({
@@ -398,7 +417,8 @@ function imprimir(fechaInicio,fechaFin){
         data:'param_fechaInicio='+fechaInicio+'&param_fechaFin='+fechaFin+
         '&tipo='+tipo+'&serie='+serie+
         '&numero='+numero+'&dni='+dni+
-        '&nombre='+nombre+'&fecha='+fecha,
+        '&nombre='+nombre+'&fecha='+fecha+
+        '&evento='+evento+'&monto='+monto,
         //dataType: "json",
         url: 'anchoF.php', 
         success: function(data){
@@ -479,12 +499,33 @@ function imprimir2(fechaInicio,fechaFin){
     };    
   
   
+  if(document.getElementById('evento').checked==true)
+    {
+      var evento="date(D.DocPago_fecha)";
+    }
+  else
+    {
+      var evento="";
+    };   
+
+
+  if(document.getElementById('monto').checked==true)
+    {
+      var monto="date(D.DocPago_fecha)";
+    }
+  else
+    {
+      var monto="";
+    };    
+
+    
     $.ajax({
         type: 'POST',        
         data:'param_fechaInicio='+fechaInicio+'&param_fechaFin='+fechaFin+
         '&tipo='+tipo+'&serie='+serie+
         '&numero='+numero+'&dni='+dni+
-        '&nombre='+nombre+'&fecha='+fecha,
+       '&nombre='+nombre+'&fecha='+fecha+
+        '&evento='+evento+'&monto='+monto,
         url: 'textoD.php', 
         success: function(data){
           

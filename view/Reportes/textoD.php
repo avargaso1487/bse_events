@@ -13,6 +13,8 @@ $numero=$_POST["numero"];
 $dni=$_POST["dni"];
 $nombre=$_POST["nombre"];
 $fecha=$_POST["fecha"];
+$evento=$_POST["evento"];
+$monto=$_POST["monto"];
 
 $nombre_fichero = '../../../../../wamp/www/bse_events/view/Reportes/textoDelimitado.txt';
 
@@ -66,6 +68,22 @@ else
 	$fecha1="";
 
 
+if($evento!="")
+{
+	$evento1="'',E.Even_nombre,'|'";
+}
+else
+	$evento1="";
+
+
+if($monto!="")
+{
+	$monto1="'',D.DocPago_neto,'|'";
+}
+else
+	$monto1="";
+
+
 
 
 if (file_exists($nombre_fichero)) 
@@ -78,11 +96,14 @@ $genera="select concat(".$tipo1."
 	".$numero1."
 	".$dni1."
 ".$nombre1."
-".$fecha1.") as NombreParticipante 
+".$fecha1."
+".$evento1."
+".$monto1.") as NombreParticipante
 from documentopago D inner join
 tipodocumentopago TD on  D.TipDocPago_idTipoDocumentoPago=TD.TipDocPago_idTipoDocumentoPago
 inner join Participante P on D.Par_idParticipante=P.Par_idParticipante
 inner join Persona PS on P.Per_idPersona=PS.Per_idPersona
+inner join Evento E on D.DocPago_evento=E.Even_idEvento
 where D.DocPago_fecha>='".$fechaInicio."'and D.DocPago_fecha<='".$fechaFin."'
 INTO OUTFILE '../../../../../wamp/www/bse_events/view/Reportes/textoDelimitado.txt' FIELDS TERMINATED BY'\n'";
 echo $genera;

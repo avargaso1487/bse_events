@@ -87,8 +87,9 @@ class Ventas_Model {
                 "TipDocPago_descripcion" => $fila["TipDocPago_descripcion"],
                 "DocPago_fecha" => $fila["DocPago_fecha"],
                 "DocPago_neto" => $fila["DocPago_neto"],
-                "DocPago_estado" => $fila["DocPago_estado"]
-               
+                "DocPago_estado" => $fila["DocPago_estado"],
+                "Par_idParticipante" => $fila["Par_idParticipante"],
+                "Even_idEvento" => $fila["Even_idEvento"]
                 
                 ));
         }
@@ -163,7 +164,12 @@ class Ventas_Model {
                     <td style='text-align: center; font-size: 11px; height: 10px; '>".date("d/m/Y H:i:s", strtotime($datos[$i]["DocPago_fecha"]))."</td>                                      
                     <td style='text-align: center; font-size: 11px; height: 10px; '>".($datos[$i]["DocPago_neto"])."</td>
                     <td style='text-align: center; font-size: 11px; height: 10px; '>".($datos[$i]["DocPago_estado"])."</td>                    
-                    
+                    <td style='visibility: hidden'>".($datos[$i]["Par_idParticipante"])."</td>                    
+                    <td style='visibility: hidden'>".($datos[$i]["Even_idEvento"])."</td>                    
+                    <td style='text-align: center' class='hidden-sm hidden-xs action-buttons'>
+                    <a class='blue' >
+                    <i  class='ace-icon fa fa-search bigger-130' onclick='listarDetalleFactura(".$datos[$i]["Par_idParticipante"].",".$datos[$i]["Even_idEvento"].")' href='#'' type='button' data-toggle='modal' data-target='#modalEditarArti' value='Editar'></i>  
+                    </a>
                     
                     ";
                         
@@ -424,17 +430,16 @@ class Ventas_Model {
     {
         $datos =array();
         $this->prepararConsultaVenta('opc_buscar');
-        $datos = $this->getArrayDetalleFactura();
+        $datos = $this->getArrayDetalle();
         for($i=0; $i<count($datos); $i++)
             {
                      
 
                 
                 echo "<tr>                                  
-                    <td style='text-align: center; font-size: 11px; height: 10px; '>".($datos[$i]["ART_codigo"])."</td>
-                    <td style='text-align: center; font-size: 11px; height: 10px; '>".($datos[$i]["ART_descripcion"])."</td>
-                    <td style='text-align: center; font-size: 11px; height: 10px; '>".($datos[$i]["DETFAC_cantidadUV"])."</td>
-                    <td style='text-align: center; font-size: 11px; height: 10px; '>".($datos[$i]["DETFAC_importe"])."</td>                    
+                    <td style='text-align: center; font-size: 11px; height: 10px; '>".($datos[$i]["id"])."</td>
+                    <td style='text-align: center; font-size: 11px; height: 10px; '>".($datos[$i]["descripcion"])."</td>
+                    <td style='text-align: center; font-size: 11px; height: 10px; '>".($datos[$i]["precio"])."</td>                    
                     ";
                         
                 echo "</tr>";

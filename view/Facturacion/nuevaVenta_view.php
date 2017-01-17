@@ -130,13 +130,13 @@
 		                        <div class="form-group">
                                     <label for="" class="col-sm-3 control-label">Serie</label>
                                     <div class="input-group col-sm-6">
-                                        <input type="text" maxlength="4" class="form-control" name="param_serie" id="param_serie" onkeypress="if(event.keyCode<48|| event.keyCode>57) event.returnValue=false;">
+                                        <input type="text"  class="form-control" name="param_serie" id="param_serie" >
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="" class="col-sm-3 control-label">Número</label>
                                     <div class="input-group col-sm-6">
-                                        <input type="text" maxlength="6" class="form-control" name="param_numero" id="param_numero" onkeypress="if(event.keyCode<48|| event.keyCode>57) event.returnValue=false;">
+                                        <input type="text"  class="form-control" name="param_numero" id="param_numero">
                                     </div>
                                 </div>
 		                    <div class="form-group">		                               

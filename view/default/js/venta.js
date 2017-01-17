@@ -13,6 +13,7 @@ $('#tablaFacturas').DataTable(); //SIEMPREEEEEEEEEE
 $('#tablaEventos').DataTable(); 
 $('#tablaParticipantes').DataTable(); 
 $('#tablaActividades').DataTable(); 
+$('#tablaDetalleFactura').DataTable(); 
 listarFactura();
 listarEvento();
 mostrarMenu();  
@@ -101,12 +102,12 @@ $(function() {
 });
 
 
-function listarDetalleFactura(factura){ 
+function listarDetalleFactura(participante,evento){ 
     var param_opcion = 'listarDetalle';    
     $.ajax({
         type: 'POST',        
-        data:'param_opcion='+param_opcion+'&param_numero=' +factura,
-        url: '../../controller/controlventas/venta_controller.php',
+        data:'param_opcion='+param_opcion+'&param_evento=' +evento+'&param_participante=' +participante,
+        url: '../../controller/controlFacturacion/venta_controller.php',
         success: function(data){
             $('#tablaDetalleFactura').DataTable().destroy();
             $('#cuerpoDetalleFactura').html(data);
@@ -134,12 +135,15 @@ function listarFactura()
             $('#tablaFacturas').DataTable(
                 {
                         "columnDefs": [
-                            { "targets": [ 0 ],"width": "15%"},
-                            { "targets": [ 1 ],"width": "30%"},
-                            { "targets": [ 2 ],"width": "15%"},
+                            { "targets": [ 0 ],"width": "12%"},
+                            { "targets": [ 1 ],"width": "20%"},
+                            { "targets": [ 2 ],"width": "13%"},
                             { "targets": [ 3 ],"width": "20%"},
                             { "targets": [ 4 ],"width": "15%"},
-                            { "targets": [ 5 ],"width": "12%"},
+                            { "targets": [ 5 ],"width": "15%"},
+                            { "targets": [ 6 ],"width": "10%","visible": false},
+                            { "targets": [ 7 ],"width": "15%","visible": false,},
+                            { "targets": [ 8 ],"width": "10%"},
                         ],
                         "order": [[ 0, "desc" ]]
                     }

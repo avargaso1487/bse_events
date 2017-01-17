@@ -185,6 +185,26 @@
 	                                    		FECHA
 	                                    	</span>
 	                                    </label> 
+	                                                                       	                              
+		                            </div>
+		                            <div class="col-md-3">		                               
+		                               	<label class="middle col-md-12">
+		                                
+	                                        <input class="ace" type="checkbox" name="param_paquete" id="evento"checked="true" />	                                        
+	                                    	<span class="lbl">
+	                                    		EVENTO
+	                                    	</span>
+	                                    </label> 
+	                                                                        	                              
+		                            </div>
+		                            <div class="col-md-3">		                               
+		                               	<label class="middle col-md-12">
+		                                
+	                                        <input class="ace" type="checkbox" name="param_paquete" id="monto"checked="true" />	                                        
+	                                    	<span class="lbl">
+	                                    		MONTO
+	                                    	</span>
+	                                    </label> 
 	                                    <br><br><br>                                    	                              
 		                            </div>
                                 	</div>
